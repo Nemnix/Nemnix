@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administradores</title>
+    <link rel="stylesheet" href="css/registroDiario.css">
+</head>
+
+<body>
+
+    <h1>Panel de administradores</h1>
+
+
+    <button id="btnPanelAdministradores">Agregar usuario</button>
+
+    <fieldset>
+        
+    <table id="panelAdministradores">
+
+        <tr>
+            <th>CI</th>
+            <th>Nombres</th>
+            <th>Apellido</th>
+            <th>Cargo</th>
+            <th>Acciones</th>
+        </tr>
+        <tr>
+            <td>12345678</td>
+            <td>Juan</td>
+            <td>Magallanes</td>
+            <td>Administrador</td>
+
+            <td>
+                <button onclick="modificar(this)">Modificar</button>
+                <br>
+                <br>
+                <button onclick="borrar(this)">Eliminar</button>
+            </td>
+        </tr>
+
+    </table>
+    </fieldset>
+</body>
+
+</html>
