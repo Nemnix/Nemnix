@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="css\formulario.css">
+    <link rel="stylesheet" href="css\global.css">
+</head>
+<body>
+                <form action="ticketExitoso.html" class="formulario">
+                <fieldset>
+                    <legend>Ticket 1</legend>
+                    <ul>
+                        <li>
+                            <label for="IDDispositivo">Tipo de dispositivo</label>
+                            <input type="text" id="IDDispositivo"
+                                required placeholder="Escribe el tipo del dispositivo aqui" />
+                        </li>
+                        <li>
+                            <label for="nombreAlumno">En caso de ser una maquina, escriba el nombre completo del alumno que utilizo ese equipo</label>
+                            <input type="text" id="nombreAlumno"
+                                placeholder="Nombre del alumno" />
+                        </li>
+                        <li>
+                            <label for="nombreDispositivo">Nombre o numero del dispositivo</label>
+                            <input type="text" id="nombreDispositivo" required
+                                placeholder="Nombre del equipo" />
+                        </li>
+                        <li>
+                            <label for="ticket">Motivo del ticket</label>
+                            <input type="text" id="motivoTicket" required
+                                placeholder="Ingrese el motivo del ticket" />
+                        </li>
+                        <li>
+                            <button type="submit"> Enviar </button>
+                        </li>
+                    </ul>    
+                </fieldset>
+            </form>
+            <li>
+                <button>
+                Reportar otro incidente
+                </button>
+            </li>
+</body>
+</html>
