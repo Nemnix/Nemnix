@@ -1,0 +1,12 @@
+fieldset {
+    height: 100px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: center;
+}
