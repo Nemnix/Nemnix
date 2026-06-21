@@ -81,17 +81,13 @@ function eliminarPrestamoLocal(idEquipo) {
 }
 
 function obtenerSiguienteIdEquipo() {
- 
     const prestamos = cargarPrestamosLocal();
- 
     if (prestamos.length === 0) {
         return 1;
     }
 const ids = prestamos.map(p => parseInt(p.idEquipo, 10) || 0);
-
     const idMaximo = Math.max(...ids);
     return idMaximo + 1;
- 
 }
 
 
