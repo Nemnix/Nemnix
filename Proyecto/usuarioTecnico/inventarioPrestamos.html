@@ -16,7 +16,6 @@
                 <li><a href="listaDiagnosticos.html" class="BotonNavegacion">Diagnosticos</a></li>
                 <li><a href="prestamosEquipos.html" class="BotonNavegacion">Prestamo equipos</a></li>
                 <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Inventario prestamo</a></li>
-                
             </ul>
         </nav>
     </header>
@@ -37,7 +36,6 @@
                             <label for="modeloPrestamo">Modelo</label>
                             <input type="text" id="modeloPrestamo" name="modelo_prestamo" required placeholder="Ingrese el modelo del equipo">
                         </li>
-                        
                         <li>
                             <label for="estadoEquipos">Seleccione estado</label>
                             <select id="estadoEquipos" name="estadoEquipos">
@@ -46,61 +44,60 @@
                             <option>VENCIDO</option>
                             </select>
                         </li>
-                        
                         <li>
                             <label for="nombreAlumnoPrestamo">Nombre</label>
-                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
+                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo"  placeholder="Ingrese el nombre del alumno">
                         </li>
                         <li>
                             <label for="apellidoAlumnoPrestamo">Apellido</label>
-                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
+                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo"  placeholder="Ingrese el apellido del alumno">
                         </li>
                         <li>
                             <label for="CI">Cedula de identidad</label>
-                            <input type="text" id="CI" name="CI_empleado" pattern="[1-9]+" title="Sin puntos ni guiones" maxlength="8"
-                                required placeholder="Escribe tu cedula aqui" />
+                            <input type="text" id="CI" name="CI_empleado" pattern="[1-9]+" title="Sin puntos ni guiones" placeholder="Escribe tu cedula aqui" />
                         </li>
                         <li>
                             <label for="fechaPrestamo">Fecha</label>
                             <input type="date" id="fechaPrestamo" name="fechaPrestamo">
-
                         </li>
                         <li>
                             <label for="fechaDevolucion">Fecha de devolucion</label>
-                            <input type="text" id="fechaDevolucion" name="fechaDevolucion" required
-                                placeholder="Apartir de la fecha seleccionada se calcular una fecha limite" />
+                            <input type="date" id="fechaDevolucion" name="fechaDevolucion">
                         </li>
                         <li>
-                            <button type="submit"> Enviar </button>
+                            <button type="submit" id="btnGuardarInventario"> Enviar </button>
+                            <button type="button" id="btnCerrarInventario">Cerrar</button>
                         </li>
-                    </ul>    
+                    </ul>
                 </fieldset>
-            </form>    
+            </form>
         </dialog>
 
         <fieldset>
-        <table id="registroInventarioPRestamo">
+        <table id="tablaInventarioPRestamo">
+            <thead>
+                <tr>
+                    <th>IDequipo</th>
+                    <th>Modelo</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="registroInventarioPRestamo">
+            <tr>
 
-        <tr>
-            <th>IDequipo</th>
-            <th>Modelo</th>
-            <th>Estado</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Acciones</th>
-        </tr>
-
-        <tr>
-
-        </tr> 
+            </tr>
+            </tbody>
         </table>
         </fieldset>
     </main>
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
-    
+    <script src="../Assets/JavaScript/listaPrestamos.js"></script>
 </body>
 </html>
