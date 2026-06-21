@@ -24,7 +24,7 @@
         <h2>Registro diario</h2>
         <button id="btnAgregarRegistro">Agregar registro</button>
         
-            <dialog id="RegistroSolicitante" class="FormularioRegistroDiario">
+            <dialog id="RegistroSolicitante" class="Formulario">
 
             <form id="FormularioRegistroDiario">
                 <fieldset>
@@ -33,7 +33,7 @@
                         <li>
                             <label for="IDLaboratorio">Seleccione el tipo de aula</label>
                             <select id="IDLaboratorio" name="preparacionLaboratorio" required>
-                            <option>Laboratorio</option>
+                            <option>Laboratorio</option>    
                             <option>Taller</option>
                             </select>
                         </li>
@@ -86,9 +86,12 @@
             <span>¿Hubo algun inconveniente con algun dispositivo del laboratorio/taller?</span>
 
             <button id="AgregarTickets">Agregar ticket</button>
+            
+            <button type="button" id="btnCerrar"> Cerrar </button>
+            
             </dialog>
 
-            <dialog id="TicketSolicitante" class="TicketSolicitante">
+            <dialog id="TicketSolicitante" class="Formulario">
 
                 <form id="FormularioTickets">
                 <fieldset>
@@ -117,13 +120,14 @@
                         <li>
                             <button type="submit"> Enviar </button>
                         </li>
+                        
                     </ul>    
                 </fieldset>
             </form>
 
             <fieldset>
-        
-            <table id="registroDiario">
+            <button type="button" id="btnCerrarTicket">Cerrar</button>
+            <table id="registroTicket">
 
             <tr>
                 <th>Ticket</th>
@@ -162,5 +166,6 @@
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="/Proyecto/Assets/JavaScript/RegistroDiario.js"></script>
     </body>
 </html>

@@ -14,7 +14,7 @@
                 <li><a href="paginaBienvenidaCoordinador.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
                 <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
                 <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
                 <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
                 <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
@@ -23,6 +23,76 @@
     </header>
     <main>
         <h2>Inventario</h2>
+        <button id="btnAgregarLaboratorio">Registrar nuevo laboratorio</button>
+        
+            <dialog id="AgregarLaboratorio" class="Formulario">
+
+            <form id="FormularioAgregarLaboratorio">
+                <fieldset>
+                    <legend>Registrar nuevo laboratorio</legend>
+                    <ul>
+                        <li>
+                            <label for="registroLaboratorio">Seleccione el tipo de aula</label>
+                            <select id="registroLaboratorio" name="registroLaboratorio" required>
+                            <option>Laboratorio</option>
+                            <option>Taller</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="registroNumLabTaller">Numero del laboratorio o taller</label>
+                            <input type="text" id="registroNumLabTaller" name="registroNumLabTaller"pattern="[0-9]{2}"  maxlength="2" required 
+                                required placeholder="Escriba el numero laboratorio/taller"/>
+                        </li>
+                        <li>
+                            <label for="cantMonitores">Cantidad monitores</label>
+                            <input type="number" id="cantMonitores" name="cantMonitores"
+                            required placeholder="Escriba la cantidad de monitores que hay">
+                        </li>
+                        <li>
+                            <label for="cantTeclados">Cantidad teclados</label>
+                            <input type="number" id="cantTeclados" name="cantTeclados" 
+                            required placeholder="Escriba la cantidad de teclados que hay">
+                        </li>
+                        <li>
+                            <label for="cantMouses">Cantidad mouses</label>
+                            <input type="number" id="cantMouses" name="cantMouses"
+                            required placeholder="Escriba la cantidad de mouses que hay">
+                        </li>
+                        <li>
+                            <label for="cantComputadoras">Cantidad computadoras</label>
+                            <input type="number" id="cantComputadoras" name="cantComputadoras"
+                            required placeholder="Escriba la cantidad de computadoras que hay">
+                        </li>
+                        <li>
+                            <button type="submit"> Enviar </button>
+                        </li>
+                        <li>
+                            
+                        </li>
+                    </ul>    
+                </fieldset>
+            </form>
+            </dialog>
+
+        <fieldset>
+            <table id="Inventario">
+
+                <tr>
+                    <th>Tipo de aula</th>
+                    <th>Numero de aula</th>
+                    <th>Monitores</th>
+                    <th>Teclados</th>
+                    <th>Computadoras</th>
+                    <th>Acciones</th>
+                    
+                </tr>
+                <tr>
+
+                </tr>
+
+            </table>
+        </fieldset>
+            
     </main>
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>

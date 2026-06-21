@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel administradores</title>
 </head>
+
 <body>
     <header>
         <h2>Logo</h2>
@@ -14,7 +16,7 @@
                 <li><a href="paginaBienvenidaCoordinador.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
                 <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
                 <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
                 <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
                 <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
@@ -23,9 +25,71 @@
     </header>
     <main>
         <h2>Panel administradores</h2>
+        <button id="AgregarNuevoUsuario">Agregar nuevo usuario</button>
+
+        <dialog id="PanelAdministradores" class="Formulario">
+            <form id="FormularioPanelAdministradores">
+                <fieldset>
+                    <legend>Panel de administradores</legend>
+                    <ul>
+                        <li>
+                            <label for="CIUsuario">Cedula de identidad</label>
+                            <input type="text" id="CIUsuario" name="CIUsuario" pattern="[1-9]+"
+                                title="Sin puntos ni guiones" maxlength="8" required
+                                placeholder="Escribe la cedula del usuario" />
+                        </li>
+                        <li>
+                            <label for="nombreUsuario">Nombre</label>
+                            <input type="text" id="nombreUsuario" name="nombreUsuario" required
+                                placeholder="Escribe el nombre del usuario aqui" />
+                        </li>
+                        <li>
+                            <label for="apellidoUsuario">Apellido</label>
+                            <input type="text" id="apellidoUsuario" name="apellidoUsuario" required
+                                placeholder="Escribe el apellido del usuario" />
+                        </li>
+                        <label for="cargoUsuario">Seleccione el cargo del usuario</label>
+                        <select id="cargoUsuario" name="cargoUsuario">
+                            <option>Solicitante</option>
+                            <option>Tecnico</option>
+                            <option>Administrador</option>
+
+                            </li>
+                        </select>
+                        <li>
+                            <label for="contraseniaUsuario">Contraseña</label>
+                            <input type="password" id="contraseniaUsuario" name="contraseniaUsuario" required
+                                placeholder="Ingrese la contraseña del usuario" />
+                        </li>
+                        <li>
+                            <button type="submit">Ingresar </button>
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </dialog>
+
+        <fieldset>
+            <table id="panelAdministradores">
+
+                <tr>
+                    <th>CI</th>
+                    <th>Nombres</th>
+                    <th>Apellido</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr>
+
+                </tr>
+
+            </table>
+        </fieldset>
+
     </main>
     <footer>
-    <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
 </body>
+
 </html>
