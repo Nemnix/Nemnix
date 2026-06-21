@@ -22,6 +22,81 @@
     </header>
     <main>
         <h2>inventario prestamos</h2>
+        <button id="btnAgregarEquipo">Agregar nuevo equipo</button>
+        <dialog id="RegistroEquipoP" class="FormularioRegistroEquipo">
+        <form id="FormularioInventarioEquipos">
+                <fieldset>
+                    <legend>Equipo de prestamo</legend>
+                    <ul>
+                        <li>
+                            <label for="IDequipo">IDequipo</label>
+                            <input type="text" id="IDequipo" name="ID_equipo"
+                                required placeholder="Escribe la ID del equipo" />
+                        </li>
+                        <li>
+                            <label for="modeloPrestamo">Modelo</label>
+                            <input type="text" id="modeloPrestamo" name="modelo_prestamo" required placeholder="Ingrese el modelo del equipo">
+                        </li>
+                        
+                        <li>
+                            <label for="estadoEquipos">Seleccione estado</label>
+                            <select id="estadoEquipos" name="estadoEquipos">
+                            <option>Disponible</option>
+                            <option>Prestamo en fecha</option>
+                            <option>VENCIDO</option>
+                            </select>
+                        </li>
+                        
+                        <li>
+                            <label for="nombreAlumnoPrestamo">Nombre</label>
+                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
+                        </li>
+                        <li>
+                            <label for="apellidoAlumnoPrestamo">Apellido</label>
+                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
+                        </li>
+                        <li>
+                            <label for="CI">Cedula de identidad</label>
+                            <input type="text" id="CI" name="CI_empleado" pattern="[1-9]+" title="Sin puntos ni guiones" maxlength="8"
+                                required placeholder="Escribe tu cedula aqui" />
+                        </li>
+                        <li>
+                            <label for="fechaPrestamo">Fecha</label>
+                            <input type="date" id="fechaPrestamo" name="fechaPrestamo">
+
+                        </li>
+                        <li>
+                            <label for="fechaDevolucion">Fecha de devolucion</label>
+                            <input type="text" id="fechaDevolucion" name="fechaDevolucion" required
+                                placeholder="Apartir de la fecha seleccionada se calcular una fecha limite" />
+                        </li>
+                        <li>
+                            <button type="submit"> Enviar </button>
+                        </li>
+                    </ul>    
+                </fieldset>
+            </form>    
+        </dialog>
+
+        <fieldset>
+        <table id="registroInventarioPRestamo">
+
+        <tr>
+            <th>IDequipo</th>
+            <th>Modelo</th>
+            <th>Estado</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Acciones</th>
+        </tr>
+
+        <tr>
+
+        </tr> 
+        </table>
+        </fieldset>
     </main>
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
