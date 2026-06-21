@@ -22,6 +22,142 @@
     </header>
     <main>
         <h2>Registro diario</h2>
+        <button id="btnAgregarRegistro">Agregar registro</button>
+        
+            <dialog id="RegistroSolicitante" class="FormularioRegistroDiario">
+
+            <form id="FormularioRegistroDiario">
+                <fieldset>
+                    <legend>Solicitud de preparación de laboratorios</legend>
+                    <ul>
+                        <li>
+                            <label for="IDLaboratorio">Seleccione el tipo de aula</label>
+                            <select id="IDLaboratorio" name="preparacionLaboratorio" required>
+                            <option>Laboratorio</option>
+                            <option>Taller</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
+                            <input type="text" id="numLabTaller" name="numLabTaller"pattern="[0-9]{2}"  maxlength="2" required 
+                                required placeholder="Numero laboratorio/taller"/>
+                        </li>
+                        <li>
+                            <label for="fechaRegistroDiario">Fecha</label>
+                            <input type="date" id="fechaRegistroDiario" name="fechaRegistroDiario" required>
+                        </li>
+                        <li>
+                            <label for="asignaturaRegistroDiario">Asignatura</label>
+                            <input type="text" id="asignaturaRegistroDiario" name="asignaturaRegistroDiario" required
+                                placeholder="Escriba su asignatura"/>
+                        </li>
+                        <li>
+                            <label for="horaEntrada">Hora de Entrada</label>
+                            <input type="time" id="horaEntrada" name="horaEntrada" required>
+                        </li>
+                        <li>
+                            <label for="horaSalida">Hora de salida</label>
+                            <input type="time" id="horaSalida" name="horaSalida" required>
+                        </li>
+                        <li>
+                            <label for="grupoRegistroDiario">Grupo</label>
+                            <input type="text" id="grupoRegistroDiario" name="grupoRegistroDiario"
+                            placeholder="Ingrese nombre del grupo aqui" required>
+                        </li>
+                        <li>
+                            <label for="turnoRegistroDiario">Turno</label>
+                            <select id="turnoRegistroDiario" name="turnoRegistroDiario" required>
+                                <option value="Matutino">Matutino</option>
+                                <option value="Vespertino">Vespertino</option>
+                                <option value="Nocturno">Nocturno</option>
+                            </select>
+                        </li>
+                        
+                        <li>
+                            <button type="submit"> Enviar </button>
+                        </li>
+                        <li>
+                            
+                        </li>
+                    </ul>    
+                </fieldset>
+            </form>
+
+            <span>¿Hubo algun inconveniente con algun dispositivo del laboratorio/taller?</span>
+
+            <button id="AgregarTickets">Agregar ticket</button>
+            </dialog>
+
+            <dialog id="TicketSolicitante" class="TicketSolicitante">
+
+                <form id="FormularioTickets">
+                <fieldset>
+                    <legend>Ticket 1</legend>
+                    <ul>
+                        <li>
+                            <label for="IDDispositivo">Tipo de dispositivo</label>
+                            <input type="text" id="IDDispositivo" name="IDDispositivo"
+                                required placeholder="Escribe el tipo del dispositivo aqui" />
+                        </li>
+                        <li>
+                            <label for="nombreAlumno">En caso de ser una maquina, escriba el nombre completo del alumno que utilizo ese equipo</label>
+                            <input type="text" id="nombreAlumno" name="nombreAlumno"
+                                required placeholder="Nombre del alumno" />
+                        </li>
+                        <li>
+                            <label for="nombreDispositivo">Nombre o numero del dispositivo</label>
+                            <input type="text" id="nombreDispositivo" name="nombreDispositivo" required 
+                                placeholder="Nombre del equipo" />
+                        </li>
+                        <li>
+                            <label for="ticket">Motivo del ticket</label>
+                            <input type="text" id="motivoTicket" required name="motivo_Ticket"
+                                placeholder="Ingrese el motivo del ticket" />
+                        </li>
+                        <li>
+                            <button type="submit"> Enviar </button>
+                        </li>
+                    </ul>    
+                </fieldset>
+            </form>
+
+            <fieldset>
+        
+            <table id="registroDiario">
+
+            <tr>
+                <th>Ticket</th>
+                <th>Problema</th>
+                <th>Acciones</th>
+            </tr>
+
+            <tr>
+
+            </tr>   </table>
+                    </fieldset>
+            </dialog>
+
+            <fieldset>
+        
+            <table id="registroDiario">
+
+        <tr>
+            <th>Registro</th>
+            <th>Fecha</th>
+            <th>Tipo de aula</th>
+            <th>Numero de aula</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Turno</th>
+            <th>Grupo</th>
+            <th>Acciones</th>
+        </tr>
+
+        <tr>
+
+        </tr> 
+    </fieldset>
+    </table>
     </main>
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>

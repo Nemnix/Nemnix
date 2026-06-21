@@ -12,41 +12,38 @@
                     <legend>Solicitud de preparación de laboratorios</legend>
                     <ul>
                         <li>
-                            <label for="IDLaboratorio">Seleccione el numero del laboratorio o taller en el cual se encuentra </label>
-<select id="IDLaboratorio" name="preparacionLaboratorio">
-    <option>Laboratorio 1</option>
-    <option>Laboratorio 2</option>
-    <option>Laboratorio 3</option>
-    <option>Laboratorio 4</option>
-    <option>Laboratorio 5</option>
-    <option>Laboratorio 6</option>
-    <option>Taller 1</option>
-    <option>Taller 2</option>
-    <option>Taller 3</option>
-
-</select>
+                            <label for="IDLaboratorio">Seleccione el tipo de aula</label>
+                            <select id="IDLaboratorio" name="preparacionLaboratorio">
+                            <option>Laboratorio</option>
+                            <option>Taller</option>
+                            </select>
                         </li>
                         <li>
-                            <label for="fechaLaboratorio">Fecha</label>
+                            <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
+                            <input type="text" id="numLabTaller" name="numLabTaller"pattern="[0-9]{2}"  maxlength="2" required 
+                                required placeholder="Numero laboratorio/taller"/>
+                        </li>
+                        <li>
+                            <label for="fechaRegistroDiario">Fecha</label>
                             <input type="date" id="fechaRegistroDiario" name="fechaRegistroDiario" required>
 
                         </li>
                         <li>
-                            <label for="asignatura">Asignatura</label>
-                            <input type="text" id="asignaturaRegistroDiario" required
+                            <label for="asignaturaRegistroDiario">Asignatura</label>
+                            <input type="text" id="asignaturaRegistroDiario" name="asignaturaRegistroDiario" required
                                 placeholder="Escriba su asignatura"/>
                         </li>
                         <li>
                             <label for="horaEntrada">Hora de Entrada</label>
-                            <input type="time" id="horaEntrada" required>
+                            <input type="time" id="horaEntrada" name="horaEntrada" required>
                         </li>
                         <li>
                             <label for="horaSalida">Hora de salida</label>
-                            <input type="time" id="horaSalida" required>
+                            <input type="time" id="horaSalida" name="horaSalida" required>
                         </li>
                         <li>
                             <label for="grupoRegistroDiario">Grupo</label>
-                            <input type="text" id="grupoRegistroDiario" 
+                            <input type="text" id="grupoRegistroDiario" name="grupoRegistroDiario"
                             placeholder="Ingrese nombre del grupo aqui" required>
                         </li>
                         <li>
