@@ -35,7 +35,7 @@
                         <li>
                             <label for="IDLaboratorio">Seleccione el tipo de aula</label>
                             <select id="IDLaboratorio" name="preparacionLaboratorio" required>
-                            <option>Laboratorio</option>
+                            <option>Laboratorio</option>    
                             <option>Taller</option>
                             </select>
                         </li>
@@ -100,8 +100,8 @@
                     <legend>Ticket 1</legend>
                     <ul>
                         <li>
-                            <label for="IDDispositivo">Tipo de dispositivo</label>
-                            <input type="text" id="IDDispositivo" name="IDDispositivo"
+                            <label for="idDispositivo">Tipo de dispositivo</label>
+                            <input type="text" id="idDispositivo" name="idDispositivo"
                                 required placeholder="Escribe el tipo del dispositivo aqui" />
                         </li>
                         <li>
@@ -128,8 +128,8 @@
             </form>
 
             <fieldset>
-        
-            <table id="registroDiario">
+            <button type="button" id="btnCerrarTicket">Cerrar</button>
+            <table id="registroTicket">
 
             <tr>
                 <th>Ticket</th>
