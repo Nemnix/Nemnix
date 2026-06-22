@@ -1,4 +1,3 @@
-
 const modal = document.getElementById("RegistroSolicitante");
 const formulario = document.getElementById("FormularioRegistroDiario");
 
@@ -6,6 +5,12 @@ const modalTicket = document.getElementById("TicketSolicitante");
 const formularioTicket = document.getElementById("FormularioTickets");
 
 const tabla = document.getElementById("registroDiario");
+const tablaTicketModal = document.getElementById("registroTicket");
+
+const btnAgregarRegistro = document.getElementById("btnAgregarRegistro");
+const btnCerrarRegistro = document.getElementById("btnCerrarRegistro");
+const AgregarTickets = document.getElementById("AgregarTickets");
+const btnCerrarTicket = document.getElementById("btnCerrarTicket");
 
 const entradaNumAula = document.getElementById("numLabTaller");
 const entradaTipoAula = document.getElementById("IDLaboratorio");
@@ -163,15 +168,18 @@ modal.addEventListener("cancel", function () {
 
 function abrirTicket() {
 
-    filaEditando = null;
+    filaEditandoTicket = null;
+    idEditandoTicket = null;
     formularioTicket.reset();
+    actualizarTablaTicketModal();
     modalTicket.showModal();
 
 }
 
 function cerrarTicket() {
 
-    filaEditando = null;
+    filaEditandoTicket = null;
+    idEditandoTicket = null;
     formularioTicket.reset();
     modalTicket.close();
 
@@ -179,7 +187,8 @@ function cerrarTicket() {
 
 modalTicket.addEventListener("cancel", function () {
 
-    filaEditando = null;
+    filaEditandoTicket = null;
+    idEditandoTicket = null;
     formularioTicket.reset();
 
 });
@@ -273,6 +282,77 @@ function agregarRegistro(registro) {
     modal.showModal();
 }
 
+function agregarTicketModal(ticket) {
+
+    let fila = document.createElement("tr");
+
+    let tdTicket = document.createElement("td");
+    tdTicket.innerText = ticket.idDispositivo;
+
+    let tdProblema = document.createElement("td");
+    tdProblema.innerText = ticket.motivoTicket;
+
+    let tdAcciones = document.createElement("td");
+
+    let btnModificar = document.createElement("button");
+    btnModificar.innerText = "Modificar";
+    btnModificar.onclick = function () {
+        modificarTicket(ticket);
+    };
+
+    let btnEliminar = document.createElement("button");
+    btnEliminar.innerText = "Eliminar";
+    btnEliminar.onclick = function () {
+        borrarTicket(ticket);
+    };
+
+    tdAcciones.appendChild(btnModificar);
+    tdAcciones.appendChild(btnEliminar);
+
+    fila.appendChild(tdTicket);
+    fila.appendChild(tdProblema);
+    fila.appendChild(tdAcciones);
+
+    tablaTicketModal.appendChild(fila);
+
+}
+
+function actualizarTablaTicketModal() {
+
+    while (tablaTicketModal.rows.length > 1) {
+        tablaTicketModal.deleteRow(1);
+    }
+
+    const tickets = cargarTicketsLocal();
+
+    for (const ticket of tickets) {
+        agregarTicketModal(ticket);
+    }
+
+}
+
+function borrarTicket(ticket) {
+
+    eliminarTicketsLocal(ticket.id);
+
+    actualizarTablaTicketModal();
+
+}
+
+function modificarTicket(ticket) {
+
+    filaEditandoTicket = true;
+    idEditandoTicket = ticket.id;
+
+    entradaIdDispositivo.value = ticket.idDispositivo;
+    entradaNombreAlumno.value = ticket.nombreAlumno;
+    entradaNombreDispositivo.value = ticket.nombreDispositivo;
+    entradaMotivoTicket.value = ticket.motivoTicket;
+
+    modalTicket.showModal();
+
+}
+
 formulario.addEventListener("submit", function (event) {
 
     event.preventDefault();
@@ -346,6 +426,9 @@ function modificarTicketsLocal(ticketEditado) {
     ticket.nombreAlumno = ticketEditado.nombreAlumno;
     ticket.nombreDispositivo = ticketEditado.nombreDispositivo;
     ticket.motivoTicket = ticketEditado.motivoTicket;
+    ticket.numAula = ticketEditado.numAula;
+    ticket.tipoAula = ticketEditado.tipoAula;
+    ticket.fecha = ticketEditado.fecha;
 
     actualizarTicketsLocal(tickets);
 }
@@ -397,6 +480,9 @@ function obtenerDatosFormularioTicket() {
         nombreAlumno: entradaNombreAlumno.value,
         nombreDispositivo: entradaNombreDispositivo.value,
         motivoTicket: entradaMotivoTicket.value,
+        numAula: entradaNumAula.value,
+        tipoAula: entradaTipoAula.value,
+        fecha: entradaFecha.value
     };
 
 }
@@ -415,9 +501,11 @@ formularioTicket.addEventListener("submit", function (event) {
         modificarTicketsLocal(ticket);
 
         filaEditandoTicket = null;
+        idEditandoTicket = null;
     }
 
-    modalTicket .close();
+    actualizarTablaTicketModal();
+    formularioTicket.reset();
 });
 
 
