@@ -29,6 +29,7 @@
 
         <label for="IDprioridad">Prioridad</label>
         <select id="IDprioridad" name="Prioridad">
+            <option>Todos</option>
             <option>Alta</option>
             <option>Media</option>
             <option>Baja</option>
@@ -37,18 +38,19 @@
 
         <label for="IDestado">Estado</label>
         <select id="IDestado" name="Estado">
+            <option>Todos</option>
+            <option>Pendiente</option>
             <option>En proceso</option>
-            <option>Sin definir</option>
 
         </select>
 
         <label for="IDtiempo">Tiempo</label>
         <select id="IDtiempo" name="Tiempo">
-            <option>Recientes</option>
-            <option>Mas antiguos</option>
+            <option>Más recientes</option>
+            <option>Más antiguos</option>
 
         </select>
-        
+
 
         <dialog id="RegistroyTicket" class="Formulario">
 
@@ -115,17 +117,33 @@
                             required placeholder="Ingrese el motivo del ticket" />
                         </li>
                         <li>
+                            <label for="prioridadTicket">Prioridad</label>
+                            <select id="prioridadTicket" name="prioridadTicket">
+                                <option>Alta</option>
+                                <option>Media</option>
+                                <option>Baja</option>
+                                <option>Sin definir</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="estadoTicket">Estado</label>
+                            <select id="estadoTicket" name="estadoTicket">
+                                <option>Pendiente</option>
+                                <option>En proceso</option>
+                            </select>
+                        </li>
+                        <li>
                             <button type="submit"> Enviar </button>
                         </li>
-                    </ul>    
+                    </ul>
                 </fieldset>
             </form>
-            <button id="AgregarTickets">Realizar diagnostico</button>
+            <button id="btnDiagnostico">Realizar diagnostico</button>
             <button id="CerrarTicket">Cerrar</button>
             </dialog>
 
             <dialog id="RegistroDiagnostico" class="Formulario">
-                <form id="RegistroDiagnostico"> 
+                <form id="FormularioDiagnostico"> 
                 <fieldset>
                     <legend>Diagnostico</legend>
                     <ul>
@@ -154,14 +172,15 @@
                         </li>
                         <li>
                             <button type="submit"> Enviar </button>
+                            <button type="button" id="btnCerrarDiagnostico"> Cerrar </button>
                         </li>
-                    </ul>    
+                    </ul>
                 </fieldset>
-            </form>    
+            </form>
             </section>
             </dialog>
 
-            <fieldset>s
+            <fieldset>
             <table id="estadoTickets">
 
             <tr>
@@ -184,5 +203,7 @@
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="../Assets/JavaScript/ticketsEntrantes.js"></script>
+    <script src="../Assets/JavaScript/formularioDiagnosticos.js"></script>
 </body>
 </html>
