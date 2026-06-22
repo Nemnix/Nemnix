@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida usuario coordinador</title>
+    <link rel="stylesheet" href="../Assets/css/global.css">
 </head>
+
 <body>
     <header>
-        <a href="../index.html">Salida</a>
-        <h2>Logo</h2>
-        <img src="Logo" alt="Logo">
+        <a href="../index.html" class="salida">Salida</a>
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg></button>
+        <img class="logo" src="Logo" alt="Logo">
         <nav>
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaCoordinador.html" class="BotonNavegacion">Inicio</a></li>
@@ -24,43 +28,46 @@
     </header>
     <main>
         <section class="Bienvenida">
-            <h2>¡Bienvenido  (nombre del usuario administrador)!</h2>
+            <h2>¡Bienvenido (nombre del usuario administrador)!</h2>
 
             <section class="BotonesInicio">
-                <h3>Panel administradores</h3>
-                <a href="panelAdministradores.html">Registrar</a>
-            </section>
+                <ul>
+                    <li>
+                        <h3>Panel administradores</h3>
+                        <a href="panelAdministradores.html" class="boton">Registrar</a>
+                    </li>
 
-            <section class="BotonesInicio">
-                <h3>Vizualización de incidencias</h3>
-                <a href="listaIncidencias.html">Ver incidencias</a>
-            </section>
+                    <li>
+                        <h3>Vizualización de incidencias</h3>
+                        <a href="listaIncidencias.html" class="boton">Ver incidencias</a>
+                    </li>
 
-            <section class="BotonesInicio">
-                <h3>Vizualización de solicitudes</h3>
-                <a href="listaSolicitudes.html">Ver solicitudes</a>
-            </section>
+                    <li>
+                        <h3>Vizualización de solicitudes</h3>
+                        <a href="listaSolicitudes.html" class="boton">Ver solicitudes</a>
+                    </li>
 
-            <section class="BotonesInicio">
-                <h3>Inventario tecnologico</h3>
-                <a href="listaInventario.html">Inventario tecnologico</a>
-            </section>
+                    <li>
+                        <h3>Inventario tecnologico</h3>
+                        <a href="listaInventario.html" class="boton">Inventario tecnologico</a>
+                    </li>
 
-            <section class="BotonesInicio">
-                <h3>Metricas y reportes</h3>
-                <a href="listaMetricas.html">Ver metricas</a>
-            </section>
+                    <li>
+                        <h3>Metricas y reportes</h3>
+                        <a href="listaMetricas.html" class="boton">Ver metricas</a>
+                    </li>
 
-            <section class="BotonesInicio">
-                <h3>Estado de equipos</h3>
-                <a href="listaEstadoEquipos.html">Ver estados</a>
+                    <li>
+                        <h3>Estado de equipos</h3>
+                        <a href="listaEstadoEquipos.html" class="boton">Ver estados</a>
+                    </li>
+                </ul>
             </section>
-
-        </section>
     </main>
 
     <footer>
-    <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
 </body>
+
 </html>
