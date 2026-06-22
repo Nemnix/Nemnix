@@ -126,7 +126,25 @@ justify-content: flex-end;
 header .salida{
     margin: 0px 0px 0px 20px;
 }
-#btnMenu{
+.MenuPrincipal {
+        display: none;
+        position: absolute;
+        text-align: center;
+        background-color: var(--oscuro);
+        flex-direction: column;
+        top: 56px;
+        right:0px;
+        left: 50%;
+        padding: 15px;
+
+
+    }
+.MenuPrincipal.visible{
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+.btnMenu{
     margin: 0px 20px 0px 0px;
     order: 3;
     display: flex;
@@ -136,10 +154,18 @@ header .salida{
     border: transparent;
 }
 
-#btnCerrar{
+.btnCerrar{
     display: none;
 }
 
+.btnMenu.oculto {
+    display: none;
+  }
+
+.btnCerrar.visible {
+    display: flex;
+    order: 3;
+}
 
 li,ul, a{
    color: var(--blanco);
