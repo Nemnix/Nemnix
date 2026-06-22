@@ -11,6 +11,7 @@
 
 <body>
     <header>
+        <button onclick="subir()" class="botonSubir">▲</button>
         <img class="logo" src="Logo" alt="Logo">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg></button>
@@ -29,30 +30,39 @@
     <main>
         <h2>Tickets entrantes</h2>
 
-        <label for="IDprioridad">Prioridad</label>
-        <select id="IDprioridad" name="Prioridad">
-            <option>Todos</option>
-            <option>Alta</option>
-            <option>Media</option>
-            <option>Baja</option>
-            <option>Sin definir</option>
+        <ul>
+            <li>
+            <div class="opciones">
+                <label for="IDprioridad">Prioridad</label>
+                <select id="IDprioridad" name="Prioridad">
+                    <option>Todos</option>
+                    <option>Alta</option>
+                    <option>Media</option>
+                    <option>Baja</option>
+                    <option>Sin definir</option>
+                </select>
+            </div>
+            </li>
+            <li>
+                <div class="opciones">
+                <label for="IDestado">Estado</label>
+                <select id="IDestado" name="Estado">
+                    <option>Todos</option>
+                    <option>Pendiente</option>
+                    <option>En proceso</option>
+                </select>
+                </div>
+            </li>
+            <li>
+                <div class="opciones">
+                <label for="IDtiempo">Tiempo</label>
+                <select id="IDtiempo" name="Tiempo">
+                    <option>Más recientes</option>
+                    <option>Más antiguos</option>
+                    </div>
+            </li>
         </select>
-
-        <label for="IDestado">Estado</label>
-        <select id="IDestado" name="Estado">
-            <option>Todos</option>
-            <option>Pendiente</option>
-            <option>En proceso</option>
-
-        </select>
-
-        <label for="IDtiempo">Tiempo</label>
-        <select id="IDtiempo" name="Tiempo">
-            <option>Más recientes</option>
-            <option>Más antiguos</option>
-
-        </select>
-
+        </ul>
 
         <dialog id="RegistroyTicket" class="Formulario">
 
@@ -182,9 +192,10 @@
             </section>
             </dialog>
 
+            <section class="Tablas">
             <fieldset>
             <table id="estadoTickets">
-
+            <thead>
             <tr>
                 <th>Ticket</th>
                 <th>Prioridad</th>
@@ -192,19 +203,23 @@
                 <th>Fecha</th>
                 <th>Vizualización</th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr>
             
             </tr>
-
+            </tbody>
             </table>
             </fieldset>
+            </section>
 
 
     </main>
     <footer>
     <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="../Assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JS/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="../Assets/JavaScript/ticketsEntrantes.js"></script>
     <script src="../Assets/JavaScript/formularioDiagnosticos.js"></script>
