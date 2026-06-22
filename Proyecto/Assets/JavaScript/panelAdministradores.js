@@ -1,34 +1,21 @@
-/**
- * CONSTANTES Y VARIABLES
- */
-
-// dialog
 const modal = document.getElementById("PanelAdministradores");
 
-// formulario
 const formulario = document.getElementById("FormularioPanelAdministradores");
 
-// botones
 const btnAgregarNuevoUsuario = document.getElementById("AgregarNuevoUsuario");
 const btnCerrarPanel = document.getElementById("cerrarPanelAdministrador")
 
-// tabla
 const tabla = document.getElementById("panelAdministradores");
 
-// campos
 const entradaCedula = document.getElementById("CIUsuario");
 const entradaNombre = document.getElementById("nombreUsuario");
 const entradaApellido = document.getElementById("apellidoUsuario");
 const entradaCargo = document.getElementById("cargoUsuario");
 const entradaContrasenia = document.getElementById("contraseniaUsuario");
 
-// variable global que guarda la fila que se esta editando
 let filaEditando = null;
 
 
-/**
- * LOCAL STORAGE
- */
 
 function cargarUsuariosLocal() {
 
@@ -117,10 +104,6 @@ function obtenerContraseniaPorCedula(cedula) {
 
 }
 
-/**
- * OBTENCION DE DATOS
- */
-
 function obtenerDatosFormulario() {
 
     return {
@@ -132,11 +115,6 @@ function obtenerDatosFormulario() {
     };
 
 }
-
-
-/**
- * GESTION DEL MODAL
- */
 
 function abrirAltaUsuario() {
 
@@ -162,11 +140,6 @@ modal.addEventListener("cancel", function () {
     formulario.reset();
 
 });
-
-
-/**
- * GESTION DE LA TABLA
- */
 
 function agregarUsuario(usuario) {
  
@@ -241,11 +214,6 @@ function modificar(boton) {
 
 }
 
-
-/**
- * VALIDACIONES
- */
-
 function validarFormulario(usuario) {
 
     if (!usuario.cedula || !usuario.nombre || !usuario.apellido || !usuario.cargo || !usuario.contrasenia) {
@@ -267,10 +235,6 @@ function validarFormulario(usuario) {
 
 }
 
-
-/**
- * EVENTOS
- */
 
 btnAgregarNuevoUsuario.addEventListener("click", abrirAltaUsuario);
 
