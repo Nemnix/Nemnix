@@ -48,21 +48,23 @@
                             <input type="text" id="apellidoUsuario" name="apellidoUsuario" required
                                 placeholder="Escribe el apellido del usuario" />
                         </li>
+                        <li>
                         <label for="cargoUsuario">Seleccione el cargo del usuario</label>
                         <select id="cargoUsuario" name="cargoUsuario">
                             <option>Solicitante</option>
                             <option>Tecnico</option>
                             <option>Administrador</option>
 
-                            </li>
-                        </select>
+                        </li>
                         <li>
+                        </select>
                             <label for="contraseniaUsuario">Contraseña</label>
                             <input type="password" id="contraseniaUsuario" name="contraseniaUsuario" required
                                 placeholder="Ingrese la contraseña del usuario" />
                         </li>
                         <li>
                             <button type="submit">Ingresar </button>
+                            <button type="button" id="cerrarPanelAdministrador">Cancelar</button>
                         </li>
                     </ul>
                 </fieldset>
@@ -71,7 +73,7 @@
 
         <fieldset>
             <table id="panelAdministradores">
-
+            <thead>
                 <tr>
                     <th>CI</th>
                     <th>Nombres</th>
@@ -79,10 +81,11 @@
                     <th>Cargo</th>
                     <th>Acciones</th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
-
                 </tr>
-
+            </tbody>
             </table>
         </fieldset>
 
@@ -90,6 +93,7 @@
     <footer>
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="../Assets/JavaScript/panelAdministradores.js"></script>
 </body>
 
 </html>
