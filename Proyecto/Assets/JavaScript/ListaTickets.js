@@ -8,8 +8,8 @@ function agregarTicket(ticket) {
     let tdId = document.createElement("td");
     tdId.innerText = ticket.id;
 
-    let tdIdDispositivo = document.createElement("td");
-    tdIdDispositivo.innerText = ticket.idDispositivo;
+    let tdNumAula = document.createElement("td");
+    tdNumAula.innerText = ticket.numAula;
 
     let tdNombreAlumno = document.createElement("td");
     tdNombreAlumno.innerText = ticket.nombreAlumno;
@@ -17,14 +17,26 @@ function agregarTicket(ticket) {
     let tdNombreDispositivo = document.createElement("td");
     tdNombreDispositivo.innerText = ticket.nombreDispositivo;
 
+    let tdIdDispositivo = document.createElement("td");
+    tdIdDispositivo.innerText = ticket.idDispositivo;
+
     let tdMotivoTicket = document.createElement("td");
     tdMotivoTicket.innerText = ticket.motivoTicket;
 
+    let tdTipoAula = document.createElement("td");
+    tdTipoAula.innerText = ticket.tipoAula;
+
+    let tdFecha = document.createElement("td");
+    tdFecha.innerText = ticket.fecha;
+
     filaTicket.appendChild(tdId);
-    filaTicket.appendChild(tdIdDispositivo);
+    filaTicket.appendChild(tdNumAula);
     filaTicket.appendChild(tdNombreAlumno);
     filaTicket.appendChild(tdNombreDispositivo);
+    filaTicket.appendChild(tdIdDispositivo);
     filaTicket.appendChild(tdMotivoTicket);
+    filaTicket.appendChild(tdTipoAula);
+    filaTicket.appendChild(tdFecha);
 
     tablaTicket.appendChild(filaTicket);
 }
