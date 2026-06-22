@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 const modal = document.getElementById("RegistroSolicitante");
 const formulario = document.getElementById("FormularioRegistroDiario");
 
@@ -22,6 +16,14 @@ const entradaHoraEntrada = document.getElementById("horaEntrada");
 const entradaGrupo = document.getElementById("grupoRegistroDiario");
 const entradaTurno = document.getElementById("turnoRegistroDiario");
 
+const entradaIdDispositivo = document.getElementById("idDispositivo");
+const entradaNombreAlumno = document.getElementById("nombreAlumno");
+const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
+const entradaMotivoTicket = document.getElementById("motivoTicket");
+
+
+let filaEditandoTicket = null
+let idEditandoTicket = null;
 let filaEditando = null;
 let idEditando = null;
 
@@ -77,6 +79,7 @@ function modificarRegistroLocal(registroEditado) {
 
     actualizarRegistrosLocal(registros);
 }
+
 function eliminarRegistroLocal(id) {
 
     const registros = cargarRegistrosLocal();
@@ -87,6 +90,7 @@ function eliminarRegistroLocal(id) {
 
     actualizarRegistrosLocal(registrosActualizados);
 }
+
 function actualizarTabla() {
 
     while (tabla.rows.length > 1) {
@@ -99,6 +103,7 @@ function actualizarTabla() {
         agregarRegistro(registro);
     }
 }
+
 function generarIdRegistro() {
     let ultimoId = Number(localStorage.getItem("ultimoIdRegistro")) || 0;
 
@@ -108,6 +113,7 @@ function generarIdRegistro() {
 
     return ultimoId;
 }
+
 function obtenerDatosFormulario() {
 
     let id;
@@ -132,8 +138,6 @@ function obtenerDatosFormulario() {
 
 }
 
-
-
 function abrirAltaRegistro() {
 
     filaEditando = null;
@@ -149,8 +153,6 @@ function cerrarAltaRegistro() {
     modal.close();
 
 }
-
-
 
 modal.addEventListener("cancel", function () {
 
@@ -296,11 +298,135 @@ formulario.addEventListener("submit", function (event) {
 actualizarTabla();
 
 
+//----------------------
+
+function cargarTicketsLocal() {
+
+    const ticketsGuardados = localStorage.getItem("tickets");
+
+    if (ticketsGuardados === null) {
+        return [];
+    }
+
+    return JSON.parse(ticketsGuardados);
+
+}
+
+function actualizarTicketsLocal(tickets) {
+
+    localStorage.setItem(
+        "tickets",
+        JSON.stringify(tickets)
+    );
+
+}
+
+function guardarTicketsLocal(ticket) {
+
+    const tickets = cargarTicketsLocal();
+
+    tickets.push(ticket);
+
+    actualizarTicketsLocal(tickets);
+
+}
+function modificarTicketsLocal(ticketEditado) {
+
+    const tickets = cargarTicketsLocal();
+
+    const ticket = tickets.find(
+        t => t.id === ticketEditado.id
+    );
+
+    if (ticket === undefined) {
+        return;
+    }
+
+    ticket.idDispositivo = ticketEditado.idDispositivo;
+    ticket.nombreAlumno = ticketEditado.nombreAlumno;
+    ticket.nombreDispositivo = ticketEditado.nombreDispositivo;
+    ticket.motivoTicket = ticketEditado.motivoTicket;
+
+    actualizarTicketsLocal(tickets);
+}
+function eliminarTicketsLocal(idTicket) {
+
+    const tickets = cargarTicketsLocal();
+
+    const ticketsActualizados = tickets.filter(
+        t => t.id !== Number(idTicket)
+    );
+
+    actualizarTicketsLocal(ticketsActualizados);
+}
+function actualizarTablaTicket() {
+
+    while (tablaTicket.rows.length > 1) {
+        tablaTicket.deleteRow(1);
+    }
+
+    const tickets = cargarTicketsLocal();
+
+    for (const ticket of tickets) {
+        agregarTicket(ticket);
+    }
+}
+function generarIdTicket() {
+    let ultimoIdTicket = Number(localStorage.getItem("ultimoIdTicket")) || 0;
+
+    ultimoIdTicket++;
+
+    localStorage.setItem("ultimoIdTicket", ultimoIdTicket);
+
+    return ultimoIdTicket;
+}
+
+function obtenerDatosFormularioTicket() {
+
+    let idTicket;
+
+    if (filaEditandoTicket === null) {
+        idTicket = generarIdTicket();
+    } else {
+        idTicket = idEditandoTicket;
+    }
+
+    return {
+        id: idTicket,
+        idDispositivo: entradaIdDispositivo.value,
+        nombreAlumno: entradaNombreAlumno.value,
+        nombreDispositivo: entradaNombreDispositivo.value,
+        motivoTicket: entradaMotivoTicket.value,
+    };
+
+}
+formularioTicket.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const ticket = obtenerDatosFormularioTicket();
+
+    if (filaEditandoTicket === null) {
+
+        guardarTicketsLocal(ticket);
+
+    } else {
+
+        modificarTicketsLocal(ticket);
+
+        filaEditandoTicket = null;
+    }
+
+    modalTicket .close();
+});
+
+
+
+
+
 btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
 btnCerrar.addEventListener("click", cerrarAltaRegistro);
 
 AgregarTickets.addEventListener("click", abrirTicket);
 btnCerrarTicket.addEventListener("click", cerrarTicket);
-
-
-
+//----------------------------------------------------------
