@@ -425,7 +425,7 @@ formularioTicket.addEventListener("submit", function (event) {
 
 
 btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
-btnCerrar.addEventListener("click", cerrarAltaRegistro);
+btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
 
 AgregarTickets.addEventListener("click", abrirTicket);
 btnCerrarTicket.addEventListener("click", cerrarTicket);
