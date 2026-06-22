@@ -1,0 +1,163 @@
+:root{
+    --blanco: #ffffff;
+    --grisResaltado:#B1B1B1;
+    --grisClaro: #D9D9D9;
+    --grisMedio:  #656565;
+    --gris: #464646;
+    --Negro: #000000;
+}
+
+*{
+    box-sizing: border-box;
+    
+    
+}
+
+
+body{
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    background-color: var(--grisMedio);
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: 250;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.7;
+    text-align: center;
+    color: var(--blanco);
+    
+    
+}
+h2{
+    font-weight: 350;
+    
+}
+
+h3{
+    font-weight: 100;
+    
+}
+
+section{
+    
+    
+}
+ 
+
+.BotonesInicio li {
+    background-color: var(--grisClaro);
+    width: 70%;
+    border: var(--grisClaro) solid 2px;
+    border-radius: 8px;
+    color: var(--Negro);
+    
+    
+    
+
+}
+
+.BotonesInicio a{
+    background-color: var(--gris);
+    margin: 0px 70px 10px 70px;
+    border-radius: 10px;
+    
+    
+    
+}
+
+.BotonesInicio ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    
+}
+
+.BotonesInicio .boton{
+    display: flex;
+    justify-content: center;
+}
+
+.BotonesInicio a:hover{
+    background-color: rgb(223, 171, 1);
+    color: var(--Negro);
+    
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    height: 75px;
+    background-color: var(--gris);
+    width: 100%;
+    gap: 20px;
+
+    
+
+}
+
+header nav {
+    margin: 0 auto;
+    order: 1;
+    
+}
+
+header h1 {
+    order: 2;
+
+}
+
+header .logo {
+    order: 1;
+    
+}
+
+header .MenuPrincipal{
+display: none;
+list-style: none; 
+justify-content: flex-end;
+
+}
+header .salida{
+    margin: 0px 0px 0px 20px;
+}
+#btnMenu{
+    margin: 0px 20px 0px 0px;
+    order: 3;
+    display: flex;
+    color: var(--blanco);
+    font-size: 30px;
+    background-color: transparent;
+    border: transparent;
+}
+
+#btnCerrar{
+    display: none;
+}
+
+
+li,ul, a{
+   color: var(--blanco);
+   text-decoration: none;
+   display: inline;
+     
+}
+
+.BotonNavegacion:hover{
+  background-color: var(--grisClaro);
+  color: var(--gris);
+  
+}
+
+footer{
+    background-color: var(--gris);
+    height: 100%;
+    color: var(--blancoPuro);
+    font-size: 18px;
+    
+}

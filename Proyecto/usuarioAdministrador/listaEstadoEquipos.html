@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estado equipos</title>
+    <link rel="stylesheet" href="../Assets/css/global.css">
 </head>
 <body>
     <header>
-        <h2>Logo</h2>
-        <img src="Logo" alt="Logo">
+        <img class="logo" src="Logo" alt="Logo">
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg></button>
+        
         <nav>
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaCoordinador.html" class="BotonNavegacion">Inicio</a></li>
@@ -22,16 +25,15 @@
         </nav>
     </header>
     <main>
-        <h2>Vizualización global de estado de equipos</h2>
         <fieldset>
-            <table id="VizualizacionGlobalEquipos">
+            <table id="Metricas">
 
                 <tr>
-                    <th>Tipo de aula</th>
-                    <th>Numero de aula</th>
-                    <th>Incidencia(s)</th>
-                    <th>PC con mas fallos</th>
-                    <th>Turno con mas reportes</th>
+                    <th>Total computadoras</th>
+                    <th>Total  perifericos</th>
+                    <th>Incidencias activas</th>
+                    <th>Cantidad total de incidencias</th>
+                    
                 </tr>
                 <tr>
 

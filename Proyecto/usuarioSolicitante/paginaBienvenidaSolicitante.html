@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida usuario solictante</title>
-    <link rel="stylesheet" href="Assets/css/global.css">
+    <link rel="stylesheet" href="../Assets/css/global.css">
 </head>
 <body>
     <header>
-        <a href="../index.html">Salida</a>
-        <h2>Logo</h2>
-        <img src="Logo" alt="Logo">
+        <a href="../index.html" class="salida">Salida</a>
+        
+        <img class="logo" src="Logo" alt="Logo">
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg></button>
         <nav>
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaSolicitante.html" class="BotonNavegacion">Inicio</a></li>
@@ -24,22 +26,30 @@
     <main>
         <section class="Bienvenida">
         <h2>¡Bienvenido a S.G.R.S.I!</h2>
-
         <section class="BotonesInicio">
+        <ul>   
+            <li>
+        
             <h3>Realice su registro diario aqui:</h3>
-            <a href="listaRegistroDiario.html">Registro diario</a>
-        </section>
-
-        <section class="BotonesInicio">
+            <a href="listaRegistroDiario.html" class="boton">Registro</a>
+       
+            </li>
+            <li>
+        
             <h3>Por solicitud de preparación de laboratorios ingrese aquí:</h3>
-            <a href="listaRegistroDiario.html">Registro diario</a>
+            <a href="listaRegistroDiario.html" class="boton">Solicitudes</a>
+        
+            </li>
+            <li>
+       
+            <h3>Para ver el estado de su ticket</h3>
+            <a href="listaRegistroDiario.html" class="boton">Estado</a>
+       
+            </li>
+        </ul> 
+        </section>
         </section>
 
-        <section class="BotonesInicio">
-            <h3>Para ver el estado de su ticket</h3>
-            <a href="listaRegistroDiario.html">Registro diario</a>
-        </section>
-        </section>
     </main>
     
     <footer>

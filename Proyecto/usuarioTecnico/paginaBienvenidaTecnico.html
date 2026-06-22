@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina bienvenida tecnico</title>
+    <link rel="stylesheet" href="../Assets/css/global.css">
+    <link rel="stylesheet" href="../Assets/css/incioTecnico.css">
 </head>
 <body>
     <header>
-        <a href="../index.html">Salida</a>
-        <h2>Logo</h2>
-        <img src="Logo" alt="Logo">
+        <a href="../index.html" class="salida">Salida</a>
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg></button>
+        <img class="logo" src="Logo" alt="Logo">
         <nav>
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
                 <li><a href="listaDiagnosticos.html" class="BotonNavegacion">Diagnosticos</a></li>
                 <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
-               
                 
             </ul>
         </nav>
@@ -26,24 +28,23 @@
         <h2>¡Bienvenido  (nombre del usuario tecnico)!</h2>
 
         <section class="BotonesInicio">
+        <ul>   
+            <li>
             <h3>Responder tickets</h3>
-            <a href="prestamosEquipos.html">Responder</a>
-        </section>
+            <a href="listaTicketsEntrantes.html" class="boton">Responder</a>
+            </li>
 
-        <section class="BotonesInicio">
+            <li>
             <h3>Registro de prestamos</h3>
-            <a href="listaRegistroDiario.html">Registrar</a>
-        </section>
+            <a href="inventarioPrestamos.html"class="boton">Registrar</a>
+            </li>
 
-        <section class="BotonesInicio">
+            <li>
             <h3>Diagnosticos</h3>
-            <a href="listaDiagnosticos.html">Diagnosticos</a>
-        </section>
-
-        <section class="BotonesInicio">
-            <h3>Inventario tecnologico para prestamos</h3>
-            <a href="inventarioPrestamos.html">Inventario</a>
-        </section>
+            <a href="listaDiagnosticos.html" class="boton">Diagnosticos</a>
+            </li>
+            
+        </ul>
         </section>
     </main>
     <footer>
