@@ -7,7 +7,6 @@
     --Negro: #000000;
 }
 
-
-.BotonesInicio li {
-
+select{
+    display: inline;
 }

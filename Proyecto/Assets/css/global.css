@@ -10,9 +10,11 @@
 *{
     box-sizing: border-box;
     
-    
 }
 
+section{
+    margin-top: 10px;
+}
 
 body{
     width: 100%;
@@ -27,8 +29,20 @@ body{
     line-height: 1.7;
     text-align: center;
     color: var(--blanco);
+    min-height: 100vh;
     
-    
+}
+.botonSubir{
+    position: fixed;
+    display: flex;
+    bottom: 5%;
+    right: 5%;
+    margin-bottom: 90px ;
+    padding: 5px 15px;
+    background-color: var(--grisClaro);
+    color: var(--Negro);
+    border-radius: 10px;
+    text-decoration: none;
 }
 h2{
     font-weight: 450;
@@ -41,12 +55,10 @@ h3{
     
 }
 
-section{
-    
-    
+.BotonesInicio h3 {
+    font-size: 17px;
+    line-height: 4.0;
 }
- 
-
 .BotonesInicio li {
     background-color: var(--grisClaro);
     width: 70%;
@@ -69,6 +81,7 @@ section{
 }
 
 .BotonesInicio ul{
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -79,6 +92,7 @@ section{
 }
 
 .BotonesInicio .boton{
+    
     display: flex;
     justify-content: center;
 }
@@ -97,24 +111,25 @@ header {
     background-color: var(--gris);
     width: 100%;
     gap: 20px;
+    position: relative;
 
     
 
 }
 
 header nav {
-    margin: 0 auto;
-    order: 1;
+    order: 3;
     
 }
 
-header h1 {
-    order: 2;
 
+
+.salida{
+    order: 1;
 }
 
 header .logo {
-    order: 1;
+    order: 2;
     margin-left: 30px;
 }
 
@@ -134,11 +149,11 @@ header .salida{
         background-color: var(--gris);
         flex-direction: column;
         top: 56px;
-        
         right:0px;
-        left: 50%;
-        
+        width: 50%;
         padding: 15px;
+        max-width: 384px;
+        
 
 
     }
@@ -146,29 +161,38 @@ header .salida{
     display: flex;
     gap: 20px;
     list-style: none;
+    
 }
 #btnMenu{
-    margin: 0px 20px 0px 0px;
-    order: 3;
-    display: flex;
+    order:3;
+    margin-left: auto;
     color: var(--blanco);
     font-size: 30px;
     background-color: transparent;
     border: transparent;
+    margin-right: 20px
 }
 
 #btnCerrar{
     display: none;
+    
 }
 
 #btnMenu.oculto {
     display: none;
+    
   }
 
 #btnCerrar.visible {
     display: flex;
+    margin-right: 20px;
+    margin-left: auto;
     order: 3;
+    background-color: var(--gris);
+    border: none;
 }
+
+
 
 li,ul, a{
    color: var(--blanco);
@@ -179,15 +203,17 @@ li,ul, a{
 
 .BotonNavegacion:hover{
   background-color: var(--grisClaro);
-  color: var(--gris);
+  color: var(--Negro);
   
 }
 
 footer{
     background-color: var(--gris);
-    height: 100%;
+    
     color: var(--blancoPuro);
     font-size: 18px;
+    padding: 20px; 
+    margin-top: auto;
 
     
 }
@@ -199,7 +225,7 @@ fieldset{
     border:transparent;
     border: #ffffff solid 2px;
     margin: 0 auto;
-    width: 90%;
+    
     
     
 
@@ -296,14 +322,12 @@ fieldset table{
     
 }
 th {
-    background-color: var(--grisMedio);
+    background-color: var(--gris);
     font-size: 12px;
     min-height: 80px;
     font-weight: 450;
     color: var(--blanco);
     max-width: 100%;
-
-
 }
 
 tr{
@@ -333,4 +357,21 @@ tr:nth-child(even) td {
 .CuadrosTexto label{
     margin: auto 20px auto;
 
+}
+
+
+.opciones{
+    border-radius: 10px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.opciones label{
+margin-right: 70px;
 }
