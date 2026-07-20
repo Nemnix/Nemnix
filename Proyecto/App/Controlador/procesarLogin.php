@@ -1,10 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../Modelo/Usuario.php";
-require_once __DIR__ . "/../Modelo/ConsultaUsuario.php";
-require_once __DIR__ . "/../Modelo/Login.php";
 
-exit("uuuUUUuuUuuUuuUUu.");
+
+require_once __DIR__ . "/../modelo/usuario.php";
+require_once __DIR__ . "/../modelo/consultaUsuario.php";
+require_once __DIR__ . "/../modelo/Login.php";
+
+
 
 //Comprueba que el formulario haya sido enviado mediante POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -27,9 +29,8 @@ if ($usuario === null) {
 }
 
 //Solo se encuentra implementado el rol administrador
-if (!$usuario->esAdministrador()) {
-    exit("El usuario no tiene acceso al panel de administración.");
-}
+if ($usuario->esAdministrador()) {
+
 
 
 session_start();
@@ -38,9 +39,41 @@ session_regenerate_id(true);
 $_SESSION["cedula"] = $usuario->getCedula();
 $_SESSION["administrador"] = $usuario->esAdministrador();
 $_SESSION["tecnico"] = $usuario->esTecnico();
-$_SESSION["tecnico"] = $usuario->esSolicitante();
+$_SESSION["solicitante"] = $usuario->esSolicitante();
 
-header("Location: administrador.php");
+header("Location: usuarioAdministrador/paginaBienvenidaCoordinador.php");
 exit;
 
+}
+
+
+if ($usuario->esTecnico()) {
+    
+
+
+session_start();
+session_regenerate_id(true);
+
+$_SESSION["cedula"] = $usuario->getCedula();
+$_SESSION["administrador"] = $usuario->esAdministrador();
+$_SESSION["tecnico"] = $usuario->esTecnico();
+$_SESSION["solicitante"] = $usuario->esSolicitante();
+
+header("Location: usuarioTecnico/paginaBienvenidaTecnico.php");
+exit;
+}
+
+if ($usuario->esSolicitante()) {
+ 
+session_start();
+session_regenerate_id(true);
+
+$_SESSION["cedula"] = $usuario->getCedula();
+$_SESSION["administrador"] = $usuario->esAdministrador();
+$_SESSION["tecnico"] = $usuario->esTecnico();
+$_SESSION["solicitante"] = $usuario->esSolicitante();
+
+header("Location: usuarioSolicitante/paginaBienvenidaSolicitante.php");
+exit;
+}
 ?>

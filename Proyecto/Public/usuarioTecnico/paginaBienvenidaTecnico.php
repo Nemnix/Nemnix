@@ -1,79 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina bienvenida tecnico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Assets/css/global.css">
-    <link rel="stylesheet" href="../Assets/css/incioTecnico.css">
-</head>
+session_start();
 
-<body>
-    <header>
-        <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="../index.html" class="salida">
-            <!-- Icono puerta de salida!-->
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
-                <path fill-rule="evenodd"
-                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
-            </svg>
-        </a>
-        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
-        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'
-                fill='currentColor'>
-                <path
-                    d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z' />
-            </svg></button>
-        <img class="logo" src="Logo" alt="Logo">
-        <nav>
-            <ul class="MenuPrincipal">
-                <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
-                <li><a href="listaDiagnosticos.html" class="BotonNavegacion">Diagnosticos</a></li>
-                <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
+if (!isset($_SESSION["cedula"])) {
+    header("Location: login.php");
+    exit;
+}
 
-            </ul>
-        </nav>
-        <script src="../Assets/JavaScript/menu.js"></script>
-    </header>
-    <main>
-        <section class="Bienvenida">
-            <h2>¡Bienvenido (nombre del usuario tecnico)!</h2>
+if ( !isset($_SESSION["tecnico"]) || $_SESSION["tecnico"] !== true) {
+    header("Location: login.php");
+    exit;
+}
 
-            <section class="BotonesInicio">
-                <ul>
-                    <li>
-                        <h3>Responder tickets</h3>
-                        <a href="listaTicketsEntrantes.html" class="boton">Responder</a>
-                    </li>
+require_once __DIR__ . "/../../app/vista/paginaBienvenidaTecnico.php";
 
-                    <li>
-                        <h3>Registro de prestamos</h3>
-                        <a href="inventarioPrestamos.html" class="boton">Registrar</a>
-                    </li>
-
-                    <li>
-                        <h3>Diagnosticos</h3>
-                        <a href="listaDiagnosticos.html" class="boton">Diagnosticos</a>
-                    </li>
-
-                </ul>
-            </section>
-    </main>
-    <footer>
-        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
-    </footer>
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
-    <script src="../assets/JS/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+?>

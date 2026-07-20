@@ -12,6 +12,6 @@ if ( !isset($_SESSION["administrador"]) || $_SESSION["administrador"] !== true) 
     exit;
 }
 
-require_once __DIR__ . "/../app/vista/paginaBienvenidaCoordinador.php";
+require_once __DIR__ . "/../../app/vista/paginaBienvenidaCoordinador.php";
 
 ?>

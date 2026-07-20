@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Clase que simula una recuperación de credenciales correspondientes a la base de datos.
  */
@@ -17,7 +19,7 @@ class ConsultaUsuario {
             "claveHash" => password_hash("clave1234567", PASSWORD_DEFAULT),
             "activo" => true,
             "administrador" => true,
-            "tecnicos" => false,
+            "tecnico" => false,
             "solicitante" => false
             ];
 
