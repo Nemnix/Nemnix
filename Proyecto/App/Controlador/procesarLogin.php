@@ -31,8 +31,6 @@ if ($usuario === null) {
 //Solo se encuentra implementado el rol administrador
 if ($usuario->esAdministrador()) {
 
-
-
 session_start();
 session_regenerate_id(true);
 
@@ -49,7 +47,6 @@ exit;
 
 if ($usuario->esTecnico()) {
     
-
 
 session_start();
 session_regenerate_id(true);
