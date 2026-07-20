@@ -1,10 +1,12 @@
 <?php
 
 
-
+require_once __DIR__ . "/../modelo/ConectorPDO.php";
 require_once __DIR__ . "/../modelo/usuario.php";
-require_once __DIR__ . "/../modelo/consultaUsuario.php";
+require_once __DIR__ . "/../modelo/AccesoDatosUsuario.php";
 require_once __DIR__ . "/../modelo/Login.php";
+
+
 
 
 
@@ -18,6 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $cedula = trim($_POST["cedula"] ?? "");
 $clave = $_POST["clave"] ?? "";
 
+$conectorPDO = new ConectorPDO ("localhost", "Tecnoemmn", "123", "db nemnix");
+$conexion = $conectorPDO->establecerConexion();
+
+    $accesoDatosUsuario = new AccesoDatosUsuario($conexion);
+    $login = new Login($accesoDatosUsuario);
+
+$conectorPDO->desconectar();
+
+$usuario = $login->autenticar($cedula, $clave);
+
 $consultaUsuario = new ConsultaUsuario();
 $login = new Login($consultaUsuario);
 
@@ -25,10 +37,15 @@ $usuario = $login->autenticar($cedula, $clave);
 
 //Si las credenciales no coinciden, muestra el error y detiene el proceso
 if ($usuario === null) {
-    exit("La cédula o la contraseña son incorrectas.");
+    $mensaje = "Acceso Denegado: La cédula o la contraseña son incorrectas.";
+    header("Location: login.php?" . "error=" . $mensaje);
+    exit;
 }
 
-//Solo se encuentra implementado el rol administrador
+if ($_SESSION["administrador"] && $_SESSION["logistica"]) {
+    header("Location: panelRoles.php");
+}
+
 if ($usuario->esAdministrador()) {
 
 session_start();
@@ -73,4 +90,6 @@ $_SESSION["solicitante"] = $usuario->esSolicitante();
 header("Location: usuarioSolicitante/paginaBienvenidaSolicitante.php");
 exit;
 }
+
+
 ?>

@@ -1,78 +1,87 @@
 <?php
 
-
-
 /**
  * Clase que simula una recuperación de credenciales correspondientes a la base de datos.
  */
-class ConsultaUsuario {
+class AccesoDatosUsuario {
+    private PDO $conexion;
+
     /**
-     * Simula la recuperación de un usuario desde una base de datos.
-     *
-     * Más adelante, el contenido de esta función será reemplazado
-     * por una consulta mediante PDO.
+     * Constructor parametrizado que recibe una conexión a la base de datos.
+     * @param PDO $conexion La conexion a la base de datos. PRECONDICION: No debe ser NULL.
      */
-    public function buscarUsuario(string $cedula): ?Usuario {
-        if ($cedula == "11111111"){
-        $datos = [
-            "cedula" => "11111111",
-            "claveHash" => password_hash("clave1234567", PASSWORD_DEFAULT),
-            "activo" => true,
-            "administrador" => true,
-            "tecnico" => false,
-            "solicitante" => false
-            ];
+    public function __construct (PDO $conexion) {
+        $this->conexion = $conexion;
+    }
 
-            return new Usuario(
-            $datos["cedula"],
-            $datos["claveHash"],
-            $datos["activo"],
-            $datos["administrador"],
-            $datos["tecnico"],
-            $datos["solicitante"]
-            );
-        
-        }elseif ($cedula == "22222222"){
-        $datos = [
-            "cedula" => "22222222",
-            "claveHash" => password_hash("hola123456789", PASSWORD_DEFAULT),
-            "activo" => true,
-            "administrador" => false,
-            "tecnico" => true,
-            "solicitante" => false
-        ];
-            return new Usuario (
-            $datos["cedula"],
-            $datos["claveHash"],
-            $datos["activo"],
-            $datos["administrador"],
-            $datos["tecnico"],
-            $datos["solicitante"]
-        );
-        
-        }elseif ($cedula == "33333333"){
-        $datos = [
-            "cedula" => "33333333",
-            "claveHash" => password_hash("chau123456789", PASSWORD_DEFAULT),
-            "activo" => true,
-            "administrador" => false,
-            "tecnico" => false,
-            "solicitante" => true
-        ];
-        return new Usuario (
-            $datos["cedula"],
-            $datos["claveHash"],
-            $datos["activo"],
-            $datos["administrador"],
-            $datos["tecnico"],
-            $datos["solicitante"]
-        );
+    /**
+     * Busca un usuario por su cédula y determina el rol.
+     * @param string $cedula La cedula del usuario sin puntos ni guiones.
+     * @return Usuario|null Los datos del usuario, retorna su objeto si existe, null en caso contrario.
+     */
+    public function buscarUsuario(string $cedula): ?Usuario
+    {
+        $sql = "
+            SELECT
+                u.cedula,
+                u.nombre,
+                u.apellido,
+                u.tipoUs,
+                u.claveHash,
+                u.activo,
+                
+                
+                CASE
+                    WHEN a.cedula IS NOT NULL THEN 1
+                    ELSE 0
+                END AS administrador,
 
-        }else {
+                CASE
+                    WHEN t.cedula IS NOT NULL THEN 1
+                    ELSE 0
+                END AS tecnico,
+
+                CASE
+                    WHEN s.cedula IS NOT NULL THEN 1
+                    ELSE 0
+                END AS solicitante,
+
+
+            FROM USUARIO AS u
+
+            LEFT JOIN ADMINISTRADOR AS a
+                ON a.cedula = u.cedula
+
+            LEFT JOIN TECNICO AS t
+                ON t.cedula = u.cedula
+
+            LEFT JOIN SOLICITANTE AS s
+                ON s.cedula = u.cedula
+
+            WHERE u.cedula = :cedula
+        ";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $consulta->execute(["cedula" => $cedula]);
+
+        $datos = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($datos === false) {
             return null;
         }
 
-        
+        return new Usuario(
+            $datos["cedula"],
+            $datos["nombre"],
+            $datos["apellido"],
+            $datos["tipoUs"],
+            $datos["claveHash"],
+            (bool) $datos["activo"],
+            (bool) $datos["administrador"],
+            (bool) $datos["tecnico"],
+            (bool) $datos ["solicitante"]
+        );
     }
 }
 
