@@ -1,0 +1,20 @@
+SELECT cedula
+FROM USUARIO
+WHERE activo = TRUE;
+
+SELECT cedula
+FROM USUARIO
+WHERE activo = FALSE;
+
+SELECT cedula
+FROM USUARIO AS u
+INNER JOIN ADMINISTRADOR AS a ON u.cedula = a.cedula;
+
+SELECT cedula
+FROM USUARIO AS u
+INNER JOIN TECNICO AS t ON u.cedula = t.cedula;
+
+SELECT cedula
+FROM USUARIO AS u
+INNER JOIN SOLICITANTE AS s ON u.cedula = s.cedula;
+

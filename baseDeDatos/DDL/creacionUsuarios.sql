@@ -2,7 +2,6 @@ CREATE TABLE USUARIO (
     cedula CHAR(8) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR (100) NOT NULL,
-    tipoUs VARCHAR (100) NOT NULL,
     claveHash VARCHAR(255) NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
 
@@ -13,21 +12,21 @@ CREATE TABLE USUARIO (
 CREATE TABLE ADMINISTRADOR (
     cedula CHAR(8) NOT NULL,
 
-    CONSTRAINT pk_usuario
+    CONSTRAINT pk_administrador
         PRIMARY KEY (cedula)
 )
 
 CREATE TABLE TECNICO(
     cedula CHAR(8) NOT NULL,
 
-    CONSTRAINT pk_usuario
+    CONSTRAINT pk_tecnico
         PRIMARY KEY (cedula)
 )
 
 CREATE TABLE SOLICITANTE(
     cedula CHAR(8) NOT NULL,
 
-    CONSTRAINT pk_usuario
+    CONSTRAINT pk_solicitante
         PRIMARY KEY (cedula)
 )
 

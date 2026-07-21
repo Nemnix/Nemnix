@@ -26,7 +26,6 @@ class AccesoDatosUsuario {
                 u.cedula,
                 u.nombre,
                 u.apellido,
-                u.tipoUs,
                 u.claveHash,
                 u.activo,
                 
@@ -75,7 +74,6 @@ class AccesoDatosUsuario {
             $datos["cedula"],
             $datos["nombre"],
             $datos["apellido"],
-            $datos["tipoUs"],
             $datos["claveHash"],
             (bool) $datos["activo"],
             (bool) $datos["administrador"],

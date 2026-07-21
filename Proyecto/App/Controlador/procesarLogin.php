@@ -26,14 +26,11 @@ $conexion = $conectorPDO->establecerConexion();
     $accesoDatosUsuario = new AccesoDatosUsuario($conexion);
     $login = new Login($accesoDatosUsuario);
 
+
+
+$usuario = $login->autenticar($cedula, $clave);
+
 $conectorPDO->desconectar();
-
-$usuario = $login->autenticar($cedula, $clave);
-
-$consultaUsuario = new ConsultaUsuario();
-$login = new Login($consultaUsuario);
-
-$usuario = $login->autenticar($cedula, $clave);
 
 //Si las credenciales no coinciden, muestra el error y detiene el proceso
 if ($usuario === null) {
@@ -42,54 +39,31 @@ if ($usuario === null) {
     exit;
 }
 
-if ($_SESSION["administrador"] && $_SESSION["logistica"]) {
+session_start();
+session_regenerate_id(true);
+
+$_SESSION["cedula"] = $usuario->getCedula();
+$_SESSION["administrador"] = $usuario->esAdministrador();
+$_SESSION["tecnico"] = $usuario->esTecnico();
+$_SESSION["solicitante"] = $usuario->esSolicitante();
+
+if ($usuario->sinRoles()) {
+    $mensaje = "Acceso Denegado: El usuario no tiene un rol asignado.";
+    header("Location: login.php?error=" . urlencode($mensaje));
+    exit;
+}
+
+if ($usuario->esAdministrador() && $usuario->esTecnico()) {
     header("Location: panelRoles.php");
+} elseif ($usuario->esTecnico()) {
+    header("Location: paginaBienvenidaTecnico.php");
+} elseif ($usuario->esAdministrador()) {
+    header("Location: paginaBienvenidaAdministrador.php");
+} elseif ($usuario->esSolicitante()) {
+    header("Location: paginaBienvenidaSolicitante.php");
 }
 
-if ($usuario->esAdministrador()) {
-
-session_start();
-session_regenerate_id(true);
-
-$_SESSION["cedula"] = $usuario->getCedula();
-$_SESSION["administrador"] = $usuario->esAdministrador();
-$_SESSION["tecnico"] = $usuario->esTecnico();
-$_SESSION["solicitante"] = $usuario->esSolicitante();
-
-header("Location: usuarioAdministrador/paginaBienvenidaCoordinador.php");
 exit;
-
-}
-
-
-if ($usuario->esTecnico()) {
-    
-
-session_start();
-session_regenerate_id(true);
-
-$_SESSION["cedula"] = $usuario->getCedula();
-$_SESSION["administrador"] = $usuario->esAdministrador();
-$_SESSION["tecnico"] = $usuario->esTecnico();
-$_SESSION["solicitante"] = $usuario->esSolicitante();
-
-header("Location: usuarioTecnico/paginaBienvenidaTecnico.php");
-exit;
-}
-
-if ($usuario->esSolicitante()) {
- 
-session_start();
-session_regenerate_id(true);
-
-$_SESSION["cedula"] = $usuario->getCedula();
-$_SESSION["administrador"] = $usuario->esAdministrador();
-$_SESSION["tecnico"] = $usuario->esTecnico();
-$_SESSION["solicitante"] = $usuario->esSolicitante();
-
-header("Location: usuarioSolicitante/paginaBienvenidaSolicitante.php");
-exit;
-}
 
 
 ?>
