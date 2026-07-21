@@ -43,7 +43,7 @@ class AccesoDatosUsuario {
                 CASE
                     WHEN s.cedula IS NOT NULL THEN 1
                     ELSE 0
-                END AS solicitante,
+                END AS solicitante
 
 
             FROM USUARIO AS u

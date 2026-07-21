@@ -10,8 +10,10 @@ class Usuario {
     private bool $tecnico;
     private bool $solicitante;
 
-    public function __construct(string $cedula, string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante) {
+    public function __construct(string $cedula, string $nombre, string $apellido, string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante) {
         $this->cedula = $cedula;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
         $this->claveHash = $claveHash;
         $this->activo = $activo;
         $this->administrador = $administrador;
@@ -21,6 +23,14 @@ class Usuario {
 
     public function getCedula(): string {
         return $this->cedula;
+    }
+
+    public function getNombre(): string {
+        return $this->nombre;
+    }
+
+    public function getApellido(): string {
+        return $this->apellido;
     }
 
     public function getClaveHash(): string {

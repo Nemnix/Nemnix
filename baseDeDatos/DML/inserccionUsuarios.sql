@@ -1,5 +1,5 @@
 INSERT INTO USUARIO (cedula, nombre, apellido, claveHash) 
-VALUES (11111111, "pepe", "gonzalez", "$2y$12$AOnmUun3eI81cAu4ANPeE.Y0F5utnZoIkBiHw/kwTFdHdqhS4Nyui");
+VALUES (11111111, "pepe", "gonzalez", "$2y$12$wWh92L3SicKSfe3H/JRKtuj96.gGf/5LPgvASMNJ1FYdcP/CsrSdS");
 
 INSERT INTO USUARIO (cedula, nombre, apellido, claveHash) 
 VALUES (22222222, "jose", "gutierrez", "$2y$12$wQzH/nlK0qrWZ0kTDNmnL.dEn0ADIo1BgPwPNWuk3CbQFVi.OrFTy");
