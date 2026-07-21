@@ -10,5 +10,18 @@
     
 </head>
 <body>
+    <h1> ¡Bienvenido (nombre del usuario)! </h1>
+    <h2> ¿Bajo que cargo quieres continuar?</h2>
+
+    <p></p>
+
+    <a href="paginaBienvenidaSolicitante.php">
+        <h3> Solicitante </h3>
+    </a>
+
+    <p></p>
     
+    <a href="paginaBienvenidaTecnico.php">
+        <h3>Tecnico</h3>
+    </a>
 </body>
