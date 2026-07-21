@@ -58,11 +58,11 @@ if ($usuario->sinRoles()) {
 if ($usuario->esAdministrador() && $usuario->esTecnico()) {
     header("Location: panelRoles.php");
 } elseif ($usuario->esTecnico()) {
-    header("Location: paginaBienvenidaTecnico.php");
+    header("Location: usuarioTecnico/paginaBienvenidaTecnico.php");
 } elseif ($usuario->esAdministrador()) {
     header("Location: usuarioAdministrador/paginaBienvenidaAdministrador.php");
 } elseif ($usuario->esSolicitante()) {
-    header("Location: paginaBienvenidaSolicitante.php");
+    header("Location: usuarioSolicitante/paginaBienvenidaSolicitante.php");
 }
 
 exit;
