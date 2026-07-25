@@ -52,14 +52,6 @@ class Usuario {
     public function esSolicitante(): bool {
         return $this->solicitante;
     }
-
-    public function obtenerRoles(): array {
-        $roles = [];
-        if ($this->administrador) $roles[] = "administrador";
-        if ($this->tecnico) $roles[] = "tecnico";
-        if ($this->solicitante) $roles[] = "solicitante";
-        return $roles;
-    }
     
     public function sinRoles(): bool {
         return !$this->administrador && !$this->tecnico && !$this->solicitante;

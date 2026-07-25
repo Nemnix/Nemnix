@@ -56,7 +56,7 @@ if ($usuario->sinRoles()) {
 }
 
 if ($usuario->esAdministrador() && $usuario->esTecnico()) {
-    header("Location: panelRoles.php");
+    header("Location: ../Public/panelRoles.php");
 } elseif ($usuario->esTecnico()) {
     header("Location: usuarioTecnico/paginaBienvenidaTecnico.php");
 } elseif ($usuario->esAdministrador()) {

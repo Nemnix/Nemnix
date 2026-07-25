@@ -7,13 +7,13 @@
     <title>Bienvenida usuario solictante</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Assets/css/global.css">
+    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="../index.html" class="salida">
+        <a href="/Proyecto/Public/login.php" class="salida">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"

@@ -7,15 +7,14 @@
     <title>Pagina bienvenida tecnico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Assets/css/global.css">
-    <link rel="stylesheet" href="/Assets/css/incioTecnico.css">
+    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
+    
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="../index.html" class="salida">
-            <!-- Icono puerta de salida!-->
+        <a href="/Proyecto/Public/login.php" class="salida">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -24,13 +23,15 @@
                     d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
             </svg>
         </a>
-        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
-        <button id="btnCerrar" aria-label="Toggle menu"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'
-                fill='currentColor'>
-                <path
-                    d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z' />
-            </svg></button>
         <img class="logo" src="Logo" alt="Logo">
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" type="button" aria-label="Cerrar menú">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                <path
+                    d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+            </svg>
+        </button>
+        
         <nav>
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>

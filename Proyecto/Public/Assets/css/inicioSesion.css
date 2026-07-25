@@ -14,7 +14,7 @@ body{
 .Formulario{
     display: flex;
     justify-content: center;
-    margin-top: 90px;
+    margin-top: 1rem;
 }
 
 
@@ -45,6 +45,7 @@ color: var(--Negro);
     background-color: var(--grisResaltado);
     color: var(--Negro);
     text-align: center;
+    position: relative;
 }
 
 .Formulario label{
@@ -58,3 +59,4 @@ color: var(--Negro);
     background-color: var(--blanco);
     color: var(--Negro);
 }
+
