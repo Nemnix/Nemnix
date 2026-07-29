@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/inicioSesion.css">
     <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
-    
+    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/inicioSesion.css">
     
 </head>
 <body>
@@ -19,7 +18,7 @@
                 <p style="color: red;"><?= htmlspecialchars($_GET['error']) ?></p>
             <?php endif; ?>
 
-            <form action="procesarLogin.php" method="post">
+            <form class="formLogin" action="procesarLogin.php" method="post">
                 <fieldset>
                     <legend>Inicio de sesión</legend>
 
@@ -43,11 +42,14 @@
                     </div>
                 </fieldset>
 
-                <button type="submit">
+                <button class="btnInicio"type="submit">
                     Iniciar sesión
                 </button>
             </form>
         </section>
     </main>
+    <footer>
+        <img class="logo" src="/Proyecto/Public/Assets/img/logoUTU.png" alt="Logo">
+    </footer>
 </body>
 </html>

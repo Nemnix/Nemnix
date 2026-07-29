@@ -5,10 +5,17 @@
     --grisMedio:  #656565;
     --gris: #464646;
     --Negro: #000000;
+    --AzulOscuro: #0A274C;
+    --AzulMedio: #0F468C;
+    --grisOscuro: #1C1B1B;
+    --Amarillo:#DEAA00;
+    
 }
 
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     
 }
 
@@ -20,7 +27,8 @@ body{
     width: 100%;
     max-width: 768px;
     margin: 0 auto;
-    background-color: var(--grisMedio);
+    background: linear-gradient(to bottom, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 86%);
+    
     display: flex;
     flex-direction: column;
     font-size: 15px;
@@ -31,6 +39,11 @@ body{
     color: var(--blanco);
     min-height: 100vh;
     
+}
+
+.logo{
+    max-width: 150px;
+    max-height: 1500px;
 }
 .botonSubir{
     position: fixed;
@@ -46,7 +59,7 @@ body{
 }
 h2{
     font-weight: 450;
-    
+
     
 }
 
@@ -108,11 +121,10 @@ header {
     display: flex;
     align-items: center;
     height: 75px;
-    background-color: var(--gris);
-    width: 100%;
+    background: linear-gradient(to top, var(--AzulOscuro) 50%, var(--grisOscuro) 100%);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     gap: 20px;
-    position: relative;
-
     
 
 }
@@ -208,7 +220,7 @@ li,ul, a{
 }
 
 footer{
-    background-color: var(--gris);
+    
     
     color: var(--blancoPuro);
     font-size: 18px;
@@ -322,7 +334,7 @@ fieldset table{
     
 }
 th {
-    background-color: var(--gris);
+    background-color: var(--Amarillo);
     font-size: 12px;
     min-height: 80px;
     font-weight: 450;
@@ -374,4 +386,83 @@ tr:nth-child(even) td {
 
 .opciones label{
 margin-right: 70px;
+}
+
+.PanelRoles{
+    display:flex;
+    justify-content: center;
+    
+    
+   
+}
+.PanelRoles h3{
+    padding: 0.4rem;
+    border-right: solid var(--blanco) 2rem;
+    border-left: solid var(--blanco) 2rem;
+    background-color: var(--blanco);
+    color: var(--Negro);
+
+}
+
+.PanelRoles h3:hover{
+    background-color: var(--Amarillo);
+    padding: 0.4rem;
+    border-right: solid var(--Amarillo) 2rem;
+    border-left: solid var(--Amarillo) 2rem;
+
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    header .MenuPrincipal {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    order: 3;
+    position: relative;
+    text-align: center;
+    background-color: transparent;
+    flex-direction: row;
+    top: 10px;
+    right:0px;
+    left: 300px;
+    width: 50%;
+    padding: 15px;
+    max-width: 384px;
+     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+nav ul,
+nav li {
+    display: inline;
+    width: auto;
+}
+
+#btnMenu, #btnCerrar {
+    display: none;
+    flex-direction: column;
+    order: 3;
+
+}
+.BotonNavegacion {
+    text-decoration: none;
+    background-color: var(--oscuro);
+    color: var(--grisClaro);
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    ;
+    
+
+}
+.BotonNavegacion:hover {
+    background-color: var(--Amarillo);
+    color: var(--Negro);
+}
+
+.BotonNavegacion:focus {
+    background-color: var(--Amarillo);
+    color: var(--Negro);
+}
 }

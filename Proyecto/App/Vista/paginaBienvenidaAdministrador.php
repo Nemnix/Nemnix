@@ -21,7 +21,7 @@
                     d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
             </svg>
         </a>
-        <img class="logo" src="Logo" alt="Logo">
+        <img class="logo" src="/Proyecto/Public/Assets/img/logoUTU.png" alt="Logo">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -33,8 +33,8 @@
         
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="paginaBienvenidaCoordinador.html" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="/Proyecto/App/Vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/Proyecto/Public/usuarioAdministrador/panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
                 <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
                 <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
                 <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
@@ -53,32 +53,32 @@
                 <ul>
                     <li>
                         <h3>Panel administradores</h3>
-                        <a href="panelAdministradores.html" class="boton">Registrar</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/panelAdministradores.html" class="boton">Registrar</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de incidencias</h3>
-                        <a href="listaIncidencias.html" class="boton">Ver incidencias</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/listaIncidencias.html" class="boton">Ver incidencias</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de solicitudes</h3>
-                        <a href="listaSolicitudes.html" class="boton">Ver solicitudes</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/listaSolicitudes.html" class="boton">Ver solicitudes</a>
                     </li>
 
                     <li>
                         <h3>Inventario tecnologico</h3>
-                        <a href="listaInventario.html" class="boton">Inventario tecnologico</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/listaInventario.html" class="boton">Inventario tecnologico</a>
                     </li>
 
                     <li>
                         <h3>Metricas y reportes</h3>
-                        <a href="listaMetricas.html" class="boton">Ver metricas</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/listaMetricas.html" class="boton">Ver metricas</a>
                     </li>
 
                     <li>
                         <h3>Estado de equipos</h3>
-                        <a href="listaEstadoEquipos.html" class="boton">Ver estados</a>
+                        <a href="/Proyecto/Public/usuarioAdministrador/listaEstadoEquipos.html" class="boton">Ver estados</a>
                     </li>
                 </ul>
             </section>
@@ -88,8 +88,8 @@
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
     
-    <script src="../Assets/JavaScript/menu.js"></script>
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
+    <script src="/Proyecto/Public/Assets/JavaScript/menu.js"></script>
+    <script src="/Proyecto/Public/Assets/JavaScript/botonSubir.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,24 +1,31 @@
 :root{
     --blanco: #ffffff;
+    --Perla: #EEEEEE;
     --grisResaltado:#B1B1B1;
     --grisClaro: #D9D9D9;
     --grisMedio:  #656565;
     --gris: #464646;
     --Negro: #000000;
+    --AzulOscuro: #0A274C;
+    --AzulMedio: #0F468C;
+    --grisOscuro: #1C1B1B;
 }
 
 body{
-    background-color: var(--grisMedio);
+   background: linear-gradient(to left, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 100%);
 }
 
-.Formulario{
+
+
+.formLogin{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-top: 1rem;
 }
 
 
-.Formulario ul{
+.formLogin ul{
     align-items: center;
     list-style: none;
     padding: 0;
@@ -28,35 +35,44 @@ body{
     gap: 10px;
 }
 
-.Formulario fieldset{
+.formLogin fieldset{
 display: inline-block;
-background-color: var(--grisClaro);
+background-color: var(--Perla);
 border: none;
 width: 400px;
 padding: 20px 0px;
 
 }
 
-.Formulario legend{
+.formLogin legend{
 color: var(--Negro);
 }
 
-.Formulario input{
+.formLogin input{
     background-color: var(--grisResaltado);
     color: var(--Negro);
     text-align: center;
     position: relative;
 }
 
-.Formulario label{
+.formLogin label{
     color: var(--Negro);
     margin-bottom: 4px;
     
     
 }
 
-.Formulario input:hover{
-    background-color: var(--blanco);
+.formLogin input:hover{
+    
     color: var(--Negro);
 }
+.btnInicio{
+    border: solid var(--Negro) 0.2rem;
+    margin-top: 1rem;
+    padding: 0.2rem;
+    border-radius: 0%;
+}
 
+.btnInicio:hover{
+    border: solid var(--blanco);
+}

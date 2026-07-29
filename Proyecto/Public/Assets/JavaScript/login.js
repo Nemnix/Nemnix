@@ -1,4 +1,4 @@
-const formulario = document.querySelector("form");
+/*const formulario = document.querySelector("form");
 
 const entradaCedula = document.getElementById("CI");
 const entradaContrasenia = document.getElementById("Contraseña");
@@ -28,4 +28,4 @@ formulario.addEventListener("submit", function (event) {
 
     }
 
-}); 
+}); */
