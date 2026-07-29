@@ -1,0 +1,468 @@
+:root{
+    --blanco: #ffffff;
+    --grisResaltado:#B1B1B1;
+    --grisClaro: #D9D9D9;
+    --grisMedio:  #656565;
+    --gris: #464646;
+    --Negro: #000000;
+    --AzulOscuro: #0A274C;
+    --AzulMedio: #0F468C;
+    --grisOscuro: #1C1B1B;
+    --Amarillo:#DEAA00;
+    
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+}
+
+section{
+    margin-top: 10px;
+}
+
+body{
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 86%);
+    
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: 250;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.7;
+    text-align: center;
+    color: var(--blanco);
+    min-height: 100vh;
+    
+}
+
+.logo{
+    max-width: 150px;
+    max-height: 1500px;
+}
+.botonSubir{
+    position: fixed;
+    display: flex;
+    bottom: 5%;
+    right: 5%;
+    margin-bottom: 90px ;
+    padding: 5px 15px;
+    background-color: var(--grisClaro);
+    color: var(--Negro);
+    border-radius: 10px;
+    text-decoration: none;
+}
+h2{
+    font-weight: 450;
+
+    
+}
+
+h3{
+    font-weight: 100;
+    
+}
+
+.BotonesInicio h3 {
+    font-size: 17px;
+    line-height: 4.0;
+}
+.BotonesInicio li {
+    background-color: var(--grisClaro);
+    width: 70%;
+    border: var(--grisClaro) solid 2px;
+    border-radius: 8px;
+    color: var(--Negro);
+    
+    
+    
+
+}
+
+.BotonesInicio a{
+    background-color: var(--gris);
+    margin: 0px 70px 10px 70px;
+    border-radius: 10px;
+    
+    
+    
+}
+
+.BotonesInicio ul{
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    
+}
+
+.BotonesInicio .boton{
+    
+    display: flex;
+    justify-content: center;
+}
+
+.BotonesInicio a:hover{
+    background-color: rgb(223, 171, 1);
+    color: var(--Negro);
+    
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    height: 75px;
+    background: linear-gradient(to top, var(--AzulOscuro) 50%, var(--grisOscuro) 100%);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    gap: 20px;
+    
+
+}
+
+header nav {
+    order: 3;
+    
+}
+
+
+
+.salida{
+    order: 1;
+}
+
+header .logo {
+    order: 2;
+    margin-left: 30px;
+}
+
+header .MenuPrincipal{
+display: none;
+list-style: none; 
+justify-content: flex-end;
+
+}
+header .salida{
+    margin: 0px 0px 0px 20px;
+}
+.MenuPrincipal {
+        display: none;
+        position: absolute;
+        text-align: center;
+        background-color: var(--gris);
+        flex-direction: column;
+        top: 56px;
+        right:0px;
+        width: 50%;
+        padding: 15px;
+        max-width: 384px;
+        
+
+
+    }
+.MenuPrincipal.visible{
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    
+}
+#btnMenu{
+    order:3;
+    margin-left: auto;
+    color: var(--blanco);
+    font-size: 30px;
+    background-color: transparent;
+    border: transparent;
+    margin-right: 20px
+}
+
+#btnCerrar{
+    display: none;
+    
+}
+
+#btnMenu.oculto {
+    display: none;
+    
+  }
+
+#btnCerrar.visible {
+    display: flex;
+    margin-right: 20px;
+    margin-left: auto;
+    order: 3;
+    background-color: var(--gris);
+    border: none;
+}
+
+
+
+li,ul, a{
+   color: var(--blanco);
+   text-decoration: none;
+   display: inline;
+     
+}
+
+.BotonNavegacion:hover{
+  background-color: var(--grisClaro);
+  color: var(--Negro);
+  
+}
+
+footer{
+    
+    
+    color: var(--blancoPuro);
+    font-size: 18px;
+    padding: 20px; 
+    margin-top: auto;
+
+    
+}
+fieldset{
+    
+    display: inline-block;
+    width: 400px;
+    background-color: var(--gris);
+    border:transparent;
+    border: #ffffff solid 2px;
+    margin: 0 auto;
+    
+    
+    
+
+}
+
+legend{
+    font-size: 25px;
+    font-weight: 400;
+    color: var(--blanco);
+    
+    
+}
+
+label{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 60px;
+    line-height: 3.0;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    
+    
+}
+
+
+
+input, select{
+    width: 250px;
+    height: 35px;
+    justify-content: center;
+    background-color: var(--grisClaro);
+    border: none;
+    line-height: 10px;
+    color: var(--gris);
+    
+    
+    
+}
+
+input:focus{
+    background-color: var(--blanco);
+    color: var(--gris);
+}
+
+.Formulario button{
+    font-size: 15px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 150px;
+    border: var(--Negro) solid 3px;
+    
+}
+.Formulario{
+    justify-content: center;
+}
+.Formulario span{
+    color: var(--blanco);
+}
+dialog{
+    background-color: var(--gris);
+}
+button{
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: var(--Negro);
+    color: var(--blanco);
+}
+
+button:hover{
+    background-color: var(--blanco);
+    color: #000000;
+}
+.botonesAgregar{
+    display: flex;
+    margin: 0 auto 10px auto;
+    margin-bottom: 10px;
+    border: 8px var(--Negro) solid;
+    border-radius: 15px;
+    
+}
+
+fieldset table{
+    border: none;
+    padding: 0;
+    margin: 0;
+    background-color: var();
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 5px;
+    
+    
+}
+th {
+    background-color: var(--Amarillo);
+    font-size: 12px;
+    min-height: 80px;
+    font-weight: 450;
+    color: var(--blanco);
+    max-width: 100%;
+}
+
+tr{
+    background-color: var();
+    font-size: 12px;
+    color: var(--Negro);
+    background-color: var(--grisClaro);
+}
+
+tr:nth-child(even) td {
+    background-color: var(--grisResaltado);
+    color: var(--Negro);
+}
+
+.CuadrosTexto{
+    background-color: var(--blanco);
+    width: 80%;           
+    margin: 0 auto 20px auto; 
+    padding: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--Negro);
+
+}
+
+.CuadrosTexto label{
+    margin: auto 20px auto;
+
+}
+
+
+.opciones{
+    border-radius: 10px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.opciones label{
+margin-right: 70px;
+}
+
+.PanelRoles{
+    display:flex;
+    justify-content: center;
+    
+    
+   
+}
+.PanelRoles h3{
+    padding: 0.4rem;
+    border-right: solid var(--blanco) 2rem;
+    border-left: solid var(--blanco) 2rem;
+    background-color: var(--blanco);
+    color: var(--Negro);
+
+}
+
+.PanelRoles h3:hover{
+    background-color: var(--Amarillo);
+    padding: 0.4rem;
+    border-right: solid var(--Amarillo) 2rem;
+    border-left: solid var(--Amarillo) 2rem;
+
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    header .MenuPrincipal {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    order: 3;
+    position: relative;
+    text-align: center;
+    background-color: transparent;
+    flex-direction: row;
+    top: 10px;
+    right:0px;
+    left: 300px;
+    width: 50%;
+    padding: 15px;
+    max-width: 384px;
+     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+nav ul,
+nav li {
+    display: inline;
+    width: auto;
+}
+
+#btnMenu, #btnCerrar {
+    display: none;
+    flex-direction: column;
+    order: 3;
+
+}
+.BotonNavegacion {
+    text-decoration: none;
+    background-color: var(--oscuro);
+    color: var(--grisClaro);
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    ;
+    
+
+}
+.BotonNavegacion:hover {
+    background-color: var(--Amarillo);
+    color: var(--Negro);
+}
+
+.BotonNavegacion:focus {
+    background-color: var(--Amarillo);
+    color: var(--Negro);
+}
+}
