@@ -1,5 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../../App/Vista/listaEstadoEquipos.php";
+require_once __DIR__ . "/../../app/vista/listaEstadoEquipos.php";
 
 ?>

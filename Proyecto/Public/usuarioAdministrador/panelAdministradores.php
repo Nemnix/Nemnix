@@ -1,5 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../../App/Vista/panelAdministradores.php";
+require_once __DIR__ . "/../../app/vista/panelAdministradores.php";
 
 ?>
