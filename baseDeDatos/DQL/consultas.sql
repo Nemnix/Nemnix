@@ -18,3 +18,5 @@ SELECT cedula
 FROM USUARIO AS u
 INNER JOIN SOLICITANTE AS s ON u.cedula = s.cedula;
 
+SELECT ID_D, fechaD, estadoD, descripcionD
+FROM DIAGNOSTICO AS d

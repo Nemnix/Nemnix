@@ -45,4 +45,35 @@ ALTER TABLE SOLICITANTE
     FOREIGN KEY (cedula)
     REFERENCES USUARIO (cedula);
 
+    CREATE TABLE TICKET (
+    ID_T INT NOT NULL AUTO_INCREMENT,
+    estado VARCHAR(50) NOT NULL,
+    nombreEquipo VARCHAR(50) NOT NULL,
+    nombreAlumno VARCHAR(255) NOT NULL,
+    descripcionT VARCHAR(255) NOT NULL,
+    prioridad VARCHAR(255) NOT NULL,
     
+
+    CONSTRAINT pk_ticket
+        PRIMARY KEY (ID_T)
+);
+
+CREATE TABLE DIAGNOSTICO (
+     ID_T  INT NOT NULL,
+     ID_D INT NOT NULL,
+     estadoD VARCHAR(50) NOT NULL,
+     fechaD DATE NOT NULL,
+     descripcionD VARCHAR(255) NOT NULL,
+    
+
+    CONSTRAINT pk_diagnostico
+        PRIMARY KEY (ID_T, ID_D)
+);
+
+
+
+ALTER TABLE DIAGNOSTICO
+    ADD CONSTRAINT fk_diagnostico
+    FOREIGN KEY (ID_T)
+    REFERENCES TICKET (ID_T);
+
