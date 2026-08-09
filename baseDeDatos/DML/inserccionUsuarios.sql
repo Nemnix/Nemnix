@@ -12,13 +12,21 @@ INSERT INTO TECNICO (cedula) VALUES ('22222222');
 INSERT INTO ADMINISTRADOR (cedula) VALUES ('22222222');
 INSERT INTO SOLICITANTE (cedula) VALUES ('33333333');
 
-INSERT INTO TICKET (estado, nombreEquipo, nombreAlumno, descripcionT, prioridad) VALUES
-('Abierto', 'PC01', 'Nahuel Olazarria', 'No enciende la PC del laboratorio 3', 'Alta'),
-('En proceso', 'PC02', 'María Gómez', 'Problema de conexión a internet', 'Media'),
-('Cerrado', 'PC03', 'Carlos Ruiz', 'Impresora no responde', 'Baja');
+INSERT INTO REGISTRO_DIARIO (grupo, horaEntrada, horaFin, docente, asignatura, fecha, nombreAula, turno)
+VALUES 
+('3A', '08:00', '10:00', 'Juan Pérez', 'Programación', '2026-08-08', 'Lab 1', 'Matutino'),
+('2B', '10:00', '12:00', 'Ana Gómez', 'Redes', '2026-08-08', 'Lab 2', 'Matutino'),
+('4C', '14:00', '16:00', 'Carlos Ruiz', 'Base de Datos', '2026-08-08', 'Lab 1', 'Vespertino');
 
-INSERT INTO DIAGNOSTICO (ID_T, ID_D, estadoD, fechaD, descripcionD) VALUES
-(1, 1, 'Revisado', '2026-08-01', 'Se detectó fuente de poder quemada'),
-(1, 2, 'Solucionado', '2026-08-02', 'Se reemplazó la fuente de poder'),
-(2, 1, 'Pendiente', '2026-08-01', 'Se solicitó revisión del router'),
-(3, 1, 'Solucionado', '2026-07-30', 'Se reinstaló el driver de la impresora');
+
+INSERT INTO TICKET (ID_R, estado, nombreEquipo, nombreAlumno, descripcionT, prioridad)
+VALUES 
+(1, 'Pendiente', 'PC-05', 'María López', 'La PC no enciende', 'Alta'),
+(2, 'En proceso', 'PC-12', 'Pedro Fernández', 'No conecta a la red', 'Media'),
+(3, 'Resuelto', 'PC-08', 'Lucía Martínez', 'Pantalla parpadea', 'Baja');
+
+INSERT INTO DIAGNOSTICO (ID_R, ID_T, estadoD, fechaD, descripcionD)
+VALUES 
+(1, 1, 'En proceso', '2026-08-08', 'Se revisó la fuente de poder, posible falla eléctrica'),
+(2, 2, 'Finalizado', '2026-08-08', 'Cable de red dañado, se reemplazó'),
+(3, 3, 'Finalizado', '2026-08-08', 'Se cambió el cable flex de la pantalla');

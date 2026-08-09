@@ -31,18 +31,18 @@ class AccesoDatosUsuario {
                 
                 
                 CASE
-                    WHEN a.cedula IS NOT NULL THEN 1
-                    ELSE 0
+                    WHEN a.cedula IS NOT NULL THEN TRUE
+                    ELSE FALSE
                 END AS administrador,
 
                 CASE
-                    WHEN t.cedula IS NOT NULL THEN 1
-                    ELSE 0
+                    WHEN t.cedula IS NOT NULL THEN TRUE
+                    ELSE FALSE
                 END AS tecnico,
 
                 CASE
-                    WHEN s.cedula IS NOT NULL THEN 1
-                    ELSE 0
+                    WHEN s.cedula IS NOT NULL THEN TRUE
+                    ELSE FALSE
                 END AS solicitante
 
 
@@ -81,6 +81,92 @@ class AccesoDatosUsuario {
             (bool) $datos ["solicitante"]
         );
     }
+
+
+    public function listarDiagnosticos (): array {
+        $sql = "
+        SELECT
+        d.ID_D,
+        d.ID_T,
+        d.ID_R,
+        d.fechaD,
+        d.estadoD,
+        d.descripcionD,
+
+        CASE
+            WHEN r.ID_R IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS registro_diario,
+
+        CASE
+            WHEN t.ID_T IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS ticket
+
+        FROM DIAGNOSTICO AS d
+
+
+        LEFT JOIN TICKET AS t
+            ON t.ID_R = d.ID_R
+            AND t.ID_T = d.ID_T
+
+        LEFT JOIN REGISTRO_DIARIO AS r
+            ON r.ID_R = d.ID_R";
+
+        $consulta = $this->conexion->query($sql);
+
+        $diagnosticos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        
+
+        return $diagnosticos;
+    }
+
+
+    /*public function verDiagnostico (int $idR, int $idT): ?array {
+        $sql = "
+        SELECT
+    d.ID_D,
+    d.ID_T,
+    d.ID_R,
+    d.fechaD,
+    d.estadoD,
+    d.descripcionD,
+
+    CASE
+        WHEN r.ID_R IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS registro_diario,
+
+    CASE
+        WHEN t.ID_T IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS ticket
+
+    FROM DIAGNOSTICO AS d
+
+
+    LEFT JOIN TICKET AS t
+        ON t.ID_R = d.ID_R
+        AND t.ID_T = d.ID_T
+
+    LEFT JOIN REGISTRO_DIARIO AS r
+        ON r.ID_R = d.ID_R
+
+    WHERE d.ID_R = :idR AND d.ID_T = :idT";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $consulta->execute(['idR' => $idR, 'idT' => $idT]);
+
+        $datos = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($datos === false) {
+            return null;
+        }
+        return $datos;
+
+    }*/
 }
+
 
 ?>

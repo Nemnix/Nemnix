@@ -37,7 +37,7 @@ $conectorPDO->desconectar();
 //Si las credenciales no coinciden, muestra el error y detiene el proceso
 if ($usuario === null) {
     $mensaje = "Acceso Denegado: La cédula o la contraseña son incorrectas.";
-    header("Location: login.php?" . "error=" . $mensaje);
+    header("Location: /proyecto/public/login.php?" . "error=" . $mensaje);
     exit;
 }
 
@@ -51,7 +51,7 @@ $_SESSION["solicitante"] = $usuario->esSolicitante();
 
 if ($usuario->sinRoles()) {
     $mensaje = "Acceso Denegado: El usuario no tiene un rol asignado.";
-    header("Location: login.php?error=" . urlencode($mensaje));
+    header("Location: /proyecto/public/login.php?error=" . urlencode($mensaje));
     exit;
 }
 

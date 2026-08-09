@@ -7,7 +7,7 @@
     <title>Diagnosticos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Assets/css/global.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                     d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
             </svg>
         </a>
-        <img class="logo" src="../Assets/img/logoUTU.png">
+        <img class="logo" src="../assets/img/logoUTU.png">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -151,17 +151,34 @@
                 <table id="estadoTickets">
                     <thead>
                         <tr>
-                            <th>Diagnostico</th>
-                            <th>Estado</th>
                             <th>Ticket</th>
                             <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Diagnostico</th>
                             <th>Acciones</th>
+                            
                         </tr>
                     </thead>
 
                     <tbody>
+                    <?php foreach ($diagnosticos as $diagnostico) { ?>
+
+                        
                         <tr>
+                            <td><?= htmlspecialchars($diagnostico["ID_T"]) ?></td>
+                            <td><?= htmlspecialchars($diagnostico["fechaD"]) ?></td>
+                            <td><?= htmlspecialchars($diagnostico["estadoD"]) ?></td>
+                            <td><?= htmlspecialchars($diagnostico["descripcionD"]) ?></td>
+
+                            <td>
+                                <div class="cajaOperaciones">
+                                    <button type="button" class="btnOperacion btnModificar">Abrir</button>
+                                    <button type="button" class="btnOperacion btnEliminar">Eliminar</button>
+                                </div>
+                            </td>
                         </tr>
+
+                    <?php } ?>
                     </tbody>
                 </table>
             </fieldset>
@@ -175,13 +192,13 @@
         </span>
     </footer>
 
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JS/script.js"></script>
-    <script src="../Assets/JavaScript/listaDiagnosticos.js"></script>
+    <script src="../assets/JavaScript/listaDiagnosticos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src="../Assets/JavaScript/menu.js"></script>
+    <script src="../assets/JavaScript/menu.js"></script>
 </body>
 
 </html>
