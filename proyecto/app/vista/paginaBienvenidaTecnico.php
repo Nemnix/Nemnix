@@ -36,7 +36,7 @@
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
-                <li><a href="cargarDiagnostico.php" class="BotonNavegacion">Diagnosticos</a></li>
+                <li><a href="/proyecto/app/controlador/cargarDiagnostico.php" class="BotonNavegacion">Diagnosticos</a></li>
                 <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
 
             </ul>
@@ -61,7 +61,7 @@
 
                     <li>
                         <h3>Diagnosticos</h3>
-                        <a href="../controlador/cargarDiagnostico.php" class="boton">Diagnosticos</a>
+                        <a href="/proyecto/app/controlador/cargarDiagnostico.php" class="boton">Diagnosticos</a>
                     </li>
 
                 </ul>
