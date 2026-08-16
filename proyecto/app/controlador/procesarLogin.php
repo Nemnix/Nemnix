@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . "/../modelo/ConectorPDO.php";
-require_once __DIR__ . "/../modelo/usuario.php";
+require_once __DIR__ . "/../modelo/Usuario.php";
 require_once __DIR__ . "/../modelo/AccesoDatosUsuario.php";
 require_once __DIR__ . "/../modelo/Login.php";
 

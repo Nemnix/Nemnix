@@ -18,7 +18,7 @@
                 <p style="color: red;"><?= htmlspecialchars($_GET['error']) ?></p>
             <?php endif; ?>
 
-            <form class="formLogin" action="procesarLogin.php" method="post">
+           <form class="formLogin" action="/proyecto/public/procesarLogin.php" method="post">
                 <fieldset>
                     <legend>Inicio de sesión</legend>
 
