@@ -6,8 +6,8 @@ require_once __DIR__ . "/../modelo/AccesoDiagnosticos.php";
 $conectorPDO = new ConectorPDO ("localhost:3306", "Tecnoemmn", "123", "db nemnix");
 $conexion = $conectorPDO->establecerConexion();
 
-    $accesoDatosUsuario = new AccesoDiagnosticos($conexion);
-    $diagnosticos = $accesoDatosUsuario->listarDiagnosticos();
+    $accesoDiagnosticos = new AccesoDiagnosticos($conexion);
+    $diagnosticos = $accesoDiagnosticos->listarDiagnosticos();
     
 $conectorPDO->desconectar();
 
