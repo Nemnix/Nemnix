@@ -45,4 +45,5 @@ ALTER TABLE SOLICITANTE
     FOREIGN KEY (cedula)
     REFERENCES USUARIO (cedula);
 
-    
+
+

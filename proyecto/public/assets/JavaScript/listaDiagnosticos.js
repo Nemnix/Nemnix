@@ -1,3 +1,4 @@
+
 const modal = document.getElementById("VizualizacionDiagnostico");
 const formulario = document.getElementById("formularioDiagnostico");
 const btnCerrarDiagnostico = document.getElementById("CerrarDiagnostico");
@@ -13,6 +14,7 @@ const filtroTiempo = document.getElementById("IDtiempoDiagnostico");
 
 let filaEditando = null;
 
+/*
 function cargarDiagnosticosLocal() {
 
     const diagnosticosGuardados = localStorage.getItem("diagnosticos");
@@ -95,6 +97,7 @@ function obtenerDiagnosticosFiltrados() {
     return diagnosticos;
 
 }
+*/
 
 function obtenerDatosFormulario() {
 
@@ -122,6 +125,7 @@ modal.addEventListener("cancel", function () {
 
 });
 
+/*
 function agregarDiagnostico(diagnostico) {
 
     let fila = document.createElement("tr");
@@ -184,6 +188,7 @@ function borrar(diagnostico) {
     actualizarTabla();
 
 }
+*/
 
 function modificar(diagnostico) {
 
@@ -211,9 +216,11 @@ function validarFormulario(diagnostico) {
 
 btnCerrarDiagnostico.addEventListener("click", cerrarVisualizacionDiagnostico);
 
+/*
 filtroEstado.addEventListener("change", actualizarTabla);
 
 filtroTiempo.addEventListener("change", actualizarTabla);
+*/
 
 formulario.addEventListener("submit", function (event) {
 
@@ -229,14 +236,14 @@ formulario.addEventListener("submit", function (event) {
 
         diagnostico.id = filaEditando.id;
 
-        modificarDiagnosticoLocal(diagnostico);
+        /* modificarDiagnosticoLocal(diagnostico); */
 
         filaEditando = null;
     }
 
-    actualizarTabla();
+    /* actualizarTabla(); */
 
     modal.close();
 });
 
-actualizarTabla();
+/* actualizarTabla(); */

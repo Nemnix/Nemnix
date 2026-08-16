@@ -22,43 +22,41 @@ class AccesoDatosUsuario {
     public function buscarUsuario(string $cedula): ?Usuario
     {
         $sql = "
-            SELECT
-                u.cedula,
-                u.nombre,
-                u.apellido,
-                u.claveHash,
-                u.activo,
-                
-                
-                CASE
-                    WHEN a.cedula IS NOT NULL THEN 1
-                    ELSE 0
-                END AS administrador,
+    SELECT
+        u.cedula,
+        u.nombre,
+        u.apellido,
+        u.claveHash,
+        u.activo,
 
-                CASE
-                    WHEN t.cedula IS NOT NULL THEN 1
-                    ELSE 0
-                END AS tecnico,
+        CASE
+            WHEN a.cedula IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS administrador,
 
-                CASE
-                    WHEN s.cedula IS NOT NULL THEN 1
-                    ELSE 0
-                END AS solicitante
+        CASE
+            WHEN t.cedula IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS tecnico,
 
+        CASE
+            WHEN s.cedula IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS solicitante
 
-            FROM USUARIO AS u
+    FROM usuario AS u
 
-            LEFT JOIN ADMINISTRADOR AS a
-                ON a.cedula = u.cedula
+    LEFT JOIN administrador AS a
+        ON a.cedula = u.cedula
 
-            LEFT JOIN TECNICO AS t
-                ON t.cedula = u.cedula
+    LEFT JOIN tecnico AS t
+        ON t.cedula = u.cedula
 
-            LEFT JOIN SOLICITANTE AS s
-                ON s.cedula = u.cedula
+    LEFT JOIN solicitante AS s
+        ON s.cedula = u.cedula
 
-            WHERE u.cedula = :cedula
-        ";
+    WHERE u.cedula = :cedula
+";
 
         $consulta = $this->conexion->prepare($sql);
 
@@ -81,6 +79,10 @@ class AccesoDatosUsuario {
             (bool) $datos ["solicitante"]
         );
     }
+
+
+   
 }
+
 
 ?>

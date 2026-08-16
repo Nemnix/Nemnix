@@ -7,7 +7,7 @@
     <title>Pagina bienvenida tecnico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
     
 </head>
 
@@ -36,12 +36,12 @@
             <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
-                <li><a href="listaDiagnosticos.html" class="BotonNavegacion">Diagnosticos</a></li>
+                <li><a href="/proyecto/app/controlador/cargarDiagnostico.php" class="BotonNavegacion">Diagnosticos</a></li>
                 <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
 
             </ul>
         </nav>
-        <script src="../Assets/JavaScript/menu.js"></script>
+        <script src="../assets/JavaScript/menu.js"></script>
     </header>
     <main>
         <section class="Bienvenida">
@@ -61,7 +61,7 @@
 
                     <li>
                         <h3>Diagnosticos</h3>
-                        <a href="listaDiagnosticos.html" class="boton">Diagnosticos</a>
+                        <a href="/proyecto/app/controlador/cargarDiagnostico.php" class="boton">Diagnosticos</a>
                     </li>
 
                 </ul>
@@ -70,7 +70,7 @@
     <footer>
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
