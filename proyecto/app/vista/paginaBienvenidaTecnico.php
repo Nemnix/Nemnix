@@ -56,7 +56,7 @@
 
                     <li>
                         <h3>Registro de prestamos</h3>
-                        <a href="inventarioPrestamos.html" class="boton">Registrar</a>
+                        <a href="inventarioPrestamos.php" class="boton">Registrar</a>
                     </li>
 
                     <li>
