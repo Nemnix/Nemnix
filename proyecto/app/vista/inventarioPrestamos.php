@@ -36,8 +36,8 @@
                     <legend>Equipo de prestamo</legend>
                     <ul>
                         <li>
-                            <label for="IDequipo">IDequipo</label>
-                            <input type="text" id="IDequipo" name="ID_equipo"
+                            <label for="ID_P">ID equipo</label>
+                            <input type="text" id="ID_P" name="ID_P"
                                 required placeholder="Escribe la ID del equipo" />
                         </li>
                         <li>
@@ -52,6 +52,11 @@
                             <option>Prestamo en fecha</option>
                             <option>VENCIDO</option>
                             </select>
+                        </li>
+                        <li>
+                            <label for="ciAlumno">Cedula alumno</label>
+                            <input type="text" id="ciAlumno" name="ciAlumno"
+                                required placeholder="Escribe la ID del equipo" />
                         </li>
                         <li>
                             <label for="nombreAlumnoPrestamo">Nombre</label>

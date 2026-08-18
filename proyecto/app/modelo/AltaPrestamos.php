@@ -31,10 +31,10 @@ class AltaPrestamos
      *
      * @return bool TRUE si el registro se completa correctamente, FALSE en caso contrario.
      */
-    public function registrarPrestamo(string $cedula, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estadoPrestamo, string $idEquipo, string $modeloEquipo): bool
+    public function registrarPrestamo(string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estadoPrestamo, string $idEquipo, string $modeloEquipo): bool
     {
         // Validar que los campos obligatorios no estén vacíos
-        if (empty($cedula) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
+        if (empty($ciAlumno) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
             return false;
         }
 
@@ -44,12 +44,12 @@ class AltaPrestamos
             $this->conexion->beginTransaction();
 
             // 1. Insertar en la tabla PRESTAMO
-            $sqlPrestamo = "INSERT INTO PRESTAMO (cedula, nombreAlumno, apellidoAlumno, estadoPrestamo, fechaInicio, fechaLimite) VALUES (:cedula, :nombreAlumno, :apellidoAlumno, :estadoPrestamo, :fechaInicio, :fechaLimite)";
+            $sqlPrestamo = "INSERT INTO PRESTAMO (ciAlumno, nombreAlumno, apellidoAlumno, estadoPrestamo, fechaInicio, fechaLimite) VALUES (:ciAlumno, :nombreAlumno, :apellidoAlumno, :estadoPrestamo, :fechaInicio, :fechaLimite)";
 
             $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
 
             $consultaPrestamo->execute([
-                "cedula" => $cedula,
+                "ciAlumno" => $ciAlumno,
                 "nombreAlumno" => $nombreAlumno,
                 "apellidoAlumno" => $apellidoAlumno,
                 "estadoPrestamo" => $estadoPrestamo,
@@ -61,13 +61,13 @@ class AltaPrestamos
             $idPrestamo = $this->conexion->lastInsertId();
 
             // 2. Insertar en la tabla EQUIPO_PRESTAMO
-            $sqlEquipoPrestamo = "INSERT INTO EQUIPO_PRESTAMO (ID_EP, ID_P, modelo) VALUES (:idEquipo, :idPrestamo, :modelo)";
+            $sqlEquipoPrestamo = "INSERT INTO EQUIPO_PRESTAMO (ID_EP, ID_P, modelo) VALUES (:ID_EP, :ID_P, :modelo)";
 
             $consultaEquipoPrestamo = $this->conexion->prepare($sqlEquipoPrestamo);
 
             $consultaEquipoPrestamo->execute([
-                "idEquipo" => $idEquipo,
-                "idPrestamo" => $idPrestamo,
+                "ID_EP" => $idEquipo,
+                "ID_P" => $idPrestamo,
                 "modelo" => $modeloEquipo
             ]);
 

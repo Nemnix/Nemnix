@@ -28,11 +28,12 @@ if (!isset($_SESSION["cedula"]) || !isset($_SESSION["tecnico"]) || $_SESSION["te
 }
 
 //Recupera los datos del formulario, con variables nombradas según las columnas de PRESTAMO
-$cedula         = $_SESSION["cedula"];
+
+$ciAlumno       = trim($_POST["ciAlumno"] ?? "");
 $nombreAlumno   = trim($_POST["nombreAlumnoPrestamo"] ?? "");
 $apellidoAlumno = trim($_POST["apellidoAlumnoPrestamo"] ?? "");
-$fechaInicio    = $_POST["fechaPrestamo"] ?? "";
-$fechaLimite    = $_POST["fechaDevolucion"] ?? "";
+$fechaInicio    = trim($_POST["fechaPrestamo"]) ?? "";
+$fechaLimite    = trim($_POST["fechaDevolucion"]) ?? "";
 $estadoPrestamo = trim($_POST["estadoEquipos"] ?? "");
 $idEquipo       = trim($_POST["ID_equipo"] ?? "");
 $modeloEquipo   = trim($_POST["modelo_prestamo"] ?? "");
@@ -57,7 +58,7 @@ if ($conexion === null) {
 
 $altaPrestamos = new AltaPrestamos($conexion);
 
-$resultado = $altaPrestamos->registrarPrestamo($cedula, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite, $estadoPrestamo, $idEquipo, $modeloEquipo);
+$resultado = $altaPrestamos->registrarPrestamo($ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite, $estadoPrestamo, $idEquipo, $modeloEquipo);
 
 $conectorPDO->desconectar();
 
