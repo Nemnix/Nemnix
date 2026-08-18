@@ -24,7 +24,7 @@ En SOLICITANTE, cedula es fk de USUARIO.cedula
 
 **REGISTRO_DIARIO**(<u>ID_R</u>, grupo, horaEntrada, horaFin, docente, asignatura, fecha, nombreAula, turno)
 
-**TICKET**(<u>ID_R</u>, <u>ID_T</u>, estado, nombreEquipo, nombreAlumno, descripcionT, prioridad) 
+**TICKET**(<u>ID_R</u>, <u>ID_T</u>,  estado, nombreEquipo, nombreAlumno, descripcionT, prioridad) 
 
 **DIAGNOSTICO**(<u>ID_D</u>, ID_R, ID_T, cedula, estadoD, fechaD, descripcionD)
 

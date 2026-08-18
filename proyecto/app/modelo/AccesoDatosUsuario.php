@@ -13,13 +13,13 @@ class AccesoDatosUsuario {
     public function __construct (PDO $conexion) {
         $this->conexion = $conexion;
     }
-
+}
     /**
      * Busca un usuario por su cédula y determina el rol.
      * @param string $cedula La cedula del usuario sin puntos ni guiones.
      * @return Usuario|null Los datos del usuario, retorna su objeto si existe, null en caso contrario.
      */
-    public function buscarUsuario(string $cedula): ?Usuario
+    /**public function buscarUsuario(string $cedula): ?Usuario
     {
         $sql = "
     SELECT
@@ -80,9 +80,9 @@ class AccesoDatosUsuario {
         );
     }
 
-
+*/
    
-}
+
 
 
 ?>
