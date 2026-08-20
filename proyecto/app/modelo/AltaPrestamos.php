@@ -6,7 +6,18 @@
  */
 class AltaPrestamos
 {
+    /**
+     * Conexión activa con la base de datos.
+     *
+     * @var PDO
+     */
     private PDO $conexion;
+
+    /**
+     * Último error producido durante el registro de un préstamo.
+     *
+     * @var string
+     */
     private string $ultimoError = "";
 
     /**
@@ -22,6 +33,7 @@ class AltaPrestamos
      * Registra un nuevo préstamo con su equipo asociado.
      *
      * @param string $cedula Cédula del técnico que registra el préstamo (FK a TECNICO).
+        * @param string $ciAlumno Cédula del alumno asociado al préstamo.
      * @param string $nombreAlumno Nombre del alumno.
      * @param string $apellidoAlumno Apellido del alumno.
      * @param string $fechaInicio Fecha de inicio del préstamo.
@@ -35,11 +47,22 @@ class AltaPrestamos
     public function registrarPrestamo(string $cedula, string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estadoPrestamo, string $idEquipo, string $modeloEquipo): bool
     {
         // Validar que los campos obligatorios no estén vacíos
-        if (empty($ciAlumno) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
+        if (empty($cedula) || empty($ciAlumno) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
+            $this->ultimoError = "Todos los campos son obligatorios.";
             return false;
         }
 
         try {
+            $consultaTecnico = $this->conexion->prepare(
+                "SELECT 1 FROM TECNICO WHERE cedula = :cedula"
+            );
+            $consultaTecnico->execute(["cedula" => $cedula]);
+
+            if ($consultaTecnico->fetchColumn() === false) {
+                $this->ultimoError = "La cédula del técnico no existe en la tabla TECNICO. Cierre sesión e inicie sesión con un técnico registrado.";
+                return false;
+            }
+
             //Método que ejecuta de forma agrupada todas las instrucciones dirigidas a la base de datos
             //Si una instrucción falla, retorna excepción con la posibilidad de deshacer cambios con rollBack()
             $this->conexion->beginTransaction();
@@ -102,6 +125,11 @@ class AltaPrestamos
 
     
 
+    /**
+     * Devuelve el último error registrado por la operación de alta.
+     *
+     * @return string Mensaje del último error; cadena vacía si no hubo error.
+     */
     public function obtenerUltimoError(): string
     {
         return $this->ultimoError;

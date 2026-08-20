@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario prestamos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/global.css"> 
 </head>
 <body>
     <header>
@@ -40,9 +40,10 @@
                 <fieldset>
                     <legend>Equipo de prestamo</legend>
                     <ul>
+                        <input type="hidden" id="ID_P" name="ID_P">
                         <li>
-                            <label for="ID_P">ID equipo</label>
-                            <input type="text" id="ID_P" name="ID_P"
+                            <label for="ID_EP">ID equipo</label>
+                            <input type="text" id="ID_EP" name="ID_EP"
                                 required placeholder="Escribe la ID del equipo" />
                         </li>
                         <li>
@@ -90,25 +91,43 @@
 
         <section class="Tablas">
         <fieldset>
-        <table id="tablaInventarioPRestamo">
-            <thead>
+            <table id="tablaInventarioPRestamo">
+                <thead>
+                    <tr>
+                        <th>IDequipo</th>
+                        <th>Modelo</th>
+                        <th>Estado</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="registroInventarioPRestamo">
+                    <?php foreach ($prestamos as $prestamo) { ?>
+                        <tr data-ci-alumno="<?= htmlspecialchars($prestamo["ciAlumno"], ENT_QUOTES, "UTF-8") ?>">
+                            <td><?= htmlspecialchars($prestamo["ID_EP"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["modelo"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["estadoPrestamo"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["nombreAlumno"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["apellidoAlumno"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["fechaInicio"]) ?></td>
+                            <td><?= htmlspecialchars($prestamo["fechaLimite"]) ?></td>
+                            <td>
+                                <button class="btnEditar" data-id="<?= htmlspecialchars($prestamo["ID_P"]) ?>">Editar</button>
+                               <form action="/proyecto/public/usuarioTecnico/procesarBajaPrestamo.php" method="post" class="formularioBajaPrestamo">
+                                    <input type="hidden" name="idPrestamo" value="<?= htmlspecialchars($prestamo["ID_P"]) ?>">
+                                    <button type="submit" class="btnEliminar">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>
                 <tr>
-                    <th>IDequipo</th>
-                    <th>Modelo</th>
-                    <th>Estado</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="registroInventarioPRestamo">
-            <tr>
 
-            </tr>
-            </tbody>
-        </table>
+                </tr>
+                </tbody>
+            </table>
         </fieldset>
         </section>
     </main>
