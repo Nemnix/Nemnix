@@ -1,7 +1,5 @@
 <?php
-//Instalación del driver https://www.php.net/manual/en/pdo.installation.php
-//LEER ATENTAMENTE CÓMO SE CONFIGURA TANTO EN LINUX COMO EN WINDOWS
-//Especificar en php.ini el extension_dir (debe apuntar a ext) y la extension pdo_mysql para este caso
+
 class ConectorPDO
 {
     private string $servername;
@@ -21,7 +19,7 @@ class ConectorPDO
     public function establecerConexion(): PDO {
         try {
             $this->conexion = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->password);
-            // set the PDO error mode to exception
+            
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Error al conectar..." . $e->getMessage();
@@ -34,8 +32,5 @@ class ConectorPDO
     }
 };
 
-//Código para depuración
-//$ConectorPDO = new ConectorPDO ("localhost", "leandro", "123", "test");
-//$ConectorPDO->establecerConexion();
 
 ?>
