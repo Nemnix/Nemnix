@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Procesa el registro de un préstamo enviado mediante POST.
+ *
+ * Comprueba la sesión del técnico y delega la operación de persistencia
+ * en AltaPrestamos.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/AltaPrestamos.php";
@@ -33,7 +40,7 @@ $apellidoAlumno = trim($_POST["apellidoAlumnoPrestamo"] ?? "");
 $estadoPrestamo = trim($_POST["estadoEquipos"] ?? "");
 $fechaInicio    = trim($_POST["fechaPrestamo"] ?? "");
 $fechaLimite    = trim($_POST["fechaDevolucion"] ?? "");
-$idEquipo       = trim($_POST["ID_P"] ?? "");
+$idEquipo       = trim($_POST["ID_EP"] ?? "");
 $modeloEquipo   = trim($_POST["modelo_prestamo"] ?? "");
 
 // Validar que todos los campos obligatorios estén completos

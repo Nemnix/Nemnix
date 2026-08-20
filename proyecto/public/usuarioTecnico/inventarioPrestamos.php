@@ -16,6 +16,6 @@ if (!isset($_SESSION["tecnico"]) || $_SESSION["tecnico"] !== true) {
 }
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_VISTA . "/inventarioPrestamos.php";
+require_once RUTA_CONTROLADOR . "/cargarPrestamo.php";
 
 ?>
