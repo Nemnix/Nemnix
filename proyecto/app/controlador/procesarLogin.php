@@ -2,11 +2,11 @@
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-require_once __DIR__ . "/../modelo/ConectorPDO.php";
-require_once __DIR__ . "/../modelo/Usuario.php";
-require_once __DIR__ . "/../modelo/AccesoDatosUsuario.php";
-require_once __DIR__ . "/../modelo/Login.php";
+require_once __DIR__ . "/../../config/config.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/Usuario.php";
+require_once RUTA_MODELO . "/AccesoDatosUsuario.php";
+require_once RUTA_MODELO . "/Login.php";
 
 
 
