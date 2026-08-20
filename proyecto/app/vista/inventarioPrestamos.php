@@ -28,16 +28,21 @@
         
     </header>
     <main>
+        <?php if (isset($_GET["resultado"])): ?>
+            <p class="mensajeExito"><?= htmlspecialchars($_GET["resultado"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php elseif (isset($_GET["error"])): ?>
+            <p class="mensajeError"><?= htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php endif; ?>
         <h2>inventario prestamos</h2>
         <button id="btnAgregarEquipo" class="botonesAgregar">Agregar nuevo equipo</button>
         <dialog id="RegistroEquipoP" class="Formulario">
-        <form id="FormularioInventarioEquipos">
+        <form action="/proyecto/public/usuarioTecnico/procesarAltaPrestamos.php" method="POST" id="FormularioInventarioEquipos">
                 <fieldset>
                     <legend>Equipo de prestamo</legend>
                     <ul>
                         <li>
-                            <label for="IDequipo">IDequipo</label>
-                            <input type="text" id="IDequipo" name="ID_equipo"
+                            <label for="ID_P">ID equipo</label>
+                            <input type="text" id="ID_P" name="ID_P"
                                 required placeholder="Escribe la ID del equipo" />
                         </li>
                         <li>
@@ -46,31 +51,33 @@
                         </li>
                         <li>
                             <label for="estadoEquipos">Seleccione estado</label>
-                            <select id="estadoEquipos" name="estadoEquipos">
+                            <select id="estadoEquipos" name="estadoEquipos" required>
+                            <option value="">-- Seleccione un estado --</option>
                             <option>Disponible</option>
                             <option>Prestamo en fecha</option>
                             <option>VENCIDO</option>
                             </select>
                         </li>
                         <li>
+                            <label for="ciAlumno">Cedula alumno</label>
+                            <input type="text" id="ciAlumno" name="ciAlumno"
+                                required placeholder="Escribe la ID del equipo" />
+                        </li>
+                        <li>
                             <label for="nombreAlumnoPrestamo">Nombre</label>
-                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo"  placeholder="Ingrese el nombre del alumno">
+                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
                         </li>
                         <li>
                             <label for="apellidoAlumnoPrestamo">Apellido</label>
-                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo"  placeholder="Ingrese el apellido del alumno">
+                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
                         </li>
                         <li>
-                            <label for="CI">Cedula de identidad</label>
-                            <input type="text" id="CI" name="CI_empleado" pattern="[1-9]+" title="Sin puntos ni guiones" placeholder="Escribe tu cedula aqui" />
-                        </li>
-                        <li>
-                            <label for="fechaPrestamo">Fecha</label>
-                            <input type="date" id="fechaPrestamo" name="fechaPrestamo">
+                            <label for="fechaPrestamo">Fecha de inicio</label>
+                            <input type="date" id="fechaPrestamo" name="fechaPrestamo" required>
                         </li>
                         <li>
                             <label for="fechaDevolucion">Fecha de devolucion</label>
-                            <input type="date" id="fechaDevolucion" name="fechaDevolucion">
+                            <input type="date" id="fechaDevolucion" name="fechaDevolucion" required>
                         </li>
                         <li>
                             <button type="submit" id="btnGuardarInventario"> Enviar </button>

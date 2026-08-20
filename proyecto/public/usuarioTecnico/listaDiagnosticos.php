@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . "/../../config/config.php";
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -17,7 +17,7 @@ if ( !isset($_SESSION["administrador"]) || !($_SESSION["administrador"] ?? false
 }
 
 
-require_once __DIR__ . "/../../app/controlador/cargarDiagnostico.php";
+require_once RUTA_CONTROLADOR . "/cargarDiagnostico.php";
 
 ?>
 

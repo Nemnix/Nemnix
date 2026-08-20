@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../modelo/ConectorPDO.php";
-require_once __DIR__ . "/../modelo/AccesoDiagnosticos.php";
+require_once __DIR__ . "/../../config/config.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/AccesoDiagnosticos.php";
 
 $conectorPDO = new ConectorPDO ("localhost:3306", "Tecnoemmn", "123", "db nemnix");
 $conexion = $conectorPDO->establecerConexion();
@@ -11,6 +12,6 @@ $conexion = $conectorPDO->establecerConexion();
     
 $conectorPDO->desconectar();
 
-require_once __DIR__ . "/../vista/listaDiagnosticos.php";
+require_once RUTA_VISTA . "/listaDiagnosticos.php";
 
 ?>

@@ -1,0 +1,14 @@
+CREATE TABLE ALUMNO_PRESTAMO (
+ciAlumno VARCHAR(8) NOT NULL AUTO_INCREMENT,
+nombreAlumno VARCHAR(600) NOT NULL,
+apellidoAlumno VARCHAR(600)NOT NULL,
+
+CONSTRAINT pk_alumno_prestamo
+        PRIMARY KEY (cedulaAlumno)
+
+);
+
+ALTER TABLE PRESTAMO
+    ADD CONSTRAINT fk_alumno_prestamo
+    FOREIGN KEY (ID_P)
+    REFERENCES PRESTAMO(cedulaAlumno);
