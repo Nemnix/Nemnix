@@ -8,10 +8,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-// ... resto del código igual
 
-
-//Comprueba que el formulario haya sido enviado mediante POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     $mensaje = "Acceso Denegado: Petición incorrecta";
 
@@ -29,23 +26,24 @@ if (!isset($_SESSION["cedula"]) || !isset($_SESSION["tecnico"]) || $_SESSION["te
 
 //Recupera los datos del formulario, con variables nombradas según las columnas de PRESTAMO
 
+$cedulaTecnico = $_SESSION["cedula"];
 $ciAlumno       = trim($_POST["ciAlumno"] ?? "");
 $nombreAlumno   = trim($_POST["nombreAlumnoPrestamo"] ?? "");
 $apellidoAlumno = trim($_POST["apellidoAlumnoPrestamo"] ?? "");
-$fechaInicio    = trim($_POST["fechaPrestamo"]) ?? "";
-$fechaLimite    = trim($_POST["fechaDevolucion"]) ?? "";
 $estadoPrestamo = trim($_POST["estadoEquipos"] ?? "");
-$idEquipo       = trim($_POST["ID_equipo"] ?? "");
+$fechaInicio    = trim($_POST["fechaPrestamo"] ?? "");
+$fechaLimite    = trim($_POST["fechaDevolucion"] ?? "");
+$idEquipo       = trim($_POST["ID_P"] ?? "");
 $modeloEquipo   = trim($_POST["modelo_prestamo"] ?? "");
 
 // Validar que todos los campos obligatorios estén completos
-if (empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
+if (empty($ciAlumno) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
     $mensaje = "Error: Todos los campos son obligatorios.";
     header("Location: /proyecto/public/usuarioTecnico/inventarioPrestamos.php?error=" . urlencode($mensaje));
     exit;
 }
 
-$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "test");
+$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
 
 $conexion = $conectorPDO->establecerConexion();
 
@@ -58,13 +56,13 @@ if ($conexion === null) {
 
 $altaPrestamos = new AltaPrestamos($conexion);
 
-$resultado = $altaPrestamos->registrarPrestamo($ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite, $estadoPrestamo, $idEquipo, $modeloEquipo);
+$resultado = $altaPrestamos->registrarPrestamo($cedulaTecnico, $ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite, $estadoPrestamo, $idEquipo, $modeloEquipo);
 
 $conectorPDO->desconectar();
 
 
 if (!$resultado) {
-    $mensaje = "No se pudo registrar el préstamo.";
+    $mensaje = "No se pudo registrar el préstamo: " . $altaPrestamos->obtenerUltimoError();
 
     header("Location: /proyecto/public/usuarioTecnico/inventarioPrestamos.php?error=" . urlencode($mensaje));
     exit;

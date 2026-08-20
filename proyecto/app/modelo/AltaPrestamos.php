@@ -7,6 +7,7 @@
 class AltaPrestamos
 {
     private PDO $conexion;
+    private string $ultimoError = "";
 
     /**
      * Constructor parametrizado que recibe una conexión a la base de datos.
@@ -31,7 +32,7 @@ class AltaPrestamos
      *
      * @return bool TRUE si el registro se completa correctamente, FALSE en caso contrario.
      */
-    public function registrarPrestamo(string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estadoPrestamo, string $idEquipo, string $modeloEquipo): bool
+    public function registrarPrestamo(string $cedula, string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estadoPrestamo, string $idEquipo, string $modeloEquipo): bool
     {
         // Validar que los campos obligatorios no estén vacíos
         if (empty($ciAlumno) || empty($nombreAlumno) || empty($apellidoAlumno) || empty($fechaInicio) || empty($fechaLimite) || empty($estadoPrestamo) || empty($idEquipo) || empty($modeloEquipo)) {
@@ -43,15 +44,23 @@ class AltaPrestamos
             //Si una instrucción falla, retorna excepción con la posibilidad de deshacer cambios con rollBack()
             $this->conexion->beginTransaction();
 
-            // 1. Insertar en la tabla PRESTAMO
-            $sqlPrestamo = "INSERT INTO PRESTAMO (ciAlumno, nombreAlumno, apellidoAlumno, estadoPrestamo, fechaInicio, fechaLimite) VALUES (:ciAlumno, :nombreAlumno, :apellidoAlumno, :estadoPrestamo, :fechaInicio, :fechaLimite)";
+              $sqlAlumnoPrestamo = "INSERT INTO ALUMNO_PRESTAMO (ciAlumno, nombreAlumno, apellidoAlumno) VALUES (:ciAlumno, :nombreAlumno, :apellidoAlumno)";
+
+            $consultaAlumnoPrestamo = $this->conexion->prepare($sqlAlumnoPrestamo);
+
+            $consultaAlumnoPrestamo->execute([
+                "ciAlumno" => $ciAlumno,
+                "nombreAlumno" => $nombreAlumno,
+                "apellidoAlumno" => $apellidoAlumno,
+            ]);
+
+            $sqlPrestamo = "INSERT INTO PRESTAMO (cedula, ciAlumno, estadoPrestamo, fechaInicio, fechaLimite) VALUES (:cedula, :ciAlumno, :estadoPrestamo, :fechaInicio, :fechaLimite)";
 
             $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
 
             $consultaPrestamo->execute([
+                "cedula" => $cedula,
                 "ciAlumno" => $ciAlumno,
-                "nombreAlumno" => $nombreAlumno,
-                "apellidoAlumno" => $apellidoAlumno,
                 "estadoPrestamo" => $estadoPrestamo,
                 "fechaInicio" => $fechaInicio,
                 "fechaLimite" => $fechaLimite
@@ -84,10 +93,18 @@ class AltaPrestamos
             }
 
             // Registrar el error para debug
-            error_log("Error en AltaPrestamos: " . $error->getMessage());
+            $this->ultimoError = $error->getMessage();
+            error_log("Error en AltaPrestamos: " . $this->ultimoError);
 
             return false;
         }
+    }
+
+    
+
+    public function obtenerUltimoError(): string
+    {
+        return $this->ultimoError;
     }
 }
 

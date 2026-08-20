@@ -83,3 +83,39 @@ LEFT JOIN TICKET AS t
 
 LEFT JOIN REGISTRO_DIARIO AS r
     ON r.ID_R = d.ID_R;
+    
+SELECT
+    a.ciAlumno,
+    a.nombreAlumno,
+    a.apellidoAlumno,
+
+    FROM ALUMNO_PRESTAMO AS a
+
+SELECT
+    p.ID_P,
+    p.cedula,
+    p.ciAlumno,
+    p.estadoPrestamo,
+    p.fechaInicio,
+    p.fechaLimite,
+
+    FROM PRESTAMO AS p
+
+    LEFT JOIN PRESTAMO AS p
+    ON p.ciAlumno = a.ciAlumno
+
+SELECT
+    e.ID_EP,
+    e.ID_P,
+    e.modelo,
+    
+    FROM EQUIPO_PRESTAMO AS e
+
+    LEFT JOIN EQUIPO_PRESTAMO AS e
+    ON e.ID_P = p.ID_P
+
+
+
+    
+    
+
