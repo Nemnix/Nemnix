@@ -18,62 +18,62 @@ const entradaDescripcion = document.getElementById("motivoSolicitudes");
 const entradaMail = document.getElementById("mailDocente");
 
 
-function cargarSolicitudesLocal() {
+// function cargarSolicitudesLocal() {
 
-    const solicitudesGuardadas = localStorage.getItem("solicitudes");
+//     const solicitudesGuardadas = localStorage.getItem("solicitudes");
 
-    if (solicitudesGuardadas === null) {
-        return [];
-    }
+//     if (solicitudesGuardadas === null) {
+//         return [];
+//     }
 
-    return JSON.parse(solicitudesGuardadas);
+//     return JSON.parse(solicitudesGuardadas);
 
-}
+// }
 
-function actualizarSolicitudesLocal(solicitudes) {
+// function actualizarSolicitudesLocal(solicitudes) {
 
-    localStorage.setItem(
-        "solicitudes",
-        JSON.stringify(solicitudes)
-    );
+//     localStorage.setItem(
+//         "solicitudes",
+//         JSON.stringify(solicitudes)
+//     );
 
-}
+// }
 
-function guardarSolicitudLocal(solicitud) {
+// function guardarSolicitudLocal(solicitud) {
 
-    const solicitudes = cargarSolicitudesLocal();
+//     const solicitudes = cargarSolicitudesLocal();
 
-    solicitudes.push(solicitud);
+//     solicitudes.push(solicitud);
 
-    actualizarSolicitudesLocal(solicitudes);
+//     actualizarSolicitudesLocal(solicitudes);
 
-}
+// }
 
-function actualizarTabla() {
+// function actualizarTabla() {
 
-    while (tabla.rows.length > 1) {
-        tabla.deleteRow(1);
-    }
+//     while (tabla.rows.length > 1) {
+//         tabla.deleteRow(1);
+//     }
 
-    const solicitudes = cargarSolicitudesLocal();
+//     const solicitudes = cargarSolicitudesLocal();
 
-    for (const solicitud of solicitudes) {
-        agregarSolicitud(solicitud);
-    }
+//     for (const solicitud of solicitudes) {
+//         agregarSolicitud(solicitud);
+//     }
 
-}
+// }
 
-function obtenerDatosFormulario() {
+// function obtenerDatosFormulario() {
 
-    return {
-        tipoLaboratorio: entradaTipoLaboratorio.value,
-        numLaboratorio: entradaNumLaboratorio.value,
-        fecha: entradaFecha.value,
-        descripcion: entradaDescripcion.value,
-        mail: entradaMail.value
-    };
+//     return {
+//         tipoLaboratorio: entradaTipoLaboratorio.value,
+//         numLaboratorio: entradaNumLaboratorio.value,
+//         fecha: entradaFecha.value,
+//         descripcion: entradaDescripcion.value,
+//         mail: entradaMail.value
+//     };
 
-}
+// }
 
 
 function abrirAltaSolicitud() {
@@ -83,54 +83,54 @@ function abrirAltaSolicitud() {
 
 }
 
-modal.addEventListener("cancel", function () {
+// modal.addEventListener("cancel", function () {
 
-    formulario.reset();
+//     formulario.reset();
 
-});
+// });
 
-function agregarSolicitud(solicitud) {
+// function agregarSolicitud(solicitud) {
 
-    let fila = document.createElement("tr");
+//     let fila = document.createElement("tr");
 
-    let tdTipoLaboratorio = document.createElement("td");
-    tdTipoLaboratorio.innerText = solicitud.tipoLaboratorio;
+//     let tdTipoLaboratorio = document.createElement("td");
+//     tdTipoLaboratorio.innerText = solicitud.tipoLaboratorio;
 
-    let tdNumLaboratorio = document.createElement("td");
-    tdNumLaboratorio.innerText = solicitud.numLaboratorio;
+//     let tdNumLaboratorio = document.createElement("td");
+//     tdNumLaboratorio.innerText = solicitud.numLaboratorio;
 
-    let tdFecha = document.createElement("td");
-    tdFecha.innerText = solicitud.fecha;
+//     let tdFecha = document.createElement("td");
+//     tdFecha.innerText = solicitud.fecha;
 
-    let tdDescripcion = document.createElement("td");
-    tdDescripcion.innerText = solicitud.descripcion;
+//     let tdDescripcion = document.createElement("td");
+//     tdDescripcion.innerText = solicitud.descripcion;
 
-    let tdMail = document.createElement("td");
-    tdMail.innerText = solicitud.mail;
+//     let tdMail = document.createElement("td");
+//     tdMail.innerText = solicitud.mail;
 
-    fila.appendChild(tdTipoLaboratorio);
-    fila.appendChild(tdNumLaboratorio);
-    fila.appendChild(tdFecha);
-    fila.appendChild(tdDescripcion);
-    fila.appendChild(tdMail);
+//     fila.appendChild(tdTipoLaboratorio);
+//     fila.appendChild(tdNumLaboratorio);
+//     fila.appendChild(tdFecha);
+//     fila.appendChild(tdDescripcion);
+//     fila.appendChild(tdMail);
 
-    tabla.appendChild(fila);
+//     tabla.appendChild(fila);
 
-}
+// }
 
-btnSolicitudes.addEventListener("click", abrirAltaSolicitud);
+// btnSolicitudes.addEventListener("click", abrirAltaSolicitud);
 
-formulario.addEventListener("submit", function (event) {
+// formulario.addEventListener("submit", function (event) {
 
-    event.preventDefault();
+//     event.preventDefault();
 
-    const solicitud = obtenerDatosFormulario();
+//     const solicitud = obtenerDatosFormulario();
 
-    guardarSolicitudLocal(solicitud);
+//     guardarSolicitudLocal(solicitud);
 
-    actualizarTabla();
+//     actualizarTabla();
 
-    modal.close();
-});
+//     modal.close();
+// });
 
-actualizarTabla();
+// actualizarTabla();
