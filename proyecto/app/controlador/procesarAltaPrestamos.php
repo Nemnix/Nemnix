@@ -1,15 +1,8 @@
 <?php
 
-/**
- * Procesa el registro de un préstamo enviado mediante POST.
- *
- * Comprueba la sesión del técnico y delega la operación de persistencia
- * en AltaPrestamos.
- */
-
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/ConectorPDO.php";
-require_once RUTA_MODELO . "/AltaPrestamos.php";
+require_once RUTA_MODELO . "/conectorPDO.php";
+require_once RUTA_MODELO . "/altaPrestamos.php";
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
