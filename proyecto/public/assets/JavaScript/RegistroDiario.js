@@ -32,116 +32,116 @@ let idEditandoTicket = null;
 let filaEditando = null;
 let idEditando = null;
 
-function cargarRegistrosLocal() {
+// function cargarRegistrosLocal() {
 
-    const registrosGuardados = localStorage.getItem("registros");
+//     const registrosGuardados = localStorage.getItem("registros");
 
-    if (registrosGuardados === null) {
-        return [];
-    }
+//     if (registrosGuardados === null) {
+//         return [];
+//     }
 
-    return JSON.parse(registrosGuardados);
+//     return JSON.parse(registrosGuardados);
 
-}
+// }
 
-function actualizarRegistrosLocal(registros) {
+// function actualizarRegistrosLocal(registros) {
 
-    localStorage.setItem(
-        "registros",
-        JSON.stringify(registros)
-    );
+//     localStorage.setItem(
+//         "registros",
+//         JSON.stringify(registros)
+//     );
 
-}
+// }
 
-function guardarRegistroLocal(registro) {
+// function guardarRegistroLocal(registro) {
 
-    const registros = cargarRegistrosLocal();
+//     const registros = cargarRegistrosLocal();
 
-    registros.push(registro);
+//     registros.push(registro);
 
-    actualizarRegistrosLocal(registros);
+//     actualizarRegistrosLocal(registros);
 
-}
-function modificarRegistroLocal(registroEditado) {
+// }
+// function modificarRegistroLocal(registroEditado) {
 
-    const registros = cargarRegistrosLocal();
+//     const registros = cargarRegistrosLocal();
 
-    const registro = registros.find(
-        r => r.id === registroEditado.id
-    );
+//     const registro = registros.find(
+//         r => r.id === registroEditado.id
+//     );
 
-    if (registro === undefined) {
-        return;
-    }
+//     if (registro === undefined) {
+//         return;
+//     }
 
-    registro.fecha = registroEditado.fecha;
-    registro.numAula = registroEditado.numAula;
-    registro.asignatura = registroEditado.asignatura;
-    registro.entrada = registroEditado.entrada;
-    registro.salida = registroEditado.salida;
-    registro.grupo = registroEditado.grupo;
-    registro.turno = registroEditado.turno;
+//     registro.fecha = registroEditado.fecha;
+//     registro.numAula = registroEditado.numAula;
+//     registro.asignatura = registroEditado.asignatura;
+//     registro.entrada = registroEditado.entrada;
+//     registro.salida = registroEditado.salida;
+//     registro.grupo = registroEditado.grupo;
+//     registro.turno = registroEditado.turno;
 
-    actualizarRegistrosLocal(registros);
-}
+//     actualizarRegistrosLocal(registros);
+// }
 
-function eliminarRegistroLocal(id) {
+// function eliminarRegistroLocal(id) {
 
-    const registros = cargarRegistrosLocal();
+//     const registros = cargarRegistrosLocal();
 
-    const registrosActualizados = registros.filter(
-        r => r.id !== Number(id)
-    );
+//     const registrosActualizados = registros.filter(
+//         r => r.id !== Number(id)
+//     );
 
-    actualizarRegistrosLocal(registrosActualizados);
-}
+//     actualizarRegistrosLocal(registrosActualizados);
+// }
 
-function actualizarTabla() {
+// function actualizarTabla() {
 
-    while (tabla.rows.length > 1) {
-        tabla.deleteRow(1);
-    }
+//     while (tabla.rows.length > 1) {
+//         tabla.deleteRow(1);
+//     }
 
-    const registros = cargarRegistrosLocal();
+//     const registros = cargarRegistrosLocal();
 
-    for (const registro of registros) {
-        agregarRegistro(registro);
-    }
-}
+//     for (const registro of registros) {
+//         agregarRegistro(registro);
+//     }
+// }
 
-function generarIdRegistro() {
-    let ultimoId = Number(localStorage.getItem("ultimoIdRegistro")) || 0;
+// function generarIdRegistro() {
+//     let ultimoId = Number(localStorage.getItem("ultimoIdRegistro")) || 0;
 
-    ultimoId++;
+//     ultimoId++;
 
-    localStorage.setItem("ultimoIdRegistro", ultimoId);
+//     localStorage.setItem("ultimoIdRegistro", ultimoId);
 
-    return ultimoId;
-}
+//     return ultimoId;
+// }
 
-function obtenerDatosFormulario() {
+// function obtenerDatosFormulario() {
 
-    let id;
+//     let id;
 
-    if (filaEditando === null) {
-        id = generarIdRegistro();
-    } else {
-        id = idEditando;
-    }
+//     if (filaEditando === null) {
+//         id = generarIdRegistro();
+//     } else {
+//         id = idEditando;
+//     }
 
-    return {
-        id: id,
-        tipoAula: entradaTipoAula.value,
-        fecha: entradaFecha.value,
-        numAula: entradaNumAula.value,
-        asignatura: entradaAsignatura.value,
-        entrada: entradaHoraEntrada.value,
-        salida: entradaHoraSalida.value,
-        grupo: entradaGrupo.value,
-        turno: entradaTurno.value
-    };
+//     return {
+//         id: id,
+//         tipoAula: entradaTipoAula.value,
+//         fecha: entradaFecha.value,
+//         numAula: entradaNumAula.value,
+//         asignatura: entradaAsignatura.value,
+//         entrada: entradaHoraEntrada.value,
+//         salida: entradaHoraSalida.value,
+//         grupo: entradaGrupo.value,
+//         turno: entradaTurno.value
+//     };
 
-}
+// }
 
 function abrirAltaRegistro() {
 
@@ -193,328 +193,327 @@ modalTicket.addEventListener("cancel", function () {
 
 });
 
-function agregarRegistro(registro) {
+// function agregarRegistro(registro) {
 
-    let fila = document.createElement("tr");
+//     let fila = document.createElement("tr");
 
-    let tdId = document.createElement("td");
-    tdId.innerText = registro.id;
+//     let tdId = document.createElement("td");
+//     tdId.innerText = registro.id;
 
-    let tdFecha = document.createElement("td");
-    tdFecha.innerText = registro.fecha;
+//     let tdFecha = document.createElement("td");
+//     tdFecha.innerText = registro.fecha;
 
-    let tdTipoAula = document.createElement("td");
-    tdTipoAula.innerText = registro.tipoAula;
+//     let tdTipoAula = document.createElement("td");
+//     tdTipoAula.innerText = registro.tipoAula;
 
-    let tdNumAula = document.createElement("td");
-    tdNumAula.innerText = registro.numAula;
+//     let tdNumAula = document.createElement("td");
+//     tdNumAula.innerText = registro.numAula;
 
-    let tdEntrada = document.createElement("td");
-    tdEntrada.innerText = registro.entrada;
+//     let tdEntrada = document.createElement("td");
+//     tdEntrada.innerText = registro.entrada;
 
-    let tdSalida = document.createElement("td");
-    tdSalida.innerText = registro.salida;
+//     let tdSalida = document.createElement("td");
+//     tdSalida.innerText = registro.salida;
 
-    let tdTurno = document.createElement("td");
-    tdTurno.innerText = registro.turno;
+//     let tdTurno = document.createElement("td");
+//     tdTurno.innerText = registro.turno;
 
-    let tdGrupo = document.createElement("td");
-    tdGrupo.innerText = registro.grupo;
+//     let tdGrupo = document.createElement("td");
+//     tdGrupo.innerText = registro.grupo;
 
-    let tdAcciones = document.createElement("td");
+//     let tdAcciones = document.createElement("td");
 
-    let btnModificar = document.createElement("button");
-    btnModificar.innerText = "Modificar";
-    btnModificar.onclick = function () {
-        modificar(this);
-    };
+//     let btnModificar = document.createElement("button");
+//     btnModificar.innerText = "Modificar";
+//     btnModificar.onclick = function () {
+//         modificar(this);
+//     };
 
-    let btnEliminar = document.createElement("button");
-    btnEliminar.innerText = "Eliminar";
-    btnEliminar.onclick = function () {
-        borrar(this);
-    };
+//     let btnEliminar = document.createElement("button");
+//     btnEliminar.innerText = "Eliminar";
+//     btnEliminar.onclick = function () {
+//         borrar(this);
+//     };
 
-    tdAcciones.appendChild(btnModificar);
-    tdAcciones.appendChild(btnEliminar);
+//     tdAcciones.appendChild(btnModificar);
+//     tdAcciones.appendChild(btnEliminar);
 
-    fila.appendChild(tdId);
-    fila.appendChild(tdFecha);
-    fila.appendChild(tdTipoAula);
-    fila.appendChild(tdNumAula);
-    fila.appendChild(tdEntrada);
-    fila.appendChild(tdSalida);
-    fila.appendChild(tdTurno);
-    fila.appendChild(tdGrupo);
-    fila.appendChild(tdAcciones);   
+//     fila.appendChild(tdId);
+//     fila.appendChild(tdFecha);
+//     fila.appendChild(tdTipoAula);
+//     fila.appendChild(tdNumAula);
+//     fila.appendChild(tdEntrada);
+//     fila.appendChild(tdSalida);
+//     fila.appendChild(tdTurno);
+//     fila.appendChild(tdGrupo);
+//     fila.appendChild(tdAcciones);   
 
-    tabla.appendChild(fila);
+//     tabla.appendChild(fila);
 
-}
+// }
 
-    function borrar(boton) {
+//     function borrar(boton) {
 
-    const fila = boton.parentNode.parentNode;
+//     const fila = boton.parentNode.parentNode;
 
-    const id = Number(fila.children[0].innerText);
+//     const id = Number(fila.children[0].innerText);
 
-    eliminarRegistroLocal(id);
+//     eliminarRegistroLocal(id);
 
-    actualizarTabla();
-}
+//     actualizarTabla();
+// }
 
-    function modificar(boton) {
+//     function modificar(boton) {
 
-    filaEditando = boton.parentNode.parentNode;
+//     filaEditando = boton.parentNode.parentNode;
 
-    const celdas = filaEditando.getElementsByTagName("td");
+//     const celdas = filaEditando.getElementsByTagName("td");
 
-    idEditando = Number(celdas[0].innerText);
+//     idEditando = Number(celdas[0].innerText);
 
-    entradaFecha.value = celdas[1].innerText;
-    entradaTipoAula.value = celdas[2].innerText;
-    entradaNumAula.value = celdas[3].innerText;
-    entradaHoraEntrada.value = celdas[4].innerText;
-    entradaHoraSalida.value = celdas[5].innerText;
-    entradaTurno.value = celdas[6].innerText;
-    entradaGrupo.value = celdas[7].innerText;
+//     entradaFecha.value = celdas[1].innerText;
+//     entradaTipoAula.value = celdas[2].innerText;
+//     entradaNumAula.value = celdas[3].innerText;
+//     entradaHoraEntrada.value = celdas[4].innerText;
+//     entradaHoraSalida.value = celdas[5].innerText;
+//     entradaTurno.value = celdas[6].innerText;
+//     entradaGrupo.value = celdas[7].innerText;
 
-    modal.showModal();
-}
+//     modal.showModal();
+// }
 
-function agregarTicketModal(ticket) {
+// function agregarTicketModal(ticket) {
 
-    let fila = document.createElement("tr");
+//     let fila = document.createElement("tr");
 
-    let tdTicket = document.createElement("td");
-    tdTicket.innerText = ticket.idDispositivo;
+//     let tdTicket = document.createElement("td");
+//     tdTicket.innerText = ticket.idDispositivo;
 
-    let tdProblema = document.createElement("td");
-    tdProblema.innerText = ticket.motivoTicket;
+//     let tdProblema = document.createElement("td");
+//     tdProblema.innerText = ticket.motivoTicket;
 
-    let tdAcciones = document.createElement("td");
+//     let tdAcciones = document.createElement("td");
 
-    let btnModificar = document.createElement("button");
-    btnModificar.innerText = "Modificar";
-    btnModificar.onclick = function () {
-        modificarTicket(ticket);
-    };
+//     let btnModificar = document.createElement("button");
+//     btnModificar.innerText = "Modificar";
+//     btnModificar.onclick = function () {
+//         modificarTicket(ticket);
+//     };
 
-    let btnEliminar = document.createElement("button");
-    btnEliminar.innerText = "Eliminar";
-    btnEliminar.onclick = function () {
-        borrarTicket(ticket);
-    };
+//     let btnEliminar = document.createElement("button");
+//     btnEliminar.innerText = "Eliminar";
+//     btnEliminar.onclick = function () {
+//         borrarTicket(ticket);
+//     };
 
-    tdAcciones.appendChild(btnModificar);
-    tdAcciones.appendChild(btnEliminar);
+//     tdAcciones.appendChild(btnModificar);
+//     tdAcciones.appendChild(btnEliminar);
 
-    fila.appendChild(tdTicket);
-    fila.appendChild(tdProblema);
-    fila.appendChild(tdAcciones);
+//     fila.appendChild(tdTicket);
+//     fila.appendChild(tdProblema);
+//     fila.appendChild(tdAcciones);
 
-    tablaTicketModal.appendChild(fila);
+//     tablaTicketModal.appendChild(fila);
 
-}
+// }
 
-function actualizarTablaTicketModal() {
+// function actualizarTablaTicketModal() {
 
-    while (tablaTicketModal.rows.length > 1) {
-        tablaTicketModal.deleteRow(1);
-    }
+//     while (tablaTicketModal.rows.length > 1) {
+//         tablaTicketModal.deleteRow(1);
+//     }
 
-    const tickets = cargarTicketsLocal();
+//     const tickets = cargarTicketsLocal();
 
-    for (const ticket of tickets) {
-        agregarTicketModal(ticket);
-    }
+//     for (const ticket of tickets) {
+//         agregarTicketModal(ticket);
+//     }
 
-}
+// }
 
-function borrarTicket(ticket) {
+// function borrarTicket(ticket) {
 
-    eliminarTicketsLocal(ticket.id);
+//     eliminarTicketsLocal(ticket.id);
 
-    actualizarTablaTicketModal();
+//     actualizarTablaTicketModal();
 
-}
+// }
 
-function modificarTicket(ticket) {
+// function modificarTicket(ticket) {
 
-    filaEditandoTicket = true;
-    idEditandoTicket = ticket.id;
+//     filaEditandoTicket = true;
+//     idEditandoTicket = ticket.id;
 
-    entradaIdDispositivo.value = ticket.idDispositivo;
-    entradaNombreAlumno.value = ticket.nombreAlumno;
-    entradaNombreDispositivo.value = ticket.nombreDispositivo;
-    entradaMotivoTicket.value = ticket.motivoTicket;
+//     entradaIdDispositivo.value = ticket.idDispositivo;
+//     entradaNombreAlumno.value = ticket.nombreAlumno;
+//     entradaNombreDispositivo.value = ticket.nombreDispositivo;
+//     entradaMotivoTicket.value = ticket.motivoTicket;
 
-    modalTicket.showModal();
+//     modalTicket.showModal();
 
-}
+// }
 
-formulario.addEventListener("submit", function (event) {
+// formulario.addEventListener("submit", function (event) {
 
-    event.preventDefault();
+//     event.preventDefault();
 
-    const registro = obtenerDatosFormulario();
+//     const registro = obtenerDatosFormulario();
 
-    if (filaEditando === null) {
+//     if (filaEditando === null) {
 
-        guardarRegistroLocal(registro);
+//         guardarRegistroLocal(registro);
 
-    } else {
+//     } else {
 
-        modificarRegistroLocal(registro);
+//         modificarRegistroLocal(registro);
 
-        filaEditando = null;
-    }
+//         filaEditando = null;
+//     }
 
-    actualizarTabla();
+//     actualizarTabla();
 
-    modal.close();
-});
+//     modal.close();
+// });
 
-actualizarTabla();
+// actualizarTabla();
 
 
-//----------------------
 
-function cargarTicketsLocal() {
 
-    const ticketsGuardados = localStorage.getItem("tickets");
+// function cargarTicketsLocal() {
 
-    if (ticketsGuardados === null) {
-        return [];
-    }
+//     const ticketsGuardados = localStorage.getItem("tickets");
 
-    return JSON.parse(ticketsGuardados);
+//     if (ticketsGuardados === null) {
+//         return [];
+//     }
 
-}
+//     return JSON.parse(ticketsGuardados);
 
-function actualizarTicketsLocal(tickets) {
+// }
 
-    localStorage.setItem(
-        "tickets",
-        JSON.stringify(tickets)
-    );
+// function actualizarTicketsLocal(tickets) {
 
-}
+//     localStorage.setItem(
+//         "tickets",
+//         JSON.stringify(tickets)
+//     );
 
-function guardarTicketsLocal(ticket) {
+// }
 
-    const tickets = cargarTicketsLocal();
+// function guardarTicketsLocal(ticket) {
 
-    tickets.push(ticket);
+//     const tickets = cargarTicketsLocal();
 
-    actualizarTicketsLocal(tickets);
+//     tickets.push(ticket);
 
-}
-function modificarTicketsLocal(ticketEditado) {
+//     actualizarTicketsLocal(tickets);
 
-    const tickets = cargarTicketsLocal();
+// }
+// function modificarTicketsLocal(ticketEditado) {
 
-    const ticket = tickets.find(
-        t => t.id === ticketEditado.id
-    );
+//     const tickets = cargarTicketsLocal();
 
-    if (ticket === undefined) {
-        return;
-    }
+//     const ticket = tickets.find(
+//         t => t.id === ticketEditado.id
+//     );
 
-    ticket.idDispositivo = ticketEditado.idDispositivo;
-    ticket.nombreAlumno = ticketEditado.nombreAlumno;
-    ticket.nombreDispositivo = ticketEditado.nombreDispositivo;
-    ticket.motivoTicket = ticketEditado.motivoTicket;
-    ticket.numAula = ticketEditado.numAula;
-    ticket.tipoAula = ticketEditado.tipoAula;
-    ticket.fecha = ticketEditado.fecha;
+//     if (ticket === undefined) {
+//         return;
+//     }
 
-    actualizarTicketsLocal(tickets);
-}
-function eliminarTicketsLocal(idTicket) {
+//     ticket.idDispositivo = ticketEditado.idDispositivo;
+//     ticket.nombreAlumno = ticketEditado.nombreAlumno;
+//     ticket.nombreDispositivo = ticketEditado.nombreDispositivo;
+//     ticket.motivoTicket = ticketEditado.motivoTicket;
+//     ticket.numAula = ticketEditado.numAula;
+//     ticket.tipoAula = ticketEditado.tipoAula;
+//     ticket.fecha = ticketEditado.fecha;
 
-    const tickets = cargarTicketsLocal();
+//     actualizarTicketsLocal(tickets);
+// }
+// function eliminarTicketsLocal(idTicket) {
 
-    const ticketsActualizados = tickets.filter(
-        t => t.id !== Number(idTicket)
-    );
+//     const tickets = cargarTicketsLocal();
 
-    actualizarTicketsLocal(ticketsActualizados);
-}
-function actualizarTablaTicket() {
+//     const ticketsActualizados = tickets.filter(
+//         t => t.id !== Number(idTicket)
+//     );
 
-    while (tablaTicket.rows.length > 1) {
-        tablaTicket.deleteRow(1);
-    }
+//     actualizarTicketsLocal(ticketsActualizados);
+// }
+// function actualizarTablaTicket() {
 
-    const tickets = cargarTicketsLocal();
+//     while (tablaTicket.rows.length > 1) {
+//         tablaTicket.deleteRow(1);
+//     }
 
-    for (const ticket of tickets) {
-        agregarTicket(ticket);
-    }
-}
-function generarIdTicket() {
-    let ultimoIdTicket = Number(localStorage.getItem("ultimoIdTicket")) || 0;
+//     const tickets = cargarTicketsLocal();
 
-    ultimoIdTicket++;
+//     for (const ticket of tickets) {
+//         agregarTicket(ticket);
+//     }
+// }
+// function generarIdTicket() {
+//     let ultimoIdTicket = Number(localStorage.getItem("ultimoIdTicket")) || 0;
 
-    localStorage.setItem("ultimoIdTicket", ultimoIdTicket);
+//     ultimoIdTicket++;
 
-    return ultimoIdTicket;
-}
+//     localStorage.setItem("ultimoIdTicket", ultimoIdTicket);
 
-function obtenerDatosFormularioTicket() {
+//     return ultimoIdTicket;
+// }
 
-    let idTicket;
+// function obtenerDatosFormularioTicket() {
 
-    if (filaEditandoTicket === null) {
-        idTicket = generarIdTicket();
-    } else {
-        idTicket = idEditandoTicket;
-    }
+//     let idTicket;
 
-    return {
-        id: idTicket,
-        idDispositivo: entradaIdDispositivo.value,
-        nombreAlumno: entradaNombreAlumno.value,
-        nombreDispositivo: entradaNombreDispositivo.value,
-        motivoTicket: entradaMotivoTicket.value,
-        numAula: entradaNumAula.value,
-        tipoAula: entradaTipoAula.value,
-        fecha: entradaFecha.value
-    };
+//     if (filaEditandoTicket === null) {
+//         idTicket = generarIdTicket();
+//     } else {
+//         idTicket = idEditandoTicket;
+//     }
 
-}
-formularioTicket.addEventListener("submit", function (event) {
+//     return {
+//         id: idTicket,
+//         idDispositivo: entradaIdDispositivo.value,
+//         nombreAlumno: entradaNombreAlumno.value,
+//         nombreDispositivo: entradaNombreDispositivo.value,
+//         motivoTicket: entradaMotivoTicket.value,
+//         numAula: entradaNumAula.value,
+//         tipoAula: entradaTipoAula.value,
+//         fecha: entradaFecha.value
+//     };
 
-    event.preventDefault();
+// }
+// formularioTicket.addEventListener("submit", function (event) {
 
-    const ticket = obtenerDatosFormularioTicket();
+//     event.preventDefault();
 
-    if (filaEditandoTicket === null) {
+//     const ticket = obtenerDatosFormularioTicket();
 
-        guardarTicketsLocal(ticket);
+//     if (filaEditandoTicket === null) {
 
-    } else {
+//         guardarTicketsLocal(ticket);
 
-        modificarTicketsLocal(ticket);
+//     } else {
 
-        filaEditandoTicket = null;
-        idEditandoTicket = null;
-    }
+//         modificarTicketsLocal(ticket);
 
-    actualizarTablaTicketModal();
-    formularioTicket.reset();
-});
+//         filaEditandoTicket = null;
+//         idEditandoTicket = null;
+//     }
 
+//     actualizarTablaTicketModal();
+//     formularioTicket.reset();
+// });
 
 
 
 
-btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
-btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
 
-AgregarTickets.addEventListener("click", abrirTicket);
-btnCerrarTicket.addEventListener("click", cerrarTicket);
-//----------------------------------------------------------
+// btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
+// btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
+
+// AgregarTickets.addEventListener("click", abrirTicket);
+// btnCerrarTicket.addEventListener("click", cerrarTicket);

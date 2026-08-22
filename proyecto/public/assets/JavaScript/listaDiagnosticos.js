@@ -99,16 +99,16 @@ function obtenerDiagnosticosFiltrados() {
 }
 */
 
-function obtenerDatosFormulario() {
+// function obtenerDatosFormulario() {
 
-    return {
-        estado: entradaEstado.value,
-        ticket: entradaTicket.value,
-        fecha: entradaFecha.value,
-        descripcion: entradaDescripcion.value
-    };
+//     return {
+//         estado: entradaEstado.value,
+//         ticket: entradaTicket.value,
+//         fecha: entradaFecha.value,
+//         descripcion: entradaDescripcion.value
+//     };
 
-}
+// }
 
 function cerrarVisualizacionDiagnostico() {
 
