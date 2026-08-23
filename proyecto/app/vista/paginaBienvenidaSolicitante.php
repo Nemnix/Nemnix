@@ -48,19 +48,19 @@
                     <li>
 
                         <h3>Realice su registro diario aqui:</h3>
-                        <a href="listaRegistroDiario.html" class="boton">Registro</a>
+                        <a href="../../public/usuarioSolicitante/listaRegistroDiario.php" class="boton">Registro</a>
 
                     </li>
                     <li>
 
                         <h3>Por solicitud de preparación de laboratorios ingrese aquí:</h3>
-                        <a href="solicitudesLabs.html" class="boton">Solicitudes</a>
+                        <a href="../../public/usuarioSolicitante/solicitudesLabs.php" class="boton">Solicitudes</a>
 
                     </li>
                     <li>
 
                         <h3>Para ver el estado de su ticket</h3>
-                        <a href="estadoTickets.html" class="boton">Estado</a>
+                        <a href="../../public/usuarioSolicitante/estadoTickets.php" class="boton">Estado</a>
 
                     </li>
                 </ul>

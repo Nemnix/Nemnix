@@ -114,6 +114,27 @@ SELECT
     LEFT JOIN EQUIPO_PRESTAMO AS e
     ON e.ID_P = p.ID_P
 
+SELECT
+    l.ID_L,
+    l.nombreLab,
+    l.numeroLab,
+
+    FROM LABORATORIO AS l
+
+SELECT
+    l.ID_L,
+    s.cedula,
+    so.descripcionSolicitud,
+    so.fecha,
+    so.gmail,
+
+    FROM SOLICITUD AS so
+
+    LEFT JOIN SOLICITANTE AS s
+    ON s.cedula = so.cedula
+
+    LEFT JOIN LABORATORIO AS l
+    ON l.ID_L = so.ID_L
 
 
     
