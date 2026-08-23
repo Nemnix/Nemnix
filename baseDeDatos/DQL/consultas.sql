@@ -136,6 +136,19 @@ SELECT
     LEFT JOIN LABORATORIO AS l
     ON l.ID_L = so.ID_L
 
+SELECT
+    LABORATORIO.ID_L,
+    LABORATORIO.cedulaA,
+    LABORATORIO.nombreLaboratorio,
+    LABORATORIO.numLaboratorio,
+    SOLICITA.ID_L,
+    SOLICITA.cedula,
+    SOLICITA.descripcionSolicitud,
+    SOLICITA.Fecha,
+    SOLICITA.Gmail
+FROM LABORATORIO
+LEFT JOIN SOLICITA ON LABORATORIO.ID_L = SOLICITA.ID_L;
+
 
     
     

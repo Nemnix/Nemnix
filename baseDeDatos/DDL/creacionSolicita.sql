@@ -1,0 +1,24 @@
+
+CREATE TABLE SOLICITA(
+    ID_L INT NOT NULL,
+    cedula INT NOT NULL,
+    descripcionSolicitud VARCHAR(255) NOT NULL,
+    Fecha DATE NOT NULL,
+    Gmail VARCHAR(100) NOT NULL,
+ 
+CONSTRAINT pk_solicita
+PRIMARY KEY (ID_L, cedula)
+ 
+);
+ 
+ 
+ALTER TABLE SOLICITA
+ADD CONSTRAINT fk_solicita_laboratorio
+FOREIGN KEY (ID_L)
+REFERENCES LABORATORIO(ID_L);
+ 
+ 
+ALTER TABLE SOLICITA
+ADD CONSTRAINT fk_solicita_solicitante
+FOREIGN KEY (cedula)
+REFERENCES SOLICITANTE(cedula);
