@@ -1,5 +1,6 @@
 <?php
- class AccesoSolicitudes{
+class AccesoSolicitudes
+{
     private PDO $conexion;
 
     public function __construct(PDO $conexion)
@@ -7,9 +8,11 @@
         $this->conexion = $conexion;
     }
 
- public function listarSolicitudes (): array {
+    public function listarSolicitudes(): array
+    {
         $sql = "
         SELECT
+        s.ID_L,
         l.nombreLab,
         l.numeroLab,
         s.fecha,
@@ -23,9 +26,44 @@
         $consulta = $this->conexion->query($sql);
 
         $solicitudes = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        
 
         return $solicitudes;
     }
- }
+
+    public function modificarSolicitud(string $ID_L, string $nombreLab, string $numeroLab, string $fecha, string $descripcionSolicitud, string $gmail): bool
+    {
+        try {
+            $this->conexion->beginTransaction();
+
+            $consultaLab = $this->conexion->prepare(
+                "UPDATE LABORATORIO SET nombreLab = :nombreLab, numeroLab = :numeroLab WHERE ID_L = :ID_L"
+            );
+            $consultaLab->execute([
+                "nombreLab" => $nombreLab,
+                "numeroLab" => $numeroLab,
+                "ID_L" => $ID_L,
+            ]);
+
+            $consultaSolicitud = $this->conexion->prepare(
+                "UPDATE SOLICITA SET fecha = :fecha, descripcionSolicitud = :descripcionSolicitud, gmail = :gmail WHERE ID_L = :ID_L"
+            );
+            $consultaSolicitud->execute([
+                "fecha" => $fecha,
+                "descripcionSolicitud" => $descripcionSolicitud,
+                "gmail" => $gmail,
+                "ID_L" => $ID_L,
+            ]);
+
+            $this->conexion->commit();
+            return true;
+
+        } catch (PDOException $error) {
+            if ($this->conexion->inTransaction()) {
+                $this->conexion->rollBack();
+            }
+            error_log("Error al modificar la solicitud: " . $error->getMessage());
+            return false;
+        }
+    }
+}
 ?>
