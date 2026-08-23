@@ -1,5 +1,18 @@
 <?php
+session_start();
 
-require_once __DIR__ . "/../../app/vista/solicitudesLabs.php";
+if (!isset($_SESSION["cedula"])) {
+    $mensaje = "Acceso Denegado: Sesión no iniciada";
+    header("Location: /proyecto/public/login.php?error=" . urlencode($mensaje));
+    exit;
+}
+
+if (!isset($_SESSION["solicitante"]) || $_SESSION["solicitante"] !== true) {
+    $mensaje = "Acceso Denegado: Rol incorrecto";
+    header("Location:  /proyecto/public/login.php?error=" . urlencode($mensaje));
+    exit;
+}
+
+require_once __DIR__ . "/../../app/controlador/cargarSolicitudes.php";
 
 ?>

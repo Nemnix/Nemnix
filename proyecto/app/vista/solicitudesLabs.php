@@ -7,13 +7,13 @@
     <title>Solicitudes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Assets/css/global.css">
+    <link rel="stylesheet" href="../../public/assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="../Assets/img/logoUTU.png">
+        <img class="logo" src="../assets/img/logoUTU.png">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -36,7 +36,7 @@
         <h2>Solicitudes</h2>
         <button id="btnSolicitudes" class="botonesAgregar">Agregar solicitud</button>
         <dialog id="SolicitudesL" class="Formulario">
-            <form id="FormularioSolicitudes">
+            <form id="FormularioSolicitudes" action="/proyecto/public/usuarioSolicitante/procesarAltaSolicitudes.php" method="POST">
                 <fieldset>
                     <legend>Solicitud de preparación de laboratorios</legend>
                     <ul>
@@ -86,11 +86,27 @@
                         <th>Fecha</th>
                         <th>Descripcion</th>
                         <th>Mail</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                    </tr>
+                    <tbody id="registroInventarioPRestamo">
+                    <?php foreach ($solicitudes as $solicitud) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($solicitud["nombreLab"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["numeroLab"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["fecha"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["descripcionSolicitud"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["gmail"]) ?></td>
+                            <td>
+                                <button class="btnEditar">Editar</button>
+                               <form>
+                                    <input type="hidden" name="idPrestamo">
+                                    <button type="submit" class="btnEliminar">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>
+
                     </tbody>
                 </table>
             </fieldset>
@@ -100,9 +116,9 @@
     <footer>
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
-    <script src="../Assets/JavaScript/menu.js"></script>
-    <script src="../Assets/JavaScript/solicitudesLab.js"></script>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/menu.js"></script>
+    <script src="../../public/assets/JavaScript/solicitudesLab.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>

@@ -36,57 +36,57 @@
         <h2>inventario prestamos</h2>
         <button id="btnAgregarEquipo" class="botonesAgregar">Agregar nuevo equipo</button>
         <dialog id="RegistroEquipoP" class="Formulario">
-        <form action="/proyecto/public/usuarioTecnico/procesarAltaPrestamos.php" method="POST" id="FormularioInventarioEquipos">
-                <fieldset>
-                    <legend>Equipo de prestamo</legend>
-                    <ul>
-                        <input type="hidden" id="ID_P" name="ID_P">
-                        <li>
-                            <label for="ID_EP">ID equipo</label>
-                            <input type="text" id="ID_EP" name="ID_EP"
-                                required placeholder="Escribe la ID del equipo" />
-                        </li>
-                        <li>
-                            <label for="modeloPrestamo">Modelo</label>
-                            <input type="text" id="modeloPrestamo" name="modelo_prestamo" required placeholder="Ingrese el modelo del equipo">
-                        </li>
-                        <li>
-                            <label for="estadoEquipos">Seleccione estado</label>
-                            <select id="estadoEquipos" name="estadoEquipos" required>
-                            <option value="">-- Seleccione un estado --</option>
-                            <option>Disponible</option>
-                            <option>Prestamo en fecha</option>
-                            <option>VENCIDO</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="ciAlumno">Cedula alumno</label>
-                            <input type="text" id="ciAlumno" name="ciAlumno"
-                                required placeholder="Escribe la ID del equipo" />
-                        </li>
-                        <li>
-                            <label for="nombreAlumnoPrestamo">Nombre</label>
-                            <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
-                        </li>
-                        <li>
-                            <label for="apellidoAlumnoPrestamo">Apellido</label>
-                            <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
-                        </li>
-                        <li>
-                            <label for="fechaPrestamo">Fecha de inicio</label>
-                            <input type="date" id="fechaPrestamo" name="fechaPrestamo" required>
-                        </li>
-                        <li>
-                            <label for="fechaDevolucion">Fecha de devolucion</label>
-                            <input type="date" id="fechaDevolucion" name="fechaDevolucion" required>
-                        </li>
-                        <li>
-                            <button type="submit" id="btnGuardarInventario"> Enviar </button>
-                            <button type="button" id="btnCerrarInventario">Cerrar</button>
-                        </li>
-                    </ul>
-                </fieldset>
-            </form>
+            <form action="/proyecto/public/usuarioTecnico/procesarAltaPrestamos.php" method="POST" id="FormularioInventarioEquipos">
+                    <fieldset>
+                        <legend>Equipo de prestamo</legend>
+                        <ul>
+                            <input type="hidden" id="ID_P" name="ID_P">
+                            <li>
+                                <label for="ID_EP">ID equipo</label>
+                                <input type="text" id="ID_EP" name="ID_EP"
+                                    required placeholder="Escribe la ID del equipo" />
+                            </li>
+                            <li>
+                                <label for="modeloPrestamo">Modelo</label>
+                                <input type="text" id="modeloPrestamo" name="modelo_prestamo" required placeholder="Ingrese el modelo del equipo">
+                            </li>
+                            <li>
+                                <label for="estadoEquipos">Seleccione estado</label>
+                                <select id="estadoEquipos" name="estadoEquipos" required>
+                                <option value="">-- Seleccione un estado --</option>
+                                <option>Disponible</option>
+                                <option>Prestamo en fecha</option>
+                                <option>VENCIDO</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label for="ciAlumno">Cedula alumno</label>
+                                <input type="text" id="ciAlumno" name="ciAlumno"
+                                    required placeholder="Escribe la ID del equipo" />
+                            </li>
+                            <li>
+                                <label for="nombreAlumnoPrestamo">Nombre</label>
+                                <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
+                            </li>
+                            <li>
+                                <label for="apellidoAlumnoPrestamo">Apellido</label>
+                                <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
+                            </li>
+                            <li>
+                                <label for="fechaPrestamo">Fecha de inicio</label>
+                                <input type="date" id="fechaPrestamo" name="fechaPrestamo" required>
+                            </li>
+                            <li>
+                                <label for="fechaDevolucion">Fecha de devolucion</label>
+                                <input type="date" id="fechaDevolucion" name="fechaDevolucion" required>
+                            </li>
+                            <li>
+                                <button type="submit" id="btnGuardarInventario"> Enviar </button>
+                                <button type="button" id="btnCerrarInventario">Cerrar</button>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </form>
         </dialog>
 
         <section class="Tablas">
