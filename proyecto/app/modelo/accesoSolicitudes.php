@@ -30,17 +30,30 @@ class AccesoSolicitudes
         return $solicitudes;
     }
 
-    public function modificarSolicitud(string $ID_L, string $nombreLab, string $numeroLab, string $fecha, string $descripcionSolicitud, string $gmail): bool
+    public function modificarSolicitud(string $ID_L, string $cedula, string $nombreLaboratorio, string $numLaboratorio, string $fecha, string $descripcionSolicitud, string $gmail): bool
     {
         try {
             $this->conexion->beginTransaction();
 
+            $consultaSolicitud = $this->conexion->prepare(
+                "SELECT 1 FROM SOLICITA WHERE ID_L = :ID_L AND cedula = :cedula"
+            );
+            $consultaSolicitud->execute([
+                "ID_L" => $ID_L,
+                "cedula" => $cedula,
+            ]);
+
+            if ($consultaSolicitud->fetchColumn() === false) {
+                $this->conexion->rollBack();
+                return false;
+            }
+
             $consultaLab = $this->conexion->prepare(
-                "UPDATE LABORATORIO SET nombreLaboratorio = :nombreLaboratorio, numLaboratorio = :numeroLaboratorio WHERE ID_L = :ID_L"
+                "UPDATE LABORATORIO SET nombreLaboratorio = :nombreLaboratorio, numLaboratorio = :numLaboratorio WHERE ID_L = :ID_L"
             );
             $consultaLab->execute([
-                "nombreLaboratorio" => $nombreLab,
-                "numLaboratorio" => $numeroLab,
+                "nombreLaboratorio" => $nombreLaboratorio,
+                "numLaboratorio" => $numLaboratorio,
                 "ID_L" => $ID_L,
             ]);
 

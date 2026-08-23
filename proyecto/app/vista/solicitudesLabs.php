@@ -35,47 +35,46 @@
     <main>
         <h2>Solicitudes</h2>
         <button id="btnSolicitudes" class="botonesAgregar">Agregar solicitud</button>
-        <dialog id="SolicitudesL" class="Formulario">
-            <form id="FormularioSolicitudes" action="/proyecto/public/usuarioSolicitante/procesarAltaSolicitudes.php" method="POST">
-                <fieldset>
-                    <legend>Solicitud de preparación de laboratorios</legend>
-                    <input type="hidden" id="idSolicitud" name="ID_L">
-                    <ul>
-                        <li>
-                            <label for="IDLaboratorio">Seleccione el número del laboratorio o taller el cual necesita
-                                una instalación de software o configuración de equipos </label>
-                            <select id="IDLaboratorio" name="preparacionLaboratorio">
-                                <option>Laboratorio</option>
-                                <option>Taller</option>
-                        </li>
-                        </select>
-                        </li>
-                        <li>
-                            <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
-                            <input type="text" id="numLabTaller" name="numLabTaller" pattern="[0-9]{2}" maxlength="2"
-                                required required placeholder="Numero laboratorio/taller" />
-                        </li>
-                        <li>
-                            <label for="fechaLaboratorio">Fecha aproximda de cuando necesita esta preparación</label>
-                            <input type="date" id="fechaLaboratorio" name="fechaLaboratorio">
-                        </li>
-                        <li>
-                            <label for="motivoSolicitudes">Descripcion</label>
-                            <input type="text" id="motivoSolicitudes" name="motivoSolicitudes" required
-                                placeholder="Describa lo que precisa" />
-                        </li>
-                        <li>
-                            <label for="mailDocente">Mail</label>
-                            <input type="email" id="mailDocente" name="mailDocente" required
-                                placeholder="Escriba su mail" />
-                        </li>
-                        <li>
-                            <button type="submit"> Enviar </button>
-                        </li>
-                    </ul>
-                </fieldset>
-            </form>
-        </dialog>
+<dialog id="SolicitudesL" class="Formulario">
+    <form id="FormularioSolicitudes" action="/proyecto/public/usuarioSolicitante/procesarAltaSolicitudes.php" method="POST">
+        <fieldset>
+            <legend>Solicitud de preparación de laboratorios</legend>
+            <input type="hidden" id="idSolicitud" name="ID_L">
+            <ul>
+                <li>
+                    <label for="IDLaboratorio">Seleccione el número del laboratorio o taller el cual necesita
+                        una instalación de software o configuración de equipos </label>
+                    <select id="IDLaboratorio" name="nombreLaboratorio">
+                        <option>Laboratorio</option>
+                        <option>Taller</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
+                    <input type="text" id="numLabTaller" name="numLaboratorio" pattern="[0-9]{2}" maxlength="2"
+                        required placeholder="Numero laboratorio/taller" />
+                </li>
+                <li>
+                    <label for="fechaLaboratorio">Fecha aproximda de cuando necesita esta preparación</label>
+                    <input type="date" id="fechaLaboratorio" name="fecha">
+                </li>
+                <li>
+                    <label for="motivoSolicitudes">Descripcion</label>
+                    <input type="text" id="motivoSolicitudes" name="descripcionSolicitud" required
+                        placeholder="Describa lo que precisa" />
+                </li>
+                <li>
+                    <label for="mailDocente">Mail</label>
+                    <input type="email" id="mailDocente" name="gmail" required
+                        placeholder="Escriba su mail" />
+                </li>
+                <li>
+                    <button type="submit"> Enviar </button>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</dialog>
 
         <section class="Tablas">
             <fieldset>
