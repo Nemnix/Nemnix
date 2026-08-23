@@ -17,104 +17,104 @@ let filaEditando = null;
 
 
 
-function cargarUsuariosLocal() {
+// function cargarUsuariosLocal() {
 
-    const usuariosGuardados = localStorage.getItem("usuarios");
+//     const usuariosGuardados = localStorage.getItem("usuarios");
 
-    if (usuariosGuardados === null) {
-        return [];
-    }
+//     if (usuariosGuardados === null) {
+//         return [];
+//     }
 
-    return JSON.parse(usuariosGuardados);
+//     return JSON.parse(usuariosGuardados);
 
-}
+// }
 
-function actualizarUsuariosLocal(usuarios) {
+// function actualizarUsuariosLocal(usuarios) {
 
-    localStorage.setItem(
-        "usuarios",
-        JSON.stringify(usuarios)
-    );
+//     localStorage.setItem(
+//         "usuarios",
+//         JSON.stringify(usuarios)
+//     );
 
-}
+// }
 
-function guardarUsuarioLocal(usuario) {
+// function guardarUsuarioLocal(usuario) {
 
-    const usuarios = cargarUsuariosLocal();
+//     const usuarios = cargarUsuariosLocal();
 
-    usuarios.push(usuario);
+//     usuarios.push(usuario);
 
-    actualizarUsuariosLocal(usuarios);
+//     actualizarUsuariosLocal(usuarios);
 
-}
+// }
 
-function actualizarTabla() {
-    tabla.querySelector("tbody").replaceChildren();
-    const usuarios = cargarUsuariosLocal();
-    for (const usuario of usuarios) {
-        agregarUsuario(usuario);
-    }
-}
+// function actualizarTabla() {
+//     tabla.querySelector("tbody").replaceChildren();
+//     const usuarios = cargarUsuariosLocal();
+//     for (const usuario of usuarios) {
+//         agregarUsuario(usuario);
+//     }
+// }
 
 
-function modificarUsuarioLocal(usuarioEditado) {
+// function modificarUsuarioLocal(usuarioEditado) {
 
-    const usuarios = cargarUsuariosLocal();
+//     const usuarios = cargarUsuariosLocal();
 
-    const usuario = usuarios.find(
-        u => u.cedula === usuarioEditado.cedula
-    );
+//     const usuario = usuarios.find(
+//         u => u.cedula === usuarioEditado.cedula
+//     );
 
-    if (usuario === undefined) {
-        return;
-    }
+//     if (usuario === undefined) {
+//         return;
+//     }
 
-    usuario.nombre = usuarioEditado.nombre;
-    usuario.apellido = usuarioEditado.apellido;
-    usuario.cargo = usuarioEditado.cargo;
-    usuario.contrasenia = usuarioEditado.contrasenia;
+//     usuario.nombre = usuarioEditado.nombre;
+//     usuario.apellido = usuarioEditado.apellido;
+//     usuario.cargo = usuarioEditado.cargo;
+//     usuario.contrasenia = usuarioEditado.contrasenia;
 
-    actualizarUsuariosLocal(usuarios);
-}
+//     actualizarUsuariosLocal(usuarios);
+// }
 
-function eliminarUsuarioLocal(cedula) {
+// function eliminarUsuarioLocal(cedula) {
 
-    const usuarios = cargarUsuariosLocal();
+//     const usuarios = cargarUsuariosLocal();
 
-    const usuariosActualizados = usuarios.filter(
-        u => u.cedula !== cedula
-    );
+//     const usuariosActualizados = usuarios.filter(
+//         u => u.cedula !== cedula
+//     );
 
-    actualizarUsuariosLocal(usuariosActualizados);
-}
+//     actualizarUsuariosLocal(usuariosActualizados);
+// }
 
-function obtenerContraseniaPorCedula(cedula) {
+// function obtenerContraseniaPorCedula(cedula) {
 
-    const usuarios = cargarUsuariosLocal();
+//     const usuarios = cargarUsuariosLocal();
 
-    const usuario = usuarios.find(
-        u => u.cedula === cedula
-    );
+//     const usuario = usuarios.find(
+//         u => u.cedula === cedula
+//     );
 
-    if (usuario === undefined) {
-        return "";
-    }
+//     if (usuario === undefined) {
+//         return "";
+//     }
 
-    return usuario.contrasenia;
+//     return usuario.contrasenia;
 
-}
+// }
 
-function obtenerDatosFormulario() {
+// function obtenerDatosFormulario() {
 
-    return {
-        cedula: entradaCedula.value,
-        nombre: entradaNombre.value,
-        apellido: entradaApellido.value,
-        cargo: entradaCargo.value,
-        contrasenia: entradaContrasenia.value
-    };
+//     return {
+//         cedula: entradaCedula.value,
+//         nombre: entradaNombre.value,
+//         apellido: entradaApellido.value,
+//         cargo: entradaCargo.value,
+//         contrasenia: entradaContrasenia.value
+//     };
 
-}
+// }
 
 function abrirAltaUsuario() {
 
@@ -141,129 +141,129 @@ modal.addEventListener("cancel", function () {
 
 });
 
-function agregarUsuario(usuario) {
+// function agregarUsuario(usuario) {
  
-    let fila = document.createElement("tr");
+//     let fila = document.createElement("tr");
  
-    let tdCedula = document.createElement("td");
-    tdCedula.innerText = usuario.cedula;
+//     let tdCedula = document.createElement("td");
+//     tdCedula.innerText = usuario.cedula;
  
-    let tdNombre = document.createElement("td");
-    tdNombre.innerText = usuario.nombre;
+//     let tdNombre = document.createElement("td");
+//     tdNombre.innerText = usuario.nombre;
  
-    let tdApellido = document.createElement("td");
-    tdApellido.innerText = usuario.apellido;
+//     let tdApellido = document.createElement("td");
+//     tdApellido.innerText = usuario.apellido;
  
-    let tdCargo = document.createElement("td");
-    tdCargo.innerText = usuario.cargo;
+//     let tdCargo = document.createElement("td");
+//     tdCargo.innerText = usuario.cargo;
  
-    let tdAcciones = document.createElement("td");
+//     let tdAcciones = document.createElement("td");
  
-    let btnModificar = document.createElement("button");
-    btnModificar.innerText = "Modificar";
-    btnModificar.onclick = function () {
-        modificar(this);
-    };
+//     let btnModificar = document.createElement("button");
+//     btnModificar.innerText = "Modificar";
+//     btnModificar.onclick = function () {
+//         modificar(this);
+//     };
  
-    let btnEliminar = document.createElement("button");
-    btnEliminar.innerText = "Eliminar";
-    btnEliminar.onclick = function () {
-        borrar(this);
-    };
+//     let btnEliminar = document.createElement("button");
+//     btnEliminar.innerText = "Eliminar";
+//     btnEliminar.onclick = function () {
+//         borrar(this);
+//     };
  
-    tdAcciones.appendChild(btnModificar);
-    tdAcciones.appendChild(btnEliminar);
+//     tdAcciones.appendChild(btnModificar);
+//     tdAcciones.appendChild(btnEliminar);
  
-    fila.appendChild(tdCedula);
-    fila.appendChild(tdNombre);
-    fila.appendChild(tdApellido);
-    fila.appendChild(tdCargo);
-    fila.appendChild(tdAcciones);
+//     fila.appendChild(tdCedula);
+//     fila.appendChild(tdNombre);
+//     fila.appendChild(tdApellido);
+//     fila.appendChild(tdCargo);
+//     fila.appendChild(tdAcciones);
  
-    tabla.querySelector("tbody").appendChild(fila);
+//     tabla.querySelector("tbody").appendChild(fila);
  
-}
+// }
 
 
-function borrar(boton) {
+// function borrar(boton) {
 
-    const fila = boton.parentNode.parentNode;
+//     const fila = boton.parentNode.parentNode;
 
-    const cedula = fila.children[0].innerText;
+//     const cedula = fila.children[0].innerText;
 
-    eliminarUsuarioLocal(cedula);
+//     eliminarUsuarioLocal(cedula);
 
-    actualizarTabla();
+//     actualizarTabla();
 
-}
+// }
 
-function modificar(boton) {
+// function modificar(boton) {
 
-    filaEditando = boton.parentNode.parentNode;
+//     filaEditando = boton.parentNode.parentNode;
 
-    const celdas = filaEditando.getElementsByTagName("td");
+//     const celdas = filaEditando.getElementsByTagName("td");
 
-    entradaCedula.value = celdas[0].innerText;
-    entradaCedula.readOnly = true;
-    entradaNombre.value = celdas[1].innerText;
-    entradaApellido.value = celdas[2].innerText;
-    entradaCargo.value = celdas[3].innerText;
-    entradaContrasenia.value = obtenerContraseniaPorCedula(entradaCedula.value);
+//     entradaCedula.value = celdas[0].innerText;
+//     entradaCedula.readOnly = true;
+//     entradaNombre.value = celdas[1].innerText;
+//     entradaApellido.value = celdas[2].innerText;
+//     entradaCargo.value = celdas[3].innerText;
+//     entradaContrasenia.value = obtenerContraseniaPorCedula(entradaCedula.value);
 
-    modal.showModal();
+//     modal.showModal();
 
-}
+// }
 
-function validarFormulario(usuario) {
+// function validarFormulario(usuario) {
 
-    if (!usuario.cedula || !usuario.nombre || !usuario.apellido || !usuario.cargo || !usuario.contrasenia) {
-        alert("Complete todos los campos");
-        return false;
-    }
+//     if (!usuario.cedula || !usuario.nombre || !usuario.apellido || !usuario.cargo || !usuario.contrasenia) {
+//         alert("Complete todos los campos");
+//         return false;
+//     }
 
-    if (!/^\d+$/.test(usuario.cedula)) {
-        alert("La cédula debe contener solamente números");
-        return false;
-    }
+//     if (!/^\d+$/.test(usuario.cedula)) {
+//         alert("La cédula debe contener solamente números");
+//         return false;
+//     }
 
-    if (!/^\d{8}$/.test(usuario.cedula)) {
-        alert("La cédula debe tener 8 números");
-        return false;
-    }
+//     if (!/^\d{8}$/.test(usuario.cedula)) {
+//         alert("La cédula debe tener 8 números");
+//         return false;
+//     }
 
-    return true;
+//     return true;
 
-}
+// }
 
 
-btnAgregarNuevoUsuario.addEventListener("click", abrirAltaUsuario);
+// btnAgregarNuevoUsuario.addEventListener("click", abrirAltaUsuario);
 
-btnCerrarPanel.addEventListener("click", cerrarAltausuario);
+// btnCerrarPanel.addEventListener("click", cerrarAltausuario);
 
-formulario.addEventListener("submit", function (event) {
+// formulario.addEventListener("submit", function (event) {
 
-    event.preventDefault();
+//     event.preventDefault();
 
-    const usuario = obtenerDatosFormulario();
+//     const usuario = obtenerDatosFormulario();
 
-    if (!validarFormulario(usuario)) {
-        return;
-    }
+//     if (!validarFormulario(usuario)) {
+//         return;
+//     }
 
-    if (filaEditando === null) {
+//     if (filaEditando === null) {
 
-        guardarUsuarioLocal(usuario);
+//         guardarUsuarioLocal(usuario);
 
-    } else {
+//     } else {
 
-        modificarUsuarioLocal(usuario);
+//         modificarUsuarioLocal(usuario);
 
-        filaEditando = null;
-    }
+//         filaEditando = null;
+//     }
 
-    actualizarTabla();
+//     actualizarTabla();
 
-    modal.close();
-});
+//     modal.close();
+// });
 
-actualizarTabla();
+// actualizarTabla();
