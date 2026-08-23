@@ -173,7 +173,10 @@
                             <td>
                                 <div class="cajaOperaciones">
                                     <button type="button" class="btnOperacion btnModificar">Abrir</button>
-                                    <button type="button" class="btnOperacion btnEliminar">Eliminar</button>
+                                <form action="/proyecto/public/usuarioTecnico/procesarBajaSolicitud.php" method="post" class="formularioBajaPrestamo">
+                                    <input type="hidden" name="idPrestamo" value="<?= htmlspecialchars($solicitud["ID_L"]) ?>">
+                                    <button type="submit" class="btnEliminar">Eliminar</button>
+                                </form>
                                 </div>
                             </td>
                         </tr>

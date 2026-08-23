@@ -39,6 +39,7 @@
             <form id="FormularioSolicitudes" action="/proyecto/public/usuarioSolicitante/procesarAltaSolicitudes.php" method="POST">
                 <fieldset>
                     <legend>Solicitud de preparación de laboratorios</legend>
+                    <input type="hidden" id="idSolicitud" name="ID_L">
                     <ul>
                         <li>
                             <label for="IDLaboratorio">Seleccione el número del laboratorio o taller el cual necesita
@@ -89,7 +90,7 @@
                         <th>Acciones</th>
                     </tr>
                     </thead>
-                    <tbody id="registroInventarioPRestamo">
+                    <tbody id="tablaOpciones">
                     <?php foreach ($solicitudes as $solicitud) { ?>
                         <tr>
                             <td><?= htmlspecialchars($solicitud["nombreLab"]) ?></td>
@@ -98,9 +99,9 @@
                             <td><?= htmlspecialchars($solicitud["descripcionSolicitud"]) ?></td>
                             <td><?= htmlspecialchars($solicitud["gmail"]) ?></td>
                             <td>
-                                <button class="btnEditar">Editar</button>
-                               <form>
-                                    <input type="hidden" name="idPrestamo">
+                                <button class="btnEditar" data-id="<?= htmlspecialchars($solicitud["ID_L"]) ?>">Editar</button>
+                             <form action="/proyecto/public/usuarioSolicitante/procesarBajaSolicitud.php" method="POST">
+                                 <input type="hidden" name="ID_L" value="<?= htmlspecialchars($solicitud["ID_L"]) ?>">
                                     <button type="submit" class="btnEliminar">Eliminar</button>
                                 </form>
                             </td>
