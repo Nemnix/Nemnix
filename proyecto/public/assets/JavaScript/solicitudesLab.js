@@ -118,7 +118,7 @@ function abrirAltaSolicitud() {
 
 // }
 
-// btnSolicitudes.addEventListener("click", abrirAltaSolicitud);
+btnSolicitudes.addEventListener("click", abrirAltaSolicitud);
 
 // formulario.addEventListener("submit", function (event) {
 
