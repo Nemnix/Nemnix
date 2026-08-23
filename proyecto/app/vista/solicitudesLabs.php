@@ -93,8 +93,8 @@
                     <tbody id="tablaOpciones">
                     <?php foreach ($solicitudes as $solicitud) { ?>
                         <tr>
-                            <td><?= htmlspecialchars($solicitud["nombreLab"]) ?></td>
-                            <td><?= htmlspecialchars($solicitud["numeroLab"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["nombreLaboratorio"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["numLaboratorio"]) ?></td>
                             <td><?= htmlspecialchars($solicitud["fecha"]) ?></td>
                             <td><?= htmlspecialchars($solicitud["descripcionSolicitud"]) ?></td>
                             <td><?= htmlspecialchars($solicitud["gmail"]) ?></td>

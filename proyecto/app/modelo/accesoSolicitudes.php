@@ -13,8 +13,8 @@ class AccesoSolicitudes
         $sql = "
         SELECT
         s.ID_L,
-        l.nombreLab,
-        l.numeroLab,
+        l.nombreLaboratorio,
+        l.numLaboratorio,
         s.fecha,
         s.descripcionSolicitud,
         s.gmail
@@ -36,11 +36,11 @@ class AccesoSolicitudes
             $this->conexion->beginTransaction();
 
             $consultaLab = $this->conexion->prepare(
-                "UPDATE LABORATORIO SET nombreLab = :nombreLab, numeroLab = :numeroLab WHERE ID_L = :ID_L"
+                "UPDATE LABORATORIO SET nombreLaboratorio = :nombreLaboratorio, numLaboratorio = :numeroLaboratorio WHERE ID_L = :ID_L"
             );
             $consultaLab->execute([
-                "nombreLab" => $nombreLab,
-                "numeroLab" => $numeroLab,
+                "nombreLaboratorio" => $nombreLab,
+                "numLaboratorio" => $numeroLab,
                 "ID_L" => $ID_L,
             ]);
 
