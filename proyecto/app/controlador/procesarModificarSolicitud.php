@@ -13,18 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST" || !isset($_SESSION["cedula"]) || ($_S
 }
 
 $ID_L = trim($_POST["ID_L"] ?? "");
-$nombreLab = trim($_POST["preparacionLaboratorio"] ?? "");
-$numeroLab = trim($_POST["numLabTaller"] ?? "");
-$fecha = trim($_POST["fechaLaboratorio"] ?? "");
-$descripcionSolicitud = trim($_POST["motivoSolicitudes"] ?? "");
-$gmail = trim($_POST["mailDocente"] ?? "");
+$nombreLaboratorio = trim($_POST["nombreLaboratorio"] ?? "");
+$numLaboratorio = trim($_POST["numLaboratorio"] ?? "");
+$fecha = trim($_POST["fecha"] ?? "");
+$descripcionSolicitud = trim($_POST["descripcionSolicitud"] ?? "");
+$gmail = trim($_POST["gmail"] ?? "");
 
 if (!ctype_digit($ID_L) || (int) $ID_L <= 0) {
     header("Location: /proyecto/public/usuarioSolicitante/solicitudesLabs.php?error=" . urlencode("Identificador de laboratorio inválido."));
     exit;
 }
 
-if ($nombreLab === "" || $numeroLab === "" || $fecha === "" || $descripcionSolicitud === "" || $gmail === "") {
+if ($nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $descripcionSolicitud === "" || $gmail === "") {
     header("Location: /proyecto/public/usuarioSolicitante/solicitudesLabs.php?error=" . urlencode("Todos los campos son obligatorios."));
     exit;
 }
@@ -32,7 +32,15 @@ if ($nombreLab === "" || $numeroLab === "" || $fecha === "" || $descripcionSolic
 $conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
 $conexion = $conectorPDO->establecerConexion();
 $accesoSolicitudes = new AccesoSolicitudes($conexion);
-$resultado = $accesoSolicitudes->modificarSolicitud($ID_L, $nombreLab, $numeroLab, $fecha, $descripcionSolicitud, $gmail);
+$resultado = $accesoSolicitudes->modificarSolicitud(
+    $ID_L,
+    (string) $_SESSION["cedula"],
+    $nombreLaboratorio,
+    $numLaboratorio,
+    $fecha,
+    $descripcionSolicitud,
+    $gmail
+);
 $conectorPDO->desconectar();
 
 $parametro = $resultado ? "resultado" : "error";

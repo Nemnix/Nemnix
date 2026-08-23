@@ -116,8 +116,8 @@ SELECT
 
 SELECT
     l.ID_L,
-    l.nombreLab,
-    l.numeroLab,
+    l.nombreLaboratorio,
+    l.numLaboratorio,
 
     FROM LABORATORIO AS l
 

@@ -41,10 +41,10 @@ class AltaSolicitud
      *
      * @return bool TRUE si el registro se completa correctamente, FALSE en caso contrario.
      */
-    public function registrarSolicitud(string $cedula, string $nombreLab, string $numeroLab, string $fechaSolicitud, string $descripcionSolicitud, string $gmailDocente): bool
+    public function registrarSolicitud(string $cedula, string $nombreLaboratorio, string $numLaboratorio, string $fechaSolicitud, string $descripcionSolicitud, string $gmailDocente): bool
     {
         // Validar que los campos obligatorios no estén vacíos
-        if (empty($nombreLab) || empty($numeroLab) || empty($fechaSolicitud) || empty($descripcionSolicitud) || empty($gmailDocente)) {
+        if (empty($nombreLaboratorio) || empty($numLaboratorio) || empty($fechaSolicitud) || empty($descripcionSolicitud) || empty($gmailDocente)) {
             $this->ultimoError = "Todos los campos son obligatorios.";
             return false;
         }
@@ -64,13 +64,13 @@ class AltaSolicitud
             //Si una instrucción falla, retorna excepción con la posibilidad de deshacer cambios con rollBack()
             $this->conexion->beginTransaction();
 
-                        $sqlSolicitudLab = "INSERT INTO LABORATORIO (nombreLab, numeroLab) VALUES (:nombreLab, :numeroLab)";
+                        $sqlSolicitudLab = "INSERT INTO LABORATORIO (nombreLaboratorio, numLaboratorio) VALUES (:nombreLaboratorio, :numLaboratorio)";
 
             $consultaSolicitudLab = $this->conexion->prepare($sqlSolicitudLab);
 
             $consultaSolicitudLab->execute([
-                "nombreLab" => $nombreLab,
-                "numeroLab" => $numeroLab
+                "nombreLaboratorio" => $nombreLaboratorio,
+                "numLaboratorio" => $numLaboratorio
             ]);
 
             $idLab = $this->conexion->lastInsertId();
