@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once RUTA_MODELO . '/conexion.php';
-require_once RUTA_MODELO . '/BajaSolicitud.php';
+require_once RUTA_MODELO . '/BajaSolicitudUS.php';
 
 function validarSesion(): void {
     if (!isset($_SESSION['usuario'])) {
@@ -12,7 +12,7 @@ function validarSesion(): void {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../vista/solicitudes.php?mensaje=Peticion no valida');
+    header('Location: ../vista/solicitudesLabs.php?mensaje=Peticion no valida');
     exit;
 }
  
@@ -22,18 +22,18 @@ $idL = $_POST['ID_L'] ?? null;
 $cedula = $_POST['cedula'] ?? null;
  
 if (!$idL || !$cedula) {
-    header('Location: ../vista/solicitudes.php?mensaje=Debe indicar el laboratorio y la cedula del solicitante');
+    header('Location: ../vista/solicitudesLabs.php?mensaje=Debe indicar el laboratorio y la cedula del solicitante');
     exit;
 }
  
 $conexion = obtenerConexion();
  
-$bajaSolicitud = new BajaSolicitud($conexion);
+$bajaSolicitud = new BajaSolicitudUS($conexion);
 $eliminado = $bajaSolicitud->eliminarSolicitud((int) $idL, (string) $cedula);
  
 if ($eliminado) {
-    header('Location: ../vista/solicitudes.php?mensaje=Solicitud eliminada correctamente');
+    header('Location: ../vista/solicitudesLabs.php?mensaje=Solicitud eliminada correctamente');
 } else {
-    header('Location: ../vista/solicitudes.php?mensaje=No se pudo eliminar la solicitud');
+    header('Location: ../vista/solicitudesLabs.php?mensaje=No se pudo eliminar la solicitud');
 }
 exit;
