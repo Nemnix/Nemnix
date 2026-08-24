@@ -3,7 +3,6 @@
     --Perla: #EEEEEE;
     --grisResaltado:#B1B1B1;
     --grisClaro: #D9D9D9;
-    --grisMedio:  #656565;
     --gris: #464646;
     --Negro: #000000;
     --AzulOscuro: #0A274C;
@@ -11,16 +10,10 @@
     --grisOscuro: #1C1B1B;
     --grisRGBA: 183, 183, 183;
     --grisBotones:  #2C2C2C;
-    --AzulOscuro: #0A274C;
     --AzulRGB: 10, 39, 76;
-    --AzulMedio: #0F468C;
-    --Azu: #8c6b0f;
-    --grisOscuro: #1C1B1B;
     --AmarilloBotones: 199, 163, 20;
     --Amarillo:#EDC31C ;
     --AmarilloClaro: #dfb50f;
-    --Campos: #C5C3C3;
-    --Incio: #EEEEEE;
 }
 
 body{
