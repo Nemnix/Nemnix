@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
-    <link rel="stylesheet" href="../Assets/css/usuarioAdmistrador.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/usuarioAdmistrador.css">
 </head>
 
 <body>
@@ -21,6 +21,7 @@
                 <path
                     d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
             </svg>
+            </button>
             <nav>
                 <ul class="MenuPrincipal">
                     <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>

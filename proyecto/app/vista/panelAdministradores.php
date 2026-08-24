@@ -7,11 +7,7 @@
     <title>Panel administradores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<<<<<<< HEAD
     <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
-=======
-    <link rel="stylesheet" href="../assets/css/global.css">
->>>>>>> 8de007b7e3426e091e570f2e9428103f419a0b1e
 </head>
 
 <body>
