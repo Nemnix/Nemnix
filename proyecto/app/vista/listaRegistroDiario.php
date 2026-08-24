@@ -31,6 +31,11 @@
 
     </header>
     <main>
+        <?php if (isset($_GET["resultado"])): ?>
+            <p class="mensajeExito"><?= htmlspecialchars($_GET["resultado"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php elseif (isset($_GET["error"])): ?>
+            <p class="mensajeError"><?= htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php endif; ?>
         <h2>Registro diario</h2>
         <button id="btnAgregarRegistro" class="botonesAgregar">Agregar registro</button>
 
@@ -40,6 +45,7 @@
                 <fieldset>
                     <legend>Solicitud de preparación de laboratorios</legend>
                     <ul>
+                        <input type="hidden" id="ID_R" name="ID_R">
                         <li>
                             <label for="IDLaboratorio">Seleccione el tipo de aula</label>
                             <select id="IDLaboratorio" name="preparacionLaboratorio" required>
@@ -103,10 +109,11 @@
 
         <dialog id="TicketSolicitante" class="Formulario">
 
-            <form id="FormularioTickets">
+            <form action="/proyecto/public/usuarioSolicitante/procesarAltaTickets.php" method="POST" id="FormularioTickets">
                 <fieldset>
                     <legend>Ticket 1</legend>
                     <ul>
+                        <input type="hidden" id="ID_R_Ticket" name="ID_R">
                         <li>
                             <label for="idDispositivo">Tipo de dispositivo</label>
                             <input type="text" id="idDispositivo" name="idDispositivo" required
@@ -115,7 +122,7 @@
                         <li>
                             <label for="nombreAlumno">En caso de ser una maquina, escriba el nombre completo del alumno
                                 que utilizo ese equipo</label>
-                            <input type="text" id="nombreAlumno" name="nombreAlumno" required
+                            <input type="text" id="nombreAlumno" name="nombreAlumno"
                                 placeholder="Nombre del alumno" />
                         </li>
                         <li>
@@ -127,6 +134,15 @@
                             <label for="ticket">Motivo del ticket</label>
                             <input type="text" id="motivoTicket" required name="motivo_Ticket"
                                 placeholder="Ingrese el motivo del ticket" />
+                        </li>
+                        <li>
+                            <label for="prioridadTicket">Prioridad</label>
+                            <select id="prioridadTicket" name="prioridad" required>
+                                <option value="">-- Seleccione una prioridad --</option>
+                                <option value="Baja">Baja</option>
+                                <option value="Media">Media</option>
+                                <option value="Alta">Alta</option>
+                            </select>
                         </li>
                         <li>
                             <button type="submit"> Enviar </button>
@@ -148,10 +164,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-
-                        </tr>
+                    <tbody id="cuerpoTicketModal">
                     </tbody>
                 </table>
             </fieldset>
@@ -160,21 +173,43 @@
         <section class="Tablas">
             <fieldset>
 
-                <table id="registroDiario">
-
-                    <tr>
-                        <th>Registro</th>
-                        <th>Fecha</th>
-                        <th>Tipo de aula</th>
-                        <th>Numero de aula</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                        <th>Turno</th>
-                        <th>Grupo</th>
-                        <th>Asignatura</th>
-                        <th>Acciones</th>
-                    </tr>
-
+                <table id="registroDiario"> 
+                    <thead>
+                        <tr>
+                            <th>Registro</th>
+                            <th>Fecha</th>
+                            <th>Tipo de aula</th>
+                            <th>Numero de aula</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Turno</th>
+                            <th>Grupo</th>
+                            <th>Asignatura</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                <tbody id="tablaRegistroDiario">
+                    <?php foreach ($registros as $registro) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($registro["fecha"]) ?></td>
+                            <td><?= htmlspecialchars($registro["nombreLaboratorio"]) ?></td>
+                            <td><?= htmlspecialchars($registro["numLaboratorio"]) ?></td>
+                            <td><?= htmlspecialchars($registro["horaEntrada"]) ?></td>
+                            <td><?= htmlspecialchars($registro["horaFin"]) ?></td>
+                            <td><?= htmlspecialchars($registro["turno"]) ?></td>
+                            <td><?= htmlspecialchars($registro["grupo"]) ?></td>
+                            <td><?= htmlspecialchars($registro["asignatura"]) ?></td>
+                            <td>
+                                <button class="btnEditar" data-id="<?= htmlspecialchars($registro["ID_R"]) ?>">Editar</button>
+                                <button type="button" class="btnAgregarTicket" data-id="<?= htmlspecialchars($registro["ID_R"]) ?>"
+                                    data-tickets="<?= htmlspecialchars(json_encode($ticketsPorRegistro[$registro["ID_R"]] ?? []), ENT_QUOTES, "UTF-8") ?>">Ticket</button>
+                               <form action="/proyecto/public/usuarioSolicitante/procesarBajaRegistro.php" method="post" class="formularioBajaRegistro">
+                                    <input type="hidden" name="idRegistro" value="<?= htmlspecialchars($registro["ID_R"]) ?>">
+                                    <button type="submit" class="btnEliminar">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>                    
                     <tr>
 
                     </tr>

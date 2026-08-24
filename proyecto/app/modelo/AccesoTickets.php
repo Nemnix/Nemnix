@@ -39,6 +39,31 @@ class AccesoTickets
 
         return $tickets;
     }
+
+    /**
+     * Lista todos los tickets de la tabla TICKET, sin datos de otras tablas.
+     * Pensado para agruparse por ID_R del lado de PHP.
+     *
+     * @return array<int, array<string, mixed>> Lista de todos los tickets.
+     */
+    public function listarTodosLosTickets(): array
+    {
+        $sql = "
+        SELECT
+            ID_T,
+            ID_R,
+            estado,
+            nombreEquipo,
+            nombreAlumno,
+            descripcionT,
+            prioridad
+        FROM TICKET
+        ORDER BY ID_R ASC, ID_T ASC";
+
+        $consulta = $this->conexion->query($sql);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>
