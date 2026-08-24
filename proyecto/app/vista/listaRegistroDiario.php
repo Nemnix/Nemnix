@@ -36,7 +36,7 @@
 
         <dialog id="RegistroSolicitante" class="Formulario">
 
-            <form id="FormularioRegistroDiario">
+            <form action="/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php" method="POST" id="FormularioRegistroDiario">
                 <fieldset>
                     <legend>Solicitud de preparación de laboratorios</legend>
                     <ul>
@@ -171,6 +171,7 @@
                         <th>Salida</th>
                         <th>Turno</th>
                         <th>Grupo</th>
+                        <th>Asignatura</th>
                         <th>Acciones</th>
                     </tr>
 

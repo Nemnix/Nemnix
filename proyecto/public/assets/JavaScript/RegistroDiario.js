@@ -512,8 +512,8 @@ modalTicket.addEventListener("cancel", function () {
 
 
 
-// btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
-// btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
+btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
+ btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
 
 // AgregarTickets.addEventListener("click", abrirTicket);
 // btnCerrarTicket.addEventListener("click", cerrarTicket);
