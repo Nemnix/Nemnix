@@ -1,0 +1,36 @@
+CREATE TABLE REGISTRO_DIARIO(
+    ID_R INT AUTO_INCREMENT NOT NULL,
+    grupo VARCHAR(50) NOT NULL,
+    horaEntrada TIME NOT NULL,
+    horaFin TIME NOT NULL,
+    docente VARCHAR(100) NOT NULL,
+    asignatura VARCHAR(100) NOT NULL,
+    fecha DATE NOT NULL,
+    nombreAula VARCHAR(50) NOT NULL,
+    turno VARCHAR(20) NOT NULL,
+
+CONSTRAINT pk_registro_diario
+PRIMARY KEY (ID_R)
+
+);
+
+
+CREATE TABLE TICKET(
+    ID_R INT NOT NULL,
+    ID_T INT AUTO_INCREMENT NOT NULL,
+    estado VARCHAR(50) NOT NULL,
+    nombreEquipo VARCHAR(100) NOT NULL,
+    nombreAlumno VARCHAR(100) NOT NULL,
+    descripcionT VARCHAR(255) NOT NULL,
+    prioridad VARCHAR(20) NOT NULL,
+
+CONSTRAINT pk_ticket
+PRIMARY KEY (ID_R, ID_T)
+
+);
+
+
+ALTER TABLE TICKET
+ADD CONSTRAINT fk_ticket_registro_diario
+FOREIGN KEY (ID_R)
+REFERENCES REGISTRO_DIARIO(ID_R);
