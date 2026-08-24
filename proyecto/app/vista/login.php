@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
-    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/inicioSesion.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/inicioSesion.css">
     
 </head>
 <body>
@@ -49,7 +49,7 @@
         </section>
     </main>
     <footer>
-        <img class="logo" src="/Proyecto/Public/Assets/img/logoUTU.png" alt="Logo">
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png" alt="Logo">
     </footer>
 </body>
 </html>

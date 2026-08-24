@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Proyecto/Public/Assets/css/global.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
     
 </head>
 <body>
@@ -14,13 +14,13 @@
 
     
 
-    <a class="PanelRoles" href="../Public/usuarioAdministrador/paginaBienvenidaAdministrador.php">
+    <a class="PanelRoles" href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php">
         <h3> Administrador </h3
     </a>
 
    
     
-    <a class="PanelRoles" href="../Public/usuarioTecnico/paginaBienvenidaTecnico.php">
+    <a class="PanelRoles" href="/proyecto/public/usuarioTecnico/paginaBienvenidaTecnico.php">
         <h3>Tecnico</h3>
     </a>
 </body>
