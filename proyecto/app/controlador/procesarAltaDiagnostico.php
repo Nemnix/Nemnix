@@ -24,12 +24,13 @@ if (!isset($_SESSION["cedula"]) || !isset($_SESSION["tecnico"]) || $_SESSION["te
 
 // Recoger datos del formulario
 $ticket = trim($_POST['TicketAsociado'] ?? "");
+$registro = trim($_POST['registroAsociado'] ?? "");
 $estado = trim($_POST['estado'] ?? "");
 $fecha = trim($_POST['fechaDiagnostico'] ?? "");
 $descripcion = trim($_POST['descripcionDiagnostico'] ?? "");
 
 // Validación básica
-if ($ticket === "") {
+if ($ticket === "" || !is_numeric($ticket) || $registro === "" || !is_numeric($registro)) {
     $mensaje = "El ticket asociado es obligatorio.";
     header("Location: /proyecto/public/usuarioTecnico/listaDiagnosticos.php?error=" . urlencode($mensaje));
     exit;
@@ -41,7 +42,9 @@ if (empty($estado) || empty($fecha) || empty($descripcion)) {
     exit;
 }
 
-$idT = is_numeric($ticket) ? (int)$ticket : null;
+$idT = (int)$ticket;
+$idR = (int)$registro;
+$cedula = $_SESSION["cedula"];
 
 $conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
 $conexion = $conectorPDO->establecerConexion();
@@ -54,7 +57,7 @@ if ($conexion === null) {
 
 $altaDiagnostico = new AltaDiagnostico($conexion);
 
-$resultado = $altaDiagnostico->registrarDiagnostico($idT, null, $estado, $fecha, $descripcion);
+$resultado = $altaDiagnostico->registrarDiagnostico($idT, $idR, $cedula, $estado, $fecha, $descripcion);
 
 $conectorPDO->desconectar();
 

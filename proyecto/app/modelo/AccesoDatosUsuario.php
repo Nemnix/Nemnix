@@ -79,6 +79,43 @@ class AccesoDatosUsuario {
         );
     }
 
+    /**
+     * Lista todos los usuarios del sistema junto con su cargo.
+     * @return array Los usuarios con cedula, nombre, apellido y cargo.
+     */
+    public function listarUsuarios(): array
+    {
+        $sql = "
+    SELECT
+        u.cedula,
+        u.nombre,
+        u.apellido,
+
+        CASE
+            WHEN a.cedula IS NOT NULL THEN 'Administrador'
+            WHEN t.cedula IS NOT NULL THEN 'Tecnico'
+            WHEN s.cedula IS NOT NULL THEN 'Solicitante'
+            ELSE 'Sin rol'
+        END AS cargo
+
+    FROM usuario AS u
+
+    LEFT JOIN administrador AS a
+        ON a.cedula = u.cedula
+
+    LEFT JOIN tecnico AS t
+        ON t.cedula = u.cedula
+
+    LEFT JOIN solicitante AS s
+        ON s.cedula = u.cedula
+
+    ORDER BY u.nombre, u.apellido
+";
+
+        $consulta = $this->conexion->query($sql);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 

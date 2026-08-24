@@ -1,269 +1,119 @@
-const modal = document.getElementById("PanelAdministradores");
+/**
+ * CONSTANTES Y VARIABLES NECESARIAS
+ */
 
-const formulario = document.getElementById("FormularioPanelAdministradores");
+//Constantes para el cuadro de diálogo
+const btnAltaEmpleado = document.getElementById("btnAltaEmpleado");
+const btnCerrarGestionarEmpleado = document.getElementById("btnCerrarGestionarEmpleado");
+const dialogGestionarEmpleado = document.querySelector(".dialogGestionarEmpleado");
 
-const btnAgregarNuevoUsuario = document.getElementById("AgregarNuevoUsuario");
-const btnCerrarPanel = document.getElementById("cerrarPanelAdministrador")
+//Constante para trabajar con la tabla de empleados
+const cuerpoTablaEmpleados = document.getElementById("cuerpoTablaEmpleados");
 
-const tabla = document.getElementById("panelAdministradores");
+//Constante para manipular el formulario, especialmente limpiarlo
+const formularioGestionarEmpleado = document.getElementById("formularioGestionarEmpleado");
 
-const entradaCedula = document.getElementById("CIUsuario");
-const entradaNombre = document.getElementById("nombreUsuario");
-const entradaApellido = document.getElementById("apellidoUsuario");
-const entradaCargo = document.getElementById("cargoUsuario");
-const entradaContrasenia = document.getElementById("contraseniaUsuario");
+//Campos del formulario
+const entradaCedula = document.getElementById("cedula");
+const entradaNombre = document.getElementById("nombre");
+const entradaApellido = document.getElementById("apellido");
+const entradaClave = document.getElementById("clave");
+const entradaConfirmarClave = document.getElementById("confirmarClave");
+const entradaRol = document.getElementById("rol");
 
-let filaEditando = null;
+//Estado para saber si se está modificando o dando de alta
+let modoFormulario = "";
 
-
-
-// function cargarUsuariosLocal() {
-
-//     const usuariosGuardados = localStorage.getItem("usuarios");
-
-//     if (usuariosGuardados === null) {
-//         return [];
-//     }
-
-//     return JSON.parse(usuariosGuardados);
-
-// }
-
-// function actualizarUsuariosLocal(usuarios) {
-
-//     localStorage.setItem(
-//         "usuarios",
-//         JSON.stringify(usuarios)
-//     );
-
-// }
-
-// function guardarUsuarioLocal(usuario) {
-
-//     const usuarios = cargarUsuariosLocal();
-
-//     usuarios.push(usuario);
-
-//     actualizarUsuariosLocal(usuarios);
-
-// }
-
-// function actualizarTabla() {
-//     tabla.querySelector("tbody").replaceChildren();
-//     const usuarios = cargarUsuariosLocal();
-//     for (const usuario of usuarios) {
-//         agregarUsuario(usuario);
-//     }
-// }
+//Recupera a través del DOM todos los botones de cada fila. Retorna la colección de elementos.
+const formulariosEliminar = document.querySelectorAll(".formularioEliminarEmpleado");
 
 
-// function modificarUsuarioLocal(usuarioEditado) {
+/**
+ * GESTION DEL ESTADO DEL FORMULARIO/MODAL
+ */
 
-//     const usuarios = cargarUsuariosLocal();
-
-//     const usuario = usuarios.find(
-//         u => u.cedula === usuarioEditado.cedula
-//     );
-
-//     if (usuario === undefined) {
-//         return;
-//     }
-
-//     usuario.nombre = usuarioEditado.nombre;
-//     usuario.apellido = usuarioEditado.apellido;
-//     usuario.cargo = usuarioEditado.cargo;
-//     usuario.contrasenia = usuarioEditado.contrasenia;
-
-//     actualizarUsuariosLocal(usuarios);
-// }
-
-// function eliminarUsuarioLocal(cedula) {
-
-//     const usuarios = cargarUsuariosLocal();
-
-//     const usuariosActualizados = usuarios.filter(
-//         u => u.cedula !== cedula
-//     );
-
-//     actualizarUsuariosLocal(usuariosActualizados);
-// }
-
-// function obtenerContraseniaPorCedula(cedula) {
-
-//     const usuarios = cargarUsuariosLocal();
-
-//     const usuario = usuarios.find(
-//         u => u.cedula === cedula
-//     );
-
-//     if (usuario === undefined) {
-//         return "";
-//     }
-
-//     return usuario.contrasenia;
-
-// }
-
-// function obtenerDatosFormulario() {
-
-//     return {
-//         cedula: entradaCedula.value,
-//         nombre: entradaNombre.value,
-//         apellido: entradaApellido.value,
-//         cargo: entradaCargo.value,
-//         contrasenia: entradaContrasenia.value
-//     };
-
-// }
-
-function abrirAltaUsuario() {
-
-    filaEditando = null;
-    formulario.reset();
+//Limpia todos los campos y configuraciones seleccionadas del formulario
+function limpiarEstadoGestionarEmpleado() {
+    modoFormulario = "";
     entradaCedula.readOnly = false;
-    modal.showModal();
-
+    formularioGestionarEmpleado.reset();
 }
 
-function cerrarAltausuario() {
+function abrirAltaEmpleado() {
+    entradaCedula.readOnly = false;
+    formularioGestionarEmpleado.reset();
+    modoFormulario = "alta";
 
-    filaEditando = null;
-    formulario.reset();
-    modal.close();
-
+    //Muestra el cuadro de diálogo o "modal"
+    dialogGestionarEmpleado.showModal();
 }
 
+function cerrarGestionarEmpleado() {
+    entradaCedula.readOnly = false;
+    formularioGestionarEmpleado.reset();
+    modoFormulario = "";
+    //Cierra el modal
+    dialogGestionarEmpleado.close();
+}
 
-modal.addEventListener("cancel", function () {
+function confirmarEliminación (eventoEliminar) {
+    //Mensaje de confirmación, se puede reemplazar por cuadros de diálogo (IMPLEMENTAR EN UN FUTURO)
+    const confirmacion = confirm("¿Está seguro de eliminar usuario?");
 
-    filaEditando = null;
-    formulario.reset();
+    if (!confirmacion) {
+        eventoEliminar.preventDefault();
+    }
+}
 
-});
+//Función que escucha los clicks de la tabla, si es proveniente del botón empleado abre el modal
+function abrirModificarEmpleado(eventoModificar) {
+    //Captura el valor del botón "Modificar"
+    const btnModificar = eventoModificar.target.closest(".btnModificar");
 
-// function agregarUsuario(usuario) {
- 
-//     let fila = document.createElement("tr");
- 
-//     let tdCedula = document.createElement("td");
-//     tdCedula.innerText = usuario.cedula;
- 
-//     let tdNombre = document.createElement("td");
-//     tdNombre.innerText = usuario.nombre;
- 
-//     let tdApellido = document.createElement("td");
-//     tdApellido.innerText = usuario.apellido;
- 
-//     let tdCargo = document.createElement("td");
-//     tdCargo.innerText = usuario.cargo;
- 
-//     let tdAcciones = document.createElement("td");
- 
-//     let btnModificar = document.createElement("button");
-//     btnModificar.innerText = "Modificar";
-//     btnModificar.onclick = function () {
-//         modificar(this);
-//     };
- 
-//     let btnEliminar = document.createElement("button");
-//     btnEliminar.innerText = "Eliminar";
-//     btnEliminar.onclick = function () {
-//         borrar(this);
-//     };
- 
-//     tdAcciones.appendChild(btnModificar);
-//     tdAcciones.appendChild(btnEliminar);
- 
-//     fila.appendChild(tdCedula);
-//     fila.appendChild(tdNombre);
-//     fila.appendChild(tdApellido);
-//     fila.appendChild(tdCargo);
-//     fila.appendChild(tdAcciones);
- 
-//     tabla.querySelector("tbody").appendChild(fila);
- 
-// }
+    //Si el botón no se presionó, se sale de la función
+    if (btnModificar === null) {
+        return;
+    }
 
+    //Captura la fila en la que se encuentra el botón
+    const fila = btnModificar.closest("tr");
 
-// function borrar(boton) {
+    entradaCedula.readOnly = true;
+    formularioGestionarEmpleado.reset();
+    modoFormulario = "modificar";
 
-//     const fila = boton.parentNode.parentNode;
+    //Escribe los datos del empleado provenientes de la fila en el formulario
+    entradaCedula.value = fila.cells[0].textContent.trim();
+    entradaNombre.value = fila.cells[1].textContent.trim();
+    entradaApellido.value = fila.cells[2].textContent.trim();
+    entradaRol.value = fila.cells[3].textContent.trim();
 
-//     const cedula = fila.children[0].innerText;
+    //Muestra el cuadro de diálogo o "modal"
+    dialogGestionarEmpleado.showModal();
+}
 
-//     eliminarUsuarioLocal(cedula);
+function gestionarEmpleado (evento) {
+    if (modoFormulario === "alta") {
+        formularioGestionarEmpleado.action = "procesarAltaUsuario.php";
+    } else if (modoFormulario === "modificar") {
+        formularioGestionarEmpleado.action = "procesarModificarUsuario.php";
+    } else {
+        formularioGestionarEmpleado.action = "procesarGestionUsuario.php";
+    }
+}
 
-//     actualizarTabla();
+//Apertura y cierre del modal
+btnAltaEmpleado.addEventListener("click", abrirAltaEmpleado);
+cuerpoTablaEmpleados.addEventListener("click", abrirModificarEmpleado);
 
-// }
+btnCerrarGestionarEmpleado.addEventListener("click", cerrarGestionarEmpleado);
 
-// function modificar(boton) {
+//Para hacer que al apretar escape tambien se eliminen los cambios del formulario, se puede usar el evento 'cancel'
+dialogGestionarEmpleado.addEventListener("cancel", limpiarEstadoGestionarEmpleado);
 
-//     filaEditando = boton.parentNode.parentNode;
+formularioGestionarEmpleado.addEventListener("submit", gestionarEmpleado);
 
-//     const celdas = filaEditando.getElementsByTagName("td");
-
-//     entradaCedula.value = celdas[0].innerText;
-//     entradaCedula.readOnly = true;
-//     entradaNombre.value = celdas[1].innerText;
-//     entradaApellido.value = celdas[2].innerText;
-//     entradaCargo.value = celdas[3].innerText;
-//     entradaContrasenia.value = obtenerContraseniaPorCedula(entradaCedula.value);
-
-//     modal.showModal();
-
-// }
-
-// function validarFormulario(usuario) {
-
-//     if (!usuario.cedula || !usuario.nombre || !usuario.apellido || !usuario.cargo || !usuario.contrasenia) {
-//         alert("Complete todos los campos");
-//         return false;
-//     }
-
-//     if (!/^\d+$/.test(usuario.cedula)) {
-//         alert("La cédula debe contener solamente números");
-//         return false;
-//     }
-
-//     if (!/^\d{8}$/.test(usuario.cedula)) {
-//         alert("La cédula debe tener 8 números");
-//         return false;
-//     }
-
-//     return true;
-
-// }
-
-
-// btnAgregarNuevoUsuario.addEventListener("click", abrirAltaUsuario);
-
-// btnCerrarPanel.addEventListener("click", cerrarAltausuario);
-
-// formulario.addEventListener("submit", function (event) {
-
-//     event.preventDefault();
-
-//     const usuario = obtenerDatosFormulario();
-
-//     if (!validarFormulario(usuario)) {
-//         return;
-//     }
-
-//     if (filaEditando === null) {
-
-//         guardarUsuarioLocal(usuario);
-
-//     } else {
-
-//         modificarUsuarioLocal(usuario);
-
-//         filaEditando = null;
-//     }
-
-//     actualizarTabla();
-
-//     modal.close();
-// });
-
-// actualizarTabla();
+//Agrega a cada botón eliminar el evento
+for (const formulario of formulariosEliminar) {
+    formulario.addEventListener("submit", confirmarEliminación);
+}

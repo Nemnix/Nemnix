@@ -99,10 +99,6 @@
 
             </form>
 
-            <span>¿Hubo algun inconveniente con algun dispositivo del laboratorio/taller?</span>
-
-            <button id="AgregarTickets">Agregar ticket</button>
-
             <button type="button" id="btnCerrarRegistro"> Cerrar </button>
             </fieldset>
         </dialog>
@@ -176,7 +172,6 @@
                 <table id="registroDiario"> 
                     <thead>
                         <tr>
-                            <th>Registro</th>
                             <th>Fecha</th>
                             <th>Tipo de aula</th>
                             <th>Numero de aula</th>

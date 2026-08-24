@@ -6,6 +6,7 @@ const entradaEstadoDiagnostico = document.getElementById("estadoDiagnostico");
 const entradaTicketAsociado = document.getElementById("TicketAsociado");
 const entradaFechaDiagnostico = document.getElementById("fechaDiagnostico");
 const entradaDescripcionDiagnostico = document.getElementById("descripcionDiagnostico");
+const entradaRegistroAsociado = document.getElementById("registroAsociado");
 
 const btnDiagnostico = document.getElementById("btnDiagnostico");
 const btnCerrarDiagnostico = document.getElementById("btnCerrarDiagnostico")
@@ -18,6 +19,7 @@ function abrirDiagnostico() {
     if (ticket !== undefined && ticket !== null) {
         entradaTicketAsociado.value = ticket.ID_T;
         entradaTicketAsociado.readOnly = true;
+        entradaRegistroAsociado.value = ticket.ID_R;
     }
     modalDiagnostico.showModal();
 }

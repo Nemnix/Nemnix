@@ -39,47 +39,58 @@
 
     </header>
     <main>
+        <?php if (isset($_GET["resultado"])): ?>
+            <p class="mensajeExito"><?= htmlspecialchars($_GET["resultado"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php elseif (isset($_GET["error"])): ?>
+            <p class="mensajeError"><?= htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php endif; ?>
         <h2>Panel administradores</h2>
 
-        <button id="AgregarNuevoUsuario" class="botonesAgregar">Agregar nuevo usuario</button>
+        <button id="btnAltaEmpleado" class="botonesAgregar">Agregar nuevo usuario</button>
 
-        <dialog id="PanelAdministradores" class="Formulario">
-            <form id="FormularioPanelAdministradores">
+        <dialog class="Formulario dialogGestionarEmpleado">
+            <form id="formularioGestionarEmpleado" action="procesarAltaUsuario.php" method="post">
                 <fieldset>
                     <legend>Panel de administradores</legend>
                     <ul>
                         <li>
-                            <label for="CIUsuario">Cedula de identidad</label>
-                            <input type="text" id="CIUsuario" name="CIUsuario" pattern="[1-9]+"
-                                title="Sin puntos ni guiones" maxlength="8" required
+                            <label for="cedula">Cedula de identidad</label>
+                            <input type="text" id="cedula" name="cedula" pattern="[1-9][0-9]{7}"
+                                title="8 numeros, sin puntos ni guiones" maxlength="8" required
                                 placeholder="Escribe la cedula del usuario" />
                         </li>
                         <li>
-                            <label for="nombreUsuario">Nombre</label>
-                            <input type="text" id="nombreUsuario" name="nombreUsuario" required
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" required
                                 placeholder="Escribe el nombre del usuario aqui" />
                         </li>
                         <li>
-                            <label for="apellidoUsuario">Apellido</label>
-                            <input type="text" id="apellidoUsuario" name="apellidoUsuario" required
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" required
                                 placeholder="Escribe el apellido del usuario" />
                         </li>
                         <li>
-                            <label for="cargoUsuario">Seleccione el cargo del usuario</label>
-                            <select id="cargoUsuario" name="cargoUsuario" required>
+                            <label for="rol">Seleccione el cargo del usuario</label>
+                            <select id="rol" name="rol" required>
+                                <option value="">-- Seleccione un cargo --</option>
                                 <option>Solicitante</option>
                                 <option>Tecnico</option>
                                 <option>Administrador</option>
-                        </li>
-                        <li>
                             </select>
-                            <label for="contraseniaUsuario">Contraseña</label>
-                            <input type="password" id="contraseniaUsuario" name="contraseniaUsuario" required
-                                placeholder="Ingrese la contraseña del usuario" />
                         </li>
                         <li>
-                            <button type="submit">Ingresar </button>
-                            <button type="button" id="cerrarPanelAdministrador">Cancelar</button>
+                            <label for="clave">Contraseña</label>
+                            <input type="password" id="clave" name="clave" required minlength="12"
+                                placeholder="Minimo 12 caracteres" />
+                        </li>
+                        <li>
+                            <label for="confirmarClave">Confirmar contraseña</label>
+                            <input type="password" id="confirmarClave" name="confirmarClave" required minlength="12"
+                                placeholder="Repita la contraseña" />
+                        </li>
+                        <li>
+                            <button type="submit" id="btnGuardarUsuario">Ingresar </button>
+                            <button type="button" id="btnCerrarGestionarEmpleado">Cancelar</button>
                         </li>
                     </ul>
                 </fieldset>
@@ -98,9 +109,24 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="cuerpoTablaEmpleados">
+                        <?php foreach ($usuarios as $usuario) { ?>
                         <tr>
+                            <td><?= htmlspecialchars($usuario["cedula"]) ?></td>
+                            <td><?= htmlspecialchars($usuario["nombre"]) ?></td>
+                            <td><?= htmlspecialchars($usuario["apellido"]) ?></td>
+                            <td><?= htmlspecialchars($usuario["cargo"]) ?></td>
+                            <td>
+                                <div class="cajaOperaciones">
+                                    <button type="button" class="btnOperacion btnModificar">Editar</button>
+                                    <form action="procesarBajaUsuario.php" method="post" class="formularioEliminarEmpleado">
+                                        <input type="hidden" name="cedula" value="<?= htmlspecialchars($usuario["cedula"]) ?>">
+                                        <button type="submit" class="btnEliminar">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </fieldset>

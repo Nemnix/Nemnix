@@ -1,118 +1,28 @@
-
 const modal = document.getElementById("VizualizacionDiagnostico");
 const formulario = document.getElementById("formularioDiagnostico");
 const btnCerrarDiagnostico = document.getElementById("CerrarDiagnostico");
 const tabla = document.getElementById("estadoTickets");
 
+const entradaIdDiagnostico = document.getElementById("IDDiagnostico");
 const entradaEstado = document.getElementById("IDestadoDiagnostico");
 const entradaTicket = document.getElementById("IDTicketAsociado");
 const entradaFecha = document.getElementById("IDfechaDiagnostico");
 const entradaDescripcion = document.getElementById("IDdescripcionDiagnostico");
 
-const filtroEstado = document.getElementById("idDiagnosticoEstado");
-const filtroTiempo = document.getElementById("IDtiempoDiagnostico");
+function abrirVisualizacionDiagnostico(diagnostico) {
 
-let filaEditando = null;
+    entradaIdDiagnostico.value = diagnostico.ID_D;
+    entradaEstado.value = diagnostico.estadoD;
+    entradaTicket.value = diagnostico.ID_T;
+    entradaFecha.value = diagnostico.fechaD;
+    entradaDescripcion.value = diagnostico.descripcionD;
 
-/*
-function cargarDiagnosticosLocal() {
-
-    const diagnosticosGuardados = localStorage.getItem("diagnosticos");
-
-    if (diagnosticosGuardados === null) {
-        return [];
-    }
-
-    return JSON.parse(diagnosticosGuardados);
+    modal.showModal();
 
 }
-
-function actualizarDiagnosticosLocal(diagnosticos) {
-
-    localStorage.setItem(
-        "diagnosticos",
-        JSON.stringify(diagnosticos)
-    );
-
-}
-
-function modificarDiagnosticoLocal(diagnosticoEditado) {
-
-    const diagnosticos = cargarDiagnosticosLocal();
-
-    const diagnostico = diagnosticos.find(
-        d => d.id === diagnosticoEditado.id
-    );
-
-    if (diagnostico === undefined) {
-        return;
-    }
-
-    diagnostico.estado = diagnosticoEditado.estado;
-    diagnostico.ticket = diagnosticoEditado.ticket;
-    diagnostico.fecha = diagnosticoEditado.fecha;
-    diagnostico.descripcion = diagnosticoEditado.descripcion;
-
-    actualizarDiagnosticosLocal(diagnosticos);
-}
-
-function eliminarDiagnosticoLocal(id) {
-
-    const diagnosticos = cargarDiagnosticosLocal();
-
-    const diagnosticosActualizados = diagnosticos.filter(
-        d => d.id !== id
-    );
-
-    actualizarDiagnosticosLocal(diagnosticosActualizados);
-}
-
-function obtenerDiagnosticosFiltrados() {
-
-    let diagnosticos = cargarDiagnosticosLocal();
-
-    const estadoSeleccionado = filtroEstado.value;
-
-    if (estadoSeleccionado !== "Todos") {
-        diagnosticos = diagnosticos.filter(
-            d => d.estado === estadoSeleccionado
-        );
-    }
-
-    const tiempoSeleccionado = filtroTiempo.value;
-
-    diagnosticos.sort(function (a, b) {
-
-        const fechaA = new Date(a.fecha);
-        const fechaB = new Date(b.fecha);
-
-        if (tiempoSeleccionado === "Mas antiguos") {
-            return fechaA - fechaB;
-        }
-
-        return fechaB - fechaA;
-
-    });
-
-    return diagnosticos;
-
-}
-*/
-
-// function obtenerDatosFormulario() {
-
-//     return {
-//         estado: entradaEstado.value,
-//         ticket: entradaTicket.value,
-//         fecha: entradaFecha.value,
-//         descripcion: entradaDescripcion.value
-//     };
-
-// }
 
 function cerrarVisualizacionDiagnostico() {
 
-    filaEditando = null;
     formulario.reset();
     modal.close();
 
@@ -120,130 +30,16 @@ function cerrarVisualizacionDiagnostico() {
 
 modal.addEventListener("cancel", function () {
 
-    filaEditando = null;
     formulario.reset();
 
 });
 
-/*
-function agregarDiagnostico(diagnostico) {
+function abrirDiagnostico(eventoAbrir) {
+    const btnAbrir = eventoAbrir.target.closest(".btnAbrirDiagnostico");
+    if (btnAbrir === null) return;
 
-    let fila = document.createElement("tr");
-
-    let tdDescripcion = document.createElement("td");
-    tdDescripcion.innerText = diagnostico.descripcion;
-
-    let tdEstado = document.createElement("td");
-    tdEstado.innerText = diagnostico.estado;
-
-    let tdTicket = document.createElement("td");
-    tdTicket.innerText = diagnostico.ticket;
-
-    let tdFecha = document.createElement("td");
-    tdFecha.innerText = diagnostico.fecha;
-
-    let tdAcciones = document.createElement("td");
-
-    let btnModificar = document.createElement("button");
-    btnModificar.innerText = "Modificar";
-    btnModificar.onclick = function () {
-        modificar(diagnostico);
-    };
-
-    let btnEliminar = document.createElement("button");
-    btnEliminar.innerText = "Eliminar";
-    btnEliminar.onclick = function () {
-        borrar(diagnostico);
-    };
-
-    tdAcciones.appendChild(btnModificar);
-    tdAcciones.appendChild(btnEliminar);
-
-    fila.appendChild(tdDescripcion);
-    fila.appendChild(tdEstado);
-    fila.appendChild(tdTicket);
-    fila.appendChild(tdFecha);
-    fila.appendChild(tdAcciones);
-
-    tabla.querySelector("tbody").appendChild(fila);
-
+    abrirVisualizacionDiagnostico(JSON.parse(btnAbrir.dataset.diagnostico));
 }
 
-function actualizarTabla() {
-
-    tabla.querySelector("tbody").replaceChildren();
-
-    const diagnosticos = obtenerDiagnosticosFiltrados();
-
-    for (const diagnostico of diagnosticos) {
-        agregarDiagnostico(diagnostico);
-    }
-
-}
-
-function borrar(diagnostico) {
-
-    eliminarDiagnosticoLocal(diagnostico.id);
-
-    actualizarTabla();
-
-}
-*/
-
-function modificar(diagnostico) {
-
-    filaEditando = diagnostico;
-
-    entradaEstado.value = diagnostico.estado;
-    entradaTicket.value = diagnostico.ticket;
-    entradaFecha.value = diagnostico.fecha;
-    entradaDescripcion.value = diagnostico.descripcion;
-
-    modal.showModal();
-
-}
-
-function validarFormulario(diagnostico) {
-
-    if (!diagnostico.descripcion) {
-        alert("Complete la descripción del diagnóstico");
-        return false;
-    }
-
-    return true;
-
-}
-
+tabla.addEventListener("click", abrirDiagnostico);
 btnCerrarDiagnostico.addEventListener("click", cerrarVisualizacionDiagnostico);
-
-/*
-filtroEstado.addEventListener("change", actualizarTabla);
-
-filtroTiempo.addEventListener("change", actualizarTabla);
-*/
-
-formulario.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-    const diagnostico = obtenerDatosFormulario();
-
-    if (!validarFormulario(diagnostico)) {
-        return;
-    }
-
-    if (filaEditando !== null) {
-
-        diagnostico.id = filaEditando.id;
-
-        /* modificarDiagnosticoLocal(diagnostico); */
-
-        filaEditando = null;
-    }
-
-    /* actualizarTabla(); */
-
-    modal.close();
-});
-
-/* actualizarTabla(); */

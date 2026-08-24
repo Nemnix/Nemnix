@@ -61,14 +61,20 @@
 
     <main>
 
+        <?php if (isset($_GET["resultado"])): ?>
+            <p class="mensajeExito"><?= htmlspecialchars($_GET["resultado"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php elseif (isset($_GET["error"])): ?>
+            <p class="mensajeError"><?= htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8") ?></p>
+        <?php endif; ?>
         <h2>Diagnosticos</h2>
 
         <dialog id="VizualizacionDiagnostico" class="Formulario">
-            <form id="formularioDiagnostico">
+            <form id="formularioDiagnostico" action="/proyecto/public/usuarioTecnico/procesarModificarDiagnostico.php" method="post">
                 <fieldset>
                     <legend>Diagnostico</legend>
 
                     <ul>
+                        <input type="hidden" id="IDDiagnostico" name="ID_D">
                         <li>
 
                             <label for="IDestadoDiagnostico">Estado</label>
@@ -87,7 +93,7 @@
                                 Ticket Asociado
                             </label>
 
-                            <input type="number" id="IDTicketAsociado" name="IDTicketAsociado">
+                            <input type="number" id="IDTicketAsociado" name="IDTicketAsociado" readonly>
                         </li>
 
                         <li>
@@ -112,7 +118,7 @@
                         </li>
 
                         <li>
-                            <button id="CerrarDiagnostico">
+                            <button type="button" id="CerrarDiagnostico">
                                 Cerrar
                             </button>
                         </li>
@@ -172,9 +178,10 @@
 
                             <td>
                                 <div class="cajaOperaciones">
-                                    <button type="button" class="btnOperacion btnModificar">Abrir</button>
-                                <form action="/proyecto/public/usuarioTecnico/procesarBajaSolicitud.php" method="post" class="formularioBajaPrestamo">
-                                    <input type="hidden" name="idPrestamo" value="<?= htmlspecialchars($solicitud["ID_L"]) ?>">
+                                    <button type="button" class="btnOperacion btnAbrirDiagnostico"
+                                        data-diagnostico="<?= htmlspecialchars(json_encode($diagnostico), ENT_QUOTES, "UTF-8") ?>">Abrir</button>
+                                <form action="/proyecto/public/usuarioTecnico/procesarBajaDiagnostico.php" method="post" class="formularioBajaDiagnostico">
+                                    <input type="hidden" name="ID_D" value="<?= htmlspecialchars($diagnostico["ID_D"]) ?>">
                                     <button type="submit" class="btnEliminar">Eliminar</button>
                                 </form>
                                 </div>

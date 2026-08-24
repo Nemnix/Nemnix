@@ -177,6 +177,7 @@
                 <fieldset>
                     <legend>Diagnostico</legend>
                     <ul>
+                        <input type="hidden" id="registroAsociado" name="registroAsociado">
                         <li>
                             <label for="estadoDiagnostico">Estado </label>
                             <select id="estadoDiagnostico" name="estado">
