@@ -25,12 +25,18 @@ class AccesoTickets
             t.descripcionT,
             t.prioridad,
             r.fecha AS fechaRegistro,
-            r.nombreAula,
-            r.docente,
-            r.asignatura
+            r.asignatura,
+            r.horaEntrada,
+            r.horaFin,
+            r.grupo,
+            r.turno,
+            l.nombreLaboratorio,
+            l.numLaboratorio
         FROM TICKET AS t
         LEFT JOIN REGISTRO_DIARIO AS r
             ON r.ID_R = t.ID_R
+        LEFT JOIN LABORATORIO AS l
+            ON l.ID_L = r.ID_L
         ORDER BY r.fecha DESC, t.ID_T DESC";
 
         $consulta = $this->conexion->query($sql);

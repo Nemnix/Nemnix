@@ -33,13 +33,13 @@
         
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="/Proyecto/App/Vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
-                <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
         
@@ -53,32 +53,32 @@
                 <ul>
                     <li>
                         <h3>Panel administradores</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/panelAdministradores.html" class="boton">Registrar</a>
+                        <a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="boton">Registrar</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de incidencias</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaIncidencias.html" class="boton">Ver incidencias</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="boton">Ver incidencias</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de solicitudes</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaSolicitudes.html" class="boton">Ver solicitudes</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaSolicitudes.php" class="boton">Ver solicitudes</a>
                     </li>
 
                     <li>
                         <h3>Inventario tecnologico</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaInventario.html" class="boton">Inventario tecnologico</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="boton">Inventario tecnologico</a>
                     </li>
 
                     <li>
                         <h3>Metricas y reportes</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaMetricas.html" class="boton">Ver metricas</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="boton">Ver metricas</a>
                     </li>
 
                     <li>
                         <h3>Estado de equipos</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.html" class="boton">Ver estados</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="boton">Ver estados</a>
                     </li>
                 </ul>
             </section>

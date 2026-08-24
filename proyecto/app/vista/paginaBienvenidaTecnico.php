@@ -34,10 +34,10 @@
         
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
-                <li><a href="/proyecto/app/controlador/cargarDiagnostico.php" class="BotonNavegacion">Diagnosticos</a></li>
-                <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
+                <li><a href="paginaBienvenidaTecnico.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="listaTicketsEntrantes.php" class="BotonNavegacion">Tickets entrantes</a></li>
+                <li><a href="listaDiagnosticos.php" class="BotonNavegacion">Diagnosticos</a></li>
+                <li><a href="inventarioPrestamos.php" class="BotonNavegacion">Prestamo equipos</a></li>
 
             </ul>
         </nav>
@@ -51,7 +51,7 @@
                 <ul>
                     <li>
                         <h3>Responder tickets</h3>
-                        <a href="listaTicketsEntrantes.html" class="boton">Responder</a>
+                        <a href="listaTicketsEntrantes.php" class="boton">Responder</a>
                     </li>
 
                     <li>
@@ -61,7 +61,7 @@
 
                     <li>
                         <h3>Diagnosticos</h3>
-                        <a href="/proyecto/app/controlador/cargarDiagnostico.php" class="boton">Diagnosticos</a>
+                        <a href="listaDiagnosticos.php" class="boton">Diagnosticos</a>
                     </li>
 
                 </ul>

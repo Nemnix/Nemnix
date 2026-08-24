@@ -14,13 +14,13 @@
 
     
 
-    <a class="PanelRoles" href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php">
+    <a class="PanelRoles" href="usuarioAdministrador/paginaBienvenidaAdministrador.php">
         <h3> Administrador </h3
     </a>
 
    
     
-    <a class="PanelRoles" href="/proyecto/public/usuarioTecnico/paginaBienvenidaTecnico.php">
+    <a class="PanelRoles" href="usuarioTecnico/paginaBienvenidaTecnico.php">
         <h3>Tecnico</h3>
     </a>
 </body>

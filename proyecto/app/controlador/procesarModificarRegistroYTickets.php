@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoRegistroYTickets.php";
 
 ini_set('display_errors', 1);
@@ -25,6 +25,12 @@ if (!isset($_SESSION["cedula"])) {
 
 // Determinar si se modifica un registro o un ticket
 $isTicket = isset($_POST['ID_T']) && $_POST['ID_T'] !== "";
+
+if ($isTicket && (!isset($_SESSION["tecnico"]) || $_SESSION["tecnico"] !== true)) {
+    $mensaje = "Debe iniciar sesión como técnico para modificar un ticket.";
+    header("Location: /proyecto/public/usuarioTecnico/listaTicketsEntrantes.php?error=" . urlencode($mensaje));
+    exit;
+}
 
 $conectorPDO = new ConectorPDO("localhost:3306", "Tecnoemmn", "123", "db nemnix");
 $conexion = $conectorPDO->establecerConexion();

@@ -22,10 +22,10 @@
             </svg>
             <nav>
                 <ul class="MenuPrincipal">
-                   <li><a href="/Proyecto/App/Vista/paginaBienvenidaSolicitante.php" class="BotonNavegacion">Inicio</a></li>
-                    <li><a href="listaRegistroDiario.html" class="BotonNavegacion">Registro</a></li>
-                    <li><a href="estadoTickets.html" class="BotonNavegacion">Estado Tickets</a></li>
-                    <li><a href="solicitudesLabs.html" class="BotonNavegacion">Solicitudes</a></li>
+                   <li><a href="paginaBienvenidaSolicitante.php" class="BotonNavegacion">Inicio</a></li>
+                    <li><a href="listaRegistroDiario.php" class="BotonNavegacion">Registro</a></li>
+                    <li><a href="estadoTickets.php" class="BotonNavegacion">Estado Tickets</a></li>
+                    <li><a href="solicitudesLabs.php" class="BotonNavegacion">Solicitudes</a></li>
                 </ul>
             </nav>
 

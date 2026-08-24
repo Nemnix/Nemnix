@@ -8,14 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/proyecto/public/assets/css/usuarioAdmistrador.css">
-    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/usuarioAdmistrador.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png">
+        <img class="logo" src="../assets/img/logoUTU.png">
 
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
@@ -27,13 +27,13 @@
 
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="/proyecto/app/vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
-                <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
 
@@ -43,7 +43,7 @@
 
         <section id="CuadroSolicitudes" class="CuadrosTexto">
             <label>Solicitudes pendientes</label>
-            <span id="SolicitudesPendientes">0</span>
+            <span id="SolicitudesPendientes"><?= htmlspecialchars((string) $solicitudesPendientes) ?></span>
         </section>
 
         <section class="Tablas">
@@ -57,23 +57,27 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-
-                    </tr>
+                    <?php foreach ($solicitudesPorAula as $aula) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($aula["nombreLaboratorio"] ?? "") ?></td>
+                            <td><?= htmlspecialchars($aula["numLaboratorio"] ?? "") ?></td>
+                            <td><?= htmlspecialchars((string) $aula["cantidadSolicitudes"]) ?></td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
 
                 </table>
             </fieldset>
         </section>
 
-        <a href="listaSolicitudes.html" class="link">Ver solicitudes</a>
+        <a href="listaSolicitudes.php" class="link">Ver solicitudes</a>
     </main>
     <footer>
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
 
-    <script src="/proyecto/public/assets/JavaScript/menu.js"></script>
-    <script src="/proyecto/public/assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/menu.js"></script>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
         crossorigin="anonymous"></script>

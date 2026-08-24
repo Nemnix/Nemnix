@@ -7,13 +7,13 @@
     <title>Incidencias</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png">
+        <img class="logo" src="../assets/img/logoUTU.png">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -23,13 +23,13 @@
         </button>
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="/proyecto/app/vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
-                <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
 
@@ -79,8 +79,8 @@
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
 
-    <script src="/proyecto/public/assets/JavaScript/botonSubir.js"></script>
-    <script src="/proyecto/public/assets/JavaScript/menu.js"></script>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
