@@ -13,7 +13,7 @@
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="../Assets/img/logoUTU.png">
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -23,7 +23,7 @@
         </button>
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="/Proyecto/App/Vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/proyecto/app/vista/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
                 <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
                 <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
@@ -79,8 +79,8 @@
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
 
-    <script src="../Assets/JavaScript/botonSubir.js"></script>
-    <script src="../Assets/JavaScript/menu.js"></script>
+    <script src="/proyecto/public/assets/JavaScript/botonSubir.js"></script>
+    <script src="/proyecto/public/assets/JavaScript/menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
