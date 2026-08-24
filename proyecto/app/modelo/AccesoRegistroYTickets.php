@@ -71,6 +71,58 @@ class AccesoRegistroYTickets
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Actualiza un registro en la tabla REGISTRO_DIARIO.
+     */
+    public function actualizarRegistro(int $idR, string $grupo, string $horaEntrada, string $horaFin, string $docente, string $asignatura, string $fecha, string $nombreAula, string $turno): bool
+    {
+        try {
+            $sql = "UPDATE REGISTRO_DIARIO SET grupo = :grupo, horaEntrada = :horaEntrada, horaFin = :horaFin, docente = :docente, asignatura = :asignatura, fecha = :fecha, nombreAula = :nombreAula, turno = :turno WHERE ID_R = :idR";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute([
+                'grupo' => $grupo,
+                'horaEntrada' => $horaEntrada,
+                'horaFin' => $horaFin,
+                'docente' => $docente,
+                'asignatura' => $asignatura,
+                'fecha' => $fecha,
+                'nombreAula' => $nombreAula,
+                'turno' => $turno,
+                'idR' => $idR
+            ]);
+
+            return $consulta->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error actualizarRegistro: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Actualiza un ticket en la tabla TICKET.
+     */
+    public function actualizarTicket(int $idT, int $idR, string $estado, string $nombreEquipo, string $nombreAlumno, string $descripcionT, string $prioridad): bool
+    {
+        try {
+            $sql = "UPDATE TICKET SET estado = :estado, nombreEquipo = :nombreEquipo, nombreAlumno = :nombreAlumno, descripcionT = :descripcionT, prioridad = :prioridad WHERE ID_T = :idT AND ID_R = :idR";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute([
+                'estado' => $estado,
+                'nombreEquipo' => $nombreEquipo,
+                'nombreAlumno' => $nombreAlumno,
+                'descripcionT' => $descripcionT,
+                'prioridad' => $prioridad,
+                'idT' => $idT,
+                'idR' => $idR
+            ]);
+
+            return $consulta->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error actualizarTicket: " . $e->getMessage());
+            return false;
+        }
+    }
 }
 
 ?>
