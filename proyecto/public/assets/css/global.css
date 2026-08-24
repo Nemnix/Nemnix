@@ -1,14 +1,20 @@
 :root{
     --blanco: #ffffff;
-    --grisResaltado:#B1B1B1;
+    --grisLetras:#464646;
     --grisClaro: #D9D9D9;
-    --grisMedio:  #656565;
-    --gris: #464646;
+    --grisRGBA: 183, 183, 183;
+    --grisBotones:  #2C2C2C;
     --Negro: #000000;
     --AzulOscuro: #0A274C;
+    --AzulRGB: 10, 39, 76;
     --AzulMedio: #0F468C;
+    --Azu: #8c6b0f;
     --grisOscuro: #1C1B1B;
-    --Amarillo:#DEAA00;
+    --AmarilloBotones: 199, 163, 20;
+    --Amarillo:#d6b017 ;
+    --AmarilloClaro: #dfb50f;
+    --Campos: #C5C3C3;
+    --Incio: #EEEEEE;
     
 }
 
@@ -24,77 +30,99 @@ section{
 }
 
 body{
-    width: 100%;
-    max-width: 768px;
-    margin: 0 auto;
-    background: linear-gradient(to bottom, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 86%);
-    
-    display: flex;
-    flex-direction: column;
-    font-size: 15px;
+    background: linear-gradient(to bottom, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 95%);
+    font-size: 1.2rem; 
     font-weight: 250;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.7;
     text-align: center;
     color: var(--blanco);
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     
 }
 
 .logo{
-    max-width: 150px;
-    max-height: 1500px;
+    max-width: 9.375rem;
+    max-height: 93.75rem;
+    align-self: center;
+    margin: 0 1rem;
 }
 .botonSubir{
     position: fixed;
-    display: flex;
     bottom: 5%;
     right: 5%;
-    margin-bottom: 90px ;
-    padding: 5px 15px;
+    margin-bottom: 5.625rem; 
+    padding: 0.3125rem 0.9375rem; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 2.5rem;
     background-color: var(--grisClaro);
     color: var(--Negro);
-    border-radius: 10px;
+    border-radius: 0.625rem;
     text-decoration: none;
 }
 h2{
-    font-weight: 450;
-
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 350;
+    font-size: 2.5rem; 
     
 }
 
 h3{
     font-weight: 100;
-    
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h4{
+    font-size: 1.1rem; 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 3rem;
 }
 
 .BotonesInicio h3 {
-    font-size: 17px;
-    line-height: 4.0;
+    font-size: 1.1rem; 
+    line-height: 2.0;
+    font-weight: 200;
+    margin-bottom: auto;
+    
 }
 .BotonesInicio li {
-    background-color: var(--grisClaro);
-    width: 70%;
-    border: var(--grisClaro) solid 2px;
-    border-radius: 8px;
+    background-color: rgba(var(--grisRGBA), 0.8);
+    box-shadow:  0.2px 0.2px 30px #1C1B1B;
+    width: 17.5rem; 
+    border: 1.0rem solid  rgba(var(--grisRGBA), 0.1);
+    border-radius: 0.7rem;
     color: var(--Negro);
-    
+    display: flex;
+    flex-direction: column;
+    min-height: 8.75rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.1rem; 
     
     
 
 }
 
 .BotonesInicio a{
-    background-color: var(--gris);
-    margin: 0px 70px 10px 70px;
-    border-radius: 10px;
     
+    background-color: rgba(var(--AmarilloBotones));
+    box-shadow:  0.2px 0.2px 10px #503c04;
+    margin: 0rem 1.375rem 0rem 1.375rem;
+    border-radius: 0.7rem;
+    color: var(--Negro);
+    padding: 0.5rem;
+    font-weight: 100;
+    cursor: pointer;
+    margin-top: auto;
     
     
 }
 
 .BotonesInicio ul{
-    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -104,14 +132,16 @@ h3{
     
 }
 
-.BotonesInicio .boton{
-    
-    display: flex;
+.BotonesInicio {
     justify-content: center;
+    text-align: center;
+    align-items: center;
+   
 }
 
 .BotonesInicio a:hover{
-    background-color: rgb(223, 171, 1);
+    background-color:var(--AmarilloClaro);
+    box-shadow:  0.2px 0.2px 10px #503c04;
     color: var(--Negro);
     
 }
@@ -120,17 +150,19 @@ h3{
 header {
     display: flex;
     align-items: center;
-    height: 75px;
+    height: 4.6875rem;
     background: linear-gradient(to top, var(--AzulOscuro) 50%, var(--grisOscuro) 100%);
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    width: 100%;
+    margin-left: 0;
     gap: 20px;
+    padding: 0 6.25rem;
     
 
 }
 
 header nav {
     order: 3;
+    margin-left: auto;
     
 }
 
@@ -138,51 +170,59 @@ header nav {
 
 .salida{
     order: 1;
+    max-width: 9.375rem;
+    max-height: 93.75rem;
+    align-self: center;
+    margin: 0 1rem;
+    
 }
 
 header .logo {
     order: 2;
-    margin-left: 30px;
+    margin-left: 1.875rem;
 }
 
-header .MenuPrincipal{
-display: none;
-list-style: none; 
-justify-content: flex-end;
-
-}
-header .salida{
-    margin: 0px 0px 0px 20px;
-}
-.MenuPrincipal {
-        display: none;
-        position: absolute;
-        text-align: center;
-        background-color: var(--gris);
-        flex-direction: column;
-        top: 56px;
-        right:0px;
-        width: 50%;
-        padding: 15px;
-        max-width: 384px;
-        
 
 
-    }
-.MenuPrincipal.visible{
+
+
+header .MenuPrincipal {
     display: flex;
     gap: 20px;
+    list-style: none;
+    order: 3;
+    text-align: center;
+    background-color: transparent;
+    top: 0.625rem;
+    
+    padding: 0.9375rem;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+   
+.MenuPrincipal li{
+    font-size: 1.2rem; 
+    font-weight: 250;
+    
+    
+}
+
+
+    
+.MenuPrincipal.visible{
+    display: flex;
+    
     list-style: none;
     
 }
 #btnMenu{
+    display: none;
     order:3;
     margin-left: auto;
     color: var(--blanco);
-    font-size: 30px;
+    font-size: 1.875rem;
     background-color: transparent;
     border: transparent;
-    margin-right: 20px
+    
 }
 
 #btnCerrar{
@@ -197,7 +237,7 @@ header .salida{
 
 #btnCerrar.visible {
     display: flex;
-    margin-right: 20px;
+    margin-right: 1.25rem;
     margin-left: auto;
     order: 3;
     background-color: var(--gris);
@@ -214,8 +254,9 @@ li,ul, a{
 }
 
 .BotonNavegacion:hover{
-  background-color: var(--grisClaro);
-  color: var(--Negro);
+    
+   text-shadow:  1px 1px 15px var(--blanco);
+  color: var(--blanco);
   
 }
 
@@ -223,19 +264,18 @@ footer{
     
     
     color: var(--blancoPuro);
-    font-size: 18px;
-    padding: 20px; 
+    font-size: 1.125rem;
     margin-top: auto;
-
+    padding: 1rem;
     
 }
 fieldset{
     
     display: inline-block;
-    width: 400px;
+    width: 25rem;
     background-color: var(--gris);
     border:transparent;
-    border: #ffffff solid 2px;
+    border: #ffffff solid 0.125rem;
     margin: 0 auto;
     
     
@@ -244,7 +284,7 @@ fieldset{
 }
 
 legend{
-    font-size: 25px;
+    font-size: 1.5625rem;
     font-weight: 400;
     color: var(--blanco);
     
@@ -254,9 +294,9 @@ legend{
 label{
     display: flex;
     justify-content: flex-start;
-    margin-left: 60px;
+    margin-left: 3.75rem;
     line-height: 3.0;
-    margin-bottom: 2px;
+    margin-bottom: 0.125rem;
     white-space: nowrap;
     
     
@@ -265,12 +305,12 @@ label{
 
 
 input, select{
-    width: 250px;
-    height: 35px;
+    width: 15.625rem;
+    height: 2.1875rem;
     justify-content: center;
     background-color: var(--grisClaro);
     border: none;
-    line-height: 10px;
+    line-height: 0.625rem;
     color: var(--gris);
     
     
@@ -283,12 +323,12 @@ input:focus{
 }
 
 .Formulario button{
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin-top: 20px;
+    margin-top: 1.25rem;
     margin-left: auto;
-    margin-right: 150px;
-    border: var(--Negro) solid 3px;
+    margin-right: 9.375rem;
+    border: var(--Negro) solid 0.1875rem;
     
 }
 .Formulario{
@@ -301,7 +341,7 @@ dialog{
     background-color: var(--gris);
 }
 button{
-    border-radius: 20px;
+    border-radius: 1.25rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -315,12 +355,19 @@ button:hover{
 }
 .botonesAgregar{
     display: flex;
-    margin: 0 auto 10px auto;
-    margin-bottom: 10px;
-    border: 8px var(--Negro) solid;
-    border-radius: 15px;
+    margin: 0 auto 0.625rem auto;
+    margin-bottom: 0.625rem;
+    border: 0.5rem var(--Negro) solid;
+    border-radius: 0.9375rem;
     
 }
+
+fieldset{
+     border-radius: 15px;
+      border: 15px solid rgba(var(--grisRGBA), 0.3) ;
+}
+
+
 
 fieldset table{
     border: none;
@@ -329,24 +376,28 @@ fieldset table{
     background-color: var();
     margin: 0 auto;
     width: 100%;
-    margin-top: 5px;
-    
+    margin-top: 0.3125rem;
+     border-radius: 15px;
+     
     
 }
 th {
-    background-color: var(--Amarillo);
-    font-size: 12px;
-    min-height: 80px;
+    background-color: var(--AzulOscuro);
+    font-size: 0.75rem;
+    min-height: 5rem;
     font-weight: 450;
     color: var(--blanco);
     max-width: 100%;
+    
+   
 }
 
 tr{
     background-color: var();
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--Negro);
     background-color: var(--grisClaro);
+    border-radius: 15px;
 }
 
 tr:nth-child(even) td {
@@ -357,8 +408,8 @@ tr:nth-child(even) td {
 .CuadrosTexto{
     background-color: var(--blanco);
     width: 80%;           
-    margin: 0 auto 20px auto; 
-    padding: 20px; 
+    margin: 0 auto 1.25rem auto; 
+    padding: 1.25rem; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -373,19 +424,19 @@ tr:nth-child(even) td {
 
 
 .opciones{
-    border-radius: 10px;
+    border-radius: 0.625rem;
     align-items: center;
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 0.625rem;
+    margin-bottom: 1.25rem;
 }
 
 .opciones label{
-margin-right: 70px;
+margin-right: 4.375rem;
 }
 
 .PanelRoles{
@@ -413,56 +464,174 @@ margin-right: 70px;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+   body{
+        background: linear-gradient(to right, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 95%);
+    } 
+header {
+        padding: 0 2rem; 
+       background: rgba(var(--AzulRGB),0.1);
+         position: relative;
+    }
+
+    .MenuPrincipal {
+        gap: 0.9375rem; 
+         z-index: 100;
+    }
+
+    .MenuPrincipal li {
+        font-size: 1.1rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    body{
+        background: linear-gradient(to right, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 95%);
+    }
+   .logo {
+        max-width: 9.375rem;
+        max-height: 9.375rem; /* corregido: estaba en 93.75rem, mismo typo que en desktop */
+        display: flex;
+    }
+
+    #btnMenu {
+    display: flex;
+    padding: 0.25rem;
+    margin-right: -10.1rem;
+}
+
+    .botonSubir {
+        position: fixed;
+        display: flex;
+        bottom: 1.25rem;
+        right: 1.25rem;
+        margin-bottom: 5.625rem;
+        padding: 0.3125rem 0.9375rem;
+        background-color: var(--grisClaro);
+        color: var(--Negro);
+        border-radius: 0.625rem;
+        text-decoration: none;
+    }
+
+    h2 {
+        font-weight: 450;
+    }
+
+    h3 {
+        font-weight: 100;
+    }
+
+    .BotonesInicio h3 {
+        font-size: 17ppx;
+        line-height: 4.0;
+    }
+
+    .BotonesInicio li {
+        background-color: var(--grisClaro);
+        width: 70%;
+        border: var(--grisClaro) solid 0.125rem;
+        border-radius: 0.5rem;
+        color: var(--Negro);
+    }
+
+    .BotonesInicio a {
+        background-color: var(--grisBotones); 
+        margin: 0 auto 0.625rem auto;
+        max-width: 15.625rem;
+        width: 90%;
+        border-radius: 0.625rem;
+    }
+
+    header {
+        position: relative;
+        background: rgba(var(--AzulRGB),0.7);
+        height: 4.6875rem;
+        width: 100%;       
+        margin-left: 0;    
+        
+        box-sizing: border-box;
+        
+    }
+
+    .salida {
+        margin: 0;
+    }
+
+    header .logo {
+        margin-left: 0;
+        
+    }
 
     header .MenuPrincipal {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    order: 3;
-    position: relative;
-    text-align: center;
-    background-color: transparent;
-    flex-direction: row;
-    top: 10px;
-    right:0px;
-    left: 300px;
-    width: 50%;
-    padding: 15px;
-    max-width: 384px;
-     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        display: none;
+        list-style: none;
+        justify-content: flex-end;
+    }
+
+    .MenuPrincipal {
+        display: none;
+        position: absolute;
+        text-align: center;
+        background-color: var(--grisBotones); 
+        flex-direction: column;
+        top: 100%;   
+        width: 50%;
+        right: 0;
+        padding: 0.9375rem;
+        max-width: 24rem;
+        box-sizing: border-box;
+        z-index: 100;
+    }
+
+   
+
+    .MenuPrincipal.visible {
+        display: flex;
+        gap: 1.25rem;
+        list-style: none;
+        background-color: rgba(var(--AzulRGB), 0.7);
+        
+
+    }
+
+  
+
+    #btnCerrar {
+        display: none;
+    }
+
+    #btnMenu.oculto {
+        display: none;
+    }
+
+    #btnCerrar.visible {
+        display: flex;
+    background-color: var(--grisBotones); 
+    border: none;
+    color: var(--blanco);
+    }
+
+    li, ul, a {
+        color: var(--blanco);
+        text-decoration: none;
+        display: inline;
+    }
+
+    .BotonNavegacion:hover {
+        background-color: var(--grisClaro);
+        color: var(--Negro);
+    }
+
+    fieldset {
+    width: 100%;
+    max-width: 25rem;
 }
-
-
-nav ul,
-nav li {
-    display: inline;
-    width: auto;
-}
-
-#btnMenu, #btnCerrar {
-    display: none;
-    flex-direction: column;
-    order: 3;
-
-}
-.BotonNavegacion {
-    text-decoration: none;
-    background-color: var(--oscuro);
-    color: var(--grisClaro);
-    font-size: 18px;
-    text-transform: uppercase;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    ;
-    
-
-}
-.BotonNavegacion:hover {
-    background-color: var(--Amarillo);
-    color: var(--Negro);
-}
-
-.BotonNavegacion:focus {
-    background-color: var(--Amarillo);
-    color: var(--Negro);
+  #btnMenu,
+#btnCerrar {
+    position: absolute;
+    right: 1.25rem;
+    z-index: 200;
+    margin: 0;
 }
 }
