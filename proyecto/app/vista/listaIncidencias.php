@@ -40,17 +40,17 @@
 
         <section id="CuadroPriordad" class="CuadrosTexto">
             <label>Incidencias con prioridad altas sin resolver: </label>
-            <span id="IncidenciasAlta">0</span>
+            <span id="IncidenciasAlta"><?= htmlspecialchars((string) $incidenciasPrioridadAlta) ?></span>
         </section>
 
         <section id="CuadroSinResolver" class="CuadrosTexto">
             <label>Incidencias sin resolver: </label>
-            <span id="IncidenciasSinResolver">0</span>
+            <span id="IncidenciasSinResolver"><?= htmlspecialchars((string) $incidenciasSinResolver) ?></span>
         </section>
 
         <section id="CuadroAutorización" class="CuadrosTexto">
             <label>Incidencias que requieren autorización: </label>
-            <span id="IncidenciasAutorización">0</span>
+            <span id="IncidenciasAutorización"><?= htmlspecialchars((string) $incidenciasAutorizacion) ?></span>
         </section>
 
         <section class="Tablas">
@@ -64,9 +64,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-
-                    </tr>
+                    <?php foreach ($incidenciasPorAula as $aula) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($aula["nombreLaboratorio"] ?? "") ?></td>
+                            <td><?= htmlspecialchars($aula["numLaboratorio"] ?? "") ?></td>
+                            <td><?= htmlspecialchars((string) $aula["cantidadIncidencias"]) ?></td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
 
                 </table>

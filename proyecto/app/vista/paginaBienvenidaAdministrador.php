@@ -63,7 +63,7 @@
 
                     <li>
                         <h3>Vizualización de solicitudes</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaSolicitudes.php" class="boton">Ver solicitudes</a>
+                        <a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="boton">Ver solicitudes</a>
                     </li>
 
                     <li>
