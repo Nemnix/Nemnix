@@ -26,8 +26,6 @@ const entradaEstado = document.getElementById("estadoTicket");
 const entradaModificarIdT = document.getElementById("modificarTicketID_T");
 const entradaModificarIdR = document.getElementById("modificarTicketID_R");
 
-const URL_MODIFICAR_TICKET = "/proyecto/public/usuarioTecnico/procesarModificarRegistroYTickets.php";
-
 let ticketEditando = null;
 
 
@@ -212,7 +210,7 @@ function visualizar(ticket) {
         campo.disabled = false;
     });
 
-    formulario.action = URL_MODIFICAR_TICKET;
+    formulario.action = "/proyecto/public/usuarioTecnico/procesarModificarRegistroYTickets.php";
 
     modal.showModal();
 

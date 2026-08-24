@@ -15,14 +15,15 @@ class AltaDiagnostico
 
     /**
      * Inserta un nuevo diagnóstico en la tabla DIAGNOSTICO.
-     * @param int|null $idT Identificador del ticket asociado (puede ser NULL).
-     * @param int|null $idR Identificador de registro diario (puede ser NULL).
+     * @param int $idT Identificador del ticket asociado.
+     * @param int $idR Identificador de registro diario asociado al ticket.
+     * @param string $cedula Cédula del técnico que realiza el diagnóstico.
      * @param string $estadoD Estado del diagnóstico.
      * @param string $fechaD Fecha del diagnóstico (YYYY-MM-DD).
      * @param string $descripcionD Descripción del diagnóstico.
      * @return bool True si se insertó correctamente, false en caso contrario.
      */
-    public function registrarDiagnostico(?int $idT, ?int $idR, string $estadoD, string $fechaD, string $descripcionD): bool
+    public function registrarDiagnostico(int $idT, int $idR, string $cedula, string $estadoD, string $fechaD, string $descripcionD): bool
     {
         if (empty($estadoD) || empty($fechaD) || empty($descripcionD)) {
             $this->ultimoError = "Campos obligatorios faltantes";
@@ -30,12 +31,13 @@ class AltaDiagnostico
         }
 
         try {
-            $sql = "INSERT INTO DIAGNOSTICO (ID_R, ID_T, estadoD, fechaD, descripcionD) VALUES (:idR, :idT, :estadoD, :fechaD, :descripcionD)";
+            $sql = "INSERT INTO DIAGNOSTICO (ID_R, ID_T, cedula, estadoD, fechaD, descripcionD) VALUES (:idR, :idT, :cedula, :estadoD, :fechaD, :descripcionD)";
             $consulta = $this->conexion->prepare($sql);
 
             $consulta->execute([
                 'idR' => $idR,
                 'idT' => $idT,
+                'cedula' => $cedula,
                 'estadoD' => $estadoD,
                 'fechaD' => $fechaD,
                 'descripcionD' => $descripcionD

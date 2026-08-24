@@ -9,7 +9,6 @@ const tablaTicketModal = document.getElementById("cuerpoTicketModal");
 
 const btnAgregarRegistro = document.getElementById("btnAgregarRegistro");
 const btnCerrarRegistro = document.getElementById("btnCerrarRegistro");
-const AgregarTickets = document.getElementById("AgregarTickets");
 const btnCerrarTicket = document.getElementById("btnCerrarTicket");
 
 const entradaIdRegistro = document.getElementById("ID_R");
@@ -22,16 +21,11 @@ const entradaHoraEntrada = document.getElementById("horaEntrada");
 const entradaGrupo = document.getElementById("grupoRegistroDiario");
 const entradaTurno = document.getElementById("turnoRegistroDiario");
 
-const URL_ALTA_REGISTRO = "/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php";
-const URL_MODIFICAR_REGISTRO = "/proyecto/public/usuarioSolicitante/procesarModificarRegistro.php";
-
 const entradaIdRegistroTicket = document.getElementById("ID_R_Ticket");
 const entradaIdDispositivo = document.getElementById("idDispositivo");
 const entradaNombreAlumno = document.getElementById("nombreAlumno");
 const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
 const entradaMotivoTicket = document.getElementById("motivoTicket");
-
-const URL_BAJA_TICKET = "/proyecto/public/usuarioSolicitante/procesarBajaTicket.php";
 
 
 let filaEditandoTicket = null
@@ -154,7 +148,7 @@ function abrirAltaRegistro() {
 
     filaEditando = null;
     formulario.reset();
-    formulario.action = URL_ALTA_REGISTRO;
+    formulario.action = "/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php";
     modal.showModal();
 
 }
@@ -163,7 +157,7 @@ function cerrarAltaRegistro() {
 
     filaEditando = null;
     formulario.reset();
-    formulario.action = URL_ALTA_REGISTRO;
+    formulario.action = "/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php";
     modal.close();
 
 }
@@ -172,7 +166,7 @@ modal.addEventListener("cancel", function () {
 
     filaEditando = null;
     formulario.reset();
-    formulario.action = URL_ALTA_REGISTRO;
+    formulario.action = "/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php";
 
 });
 
@@ -525,7 +519,7 @@ function abrirEditarRegistro(eventoModificar) {
 
     formulario.reset();
     filaEditando = fila;
-    formulario.action = URL_MODIFICAR_REGISTRO;
+    formulario.action = "/proyecto/public/usuarioSolicitante/procesarModificarRegistro.php";
 
     entradaIdRegistro.value = btnEditar.dataset.id;
 
@@ -568,7 +562,7 @@ function renderizarTicketsModal(tickets) {
 
         const formularioBajaTicket = document.createElement("form");
         formularioBajaTicket.method = "post";
-        formularioBajaTicket.action = URL_BAJA_TICKET;
+        formularioBajaTicket.action = "/proyecto/public/usuarioSolicitante/procesarBajaTicket.php";
         formularioBajaTicket.className = "formularioBajaTicket";
 
         const entradaIdRegistroBaja = document.createElement("input");
