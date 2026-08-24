@@ -14,7 +14,7 @@
 
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="/Proyecto/Public/login.php" class="salida">
+        <a href="/proyecto/public/login.php" class="salida">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -34,22 +34,22 @@
         <nav>
             <ul class="MenuPrincipal">
                 <li>
-                <li><a href="/Proyecto/App/Vista/paginaBienvenidaTecnico.php" class="BotonNavegacion">
+                <li><a href="paginaBienvenidaTecnico.php" class="BotonNavegacion">
                         Inicio
                     </a>
                 </li>
                 <li>
-                    <a href="listaTicketsEntrantes.html" class="BotonNavegacion">
+                    <a href="listaTicketsEntrantes.php" class="BotonNavegacion">
                         Tickets entrantes
                     </a>
                 </li>
                 <li>
-                    <a href="listaDiagnosticos.html" class="BotonNavegacion">
+                    <a href="listaDiagnosticos.php" class="BotonNavegacion">
                         Diagnosticos
                     </a>
                 </li>
                 <li>
-                    <a href="inventarioPrestamos.html" class="BotonNavegacion">
+                    <a href="inventarioPrestamos.php" class="BotonNavegacion">
                         Prestamo equipos
                     </a>
                 </li>
@@ -196,7 +196,6 @@
     </footer>
 
     <script src="../assets/JavaScript/botonSubir.js"></script>
-    <script src="../assets/JS/script.js"></script>
     <script src="../assets/JavaScript/listaDiagnosticos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

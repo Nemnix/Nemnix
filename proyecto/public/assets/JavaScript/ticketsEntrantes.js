@@ -23,6 +23,10 @@ const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
 const entradaMotivo = document.getElementById("motivoTicket");
 const entradaPrioridad = document.getElementById("prioridadTicket");
 const entradaEstado = document.getElementById("estadoTicket");
+const entradaModificarIdT = document.getElementById("modificarTicketID_T");
+const entradaModificarIdR = document.getElementById("modificarTicketID_R");
+
+const URL_MODIFICAR_TICKET = "/proyecto/public/usuarioTecnico/procesarModificarRegistroYTickets.php";
 
 let ticketEditando = null;
 
@@ -158,6 +162,69 @@ modal.addEventListener("cancel", function () {
 
 });
 
+// Datos del registro diario asociado: solo informativos, no se modifican desde este formulario.
+const camposSoloLectura = [
+    entradaTipoAula,
+    entradaNumAula,
+    entradaAsignatura,
+    entradaHoraEntrada,
+    entradaHoraSalida,
+    entradaGrupo,
+    entradaTurno,
+    entradaIdDispositivo
+];
+
+// Datos propios del ticket: editables al visualizarlo.
+const camposEditablesTicket = [
+    entradaNombreAlumno,
+    entradaNombreDispositivo,
+    entradaMotivo,
+    entradaPrioridad,
+    entradaEstado
+];
+
+function visualizar(ticket) {
+
+    ticketEditando = ticket;
+    window.ticketEnVisualizacion = ticket;
+
+    entradaTipoAula.value = ticket.nombreLaboratorio ?? "";
+    entradaNumAula.value = ticket.numLaboratorio ?? "";
+    entradaAsignatura.value = ticket.asignatura ?? "";
+    entradaHoraEntrada.value = ticket.horaEntrada ?? "";
+    entradaHoraSalida.value = ticket.horaFin ?? "";
+    entradaGrupo.value = ticket.grupo ?? "";
+    entradaTurno.value = ticket.turno ?? "";
+    entradaIdDispositivo.value = "";
+    entradaNombreAlumno.value = ticket.nombreAlumno ?? "";
+    entradaNombreDispositivo.value = ticket.nombreEquipo ?? "";
+    entradaMotivo.value = ticket.descripcionT ?? "";
+    entradaPrioridad.value = ticket.prioridad ?? "Sin definir";
+    entradaEstado.value = ticket.estado ?? "Pendiente";
+
+    entradaModificarIdT.value = ticket.ID_T;
+    entradaModificarIdR.value = ticket.ID_R;
+
+    camposSoloLectura.forEach(function (campo) {
+        campo.disabled = true;
+    });
+    camposEditablesTicket.forEach(function (campo) {
+        campo.disabled = false;
+    });
+
+    formulario.action = URL_MODIFICAR_TICKET;
+
+    modal.showModal();
+
+}
+
+function abrirVisualizacionTicket(eventoVisualizar) {
+    const btnVisualizar = eventoVisualizar.target.closest(".btnVisualizar");
+    if (btnVisualizar === null) return;
+
+    visualizar(JSON.parse(btnVisualizar.dataset.ticket));
+}
+
 // function agregarTicket(ticket) {
 
     // let fila = document.createElement("tr");
@@ -253,3 +320,6 @@ modal.addEventListener("cancel", function () {
 // });
 
 // actualizarTabla();
+
+tabla.addEventListener("click", abrirVisualizacionTicket);
+btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);

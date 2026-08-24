@@ -12,7 +12,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     $mensaje = "Acceso Denegado: Petición incorrecta";
 
-    header("Location: /proyecto/public/usuarioTecnico/inventarioPrestamos.php?error=" . urlencode($mensaje));
+    header("Location: /proyecto/public/usuarioSolicitante/solicitudesLabs.php?error=" . urlencode($mensaje));
     exit;
 }
 
@@ -27,11 +27,11 @@ if (!isset($_SESSION["cedula"]) || !isset($_SESSION["solicitante"]) || $_SESSION
 //Recupera los datos del formulario, con variables nombradas según las columnas de PRESTAMO
 
 $cedulaTecnico = $_SESSION["cedula"];
-$nombreLab  = trim($_POST["preparacionLaboratorio"] ?? "");
-$numLaboratorio  = trim($_POST["numLabTaller"] ?? "");
-$fechaLab = trim($_POST["fechaLaboratorio"] ?? "");
-$descripcionLab = trim($_POST["motivoSolicitudes"] ?? "");
-$gmailDocente    = trim($_POST["mailDocente"] ?? "");
+$nombreLab  = trim($_POST["nombreLaboratorio"] ?? "");
+$numLaboratorio  = trim($_POST["numLaboratorio"] ?? "");
+$fechaLab = trim($_POST["fecha"] ?? "");
+$descripcionLab = trim($_POST["descripcionSolicitud"] ?? "");
+$gmailDocente    = trim($_POST["gmail"] ?? "");
 
 // Validar que todos los campos obligatorios estén completos
 if (empty($numLaboratorio) || empty($nombreLab) || empty($fechaLab) || empty($descripcionLab) || empty($gmailDocente)) {
