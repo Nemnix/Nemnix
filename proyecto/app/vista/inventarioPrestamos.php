@@ -33,7 +33,7 @@
         <?php elseif (isset($_GET["error"])): ?>
             <p class="mensajeError"><?= htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8") ?></p>
         <?php endif; ?>
-        <h2>inventario prestamos</h2>
+        <h2>Inventario prestamos</h2>
         <button id="btnAgregarEquipo" class="botonesAgregar">Agregar nuevo equipo</button>
         <dialog id="RegistroEquipoP" class="Formulario">
             <form action="/proyecto/public/usuarioTecnico/procesarAltaPrestamos.php" method="POST" id="FormularioInventarioEquipos">

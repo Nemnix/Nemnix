@@ -8,14 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="../Assets/css/usuarioAdmistrador.css">
-    <link rel="stylesheet" href="./proyecto/public/assets/css/global.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/usuarioAdmistrador.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="../Assets/img/logoUTU.png">
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png">
 
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">

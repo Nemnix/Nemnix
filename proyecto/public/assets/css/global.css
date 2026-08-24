@@ -297,7 +297,8 @@ label{
     margin-left: 3.75rem;
     line-height: 3.0;
     margin-bottom: 0.125rem;
-    white-space: nowrap;
+    white-space: normal;
+    
     
     
 }
@@ -311,7 +312,7 @@ input, select{
     background-color: var(--grisClaro);
     border: none;
     line-height: 0.625rem;
-    color: var(--gris);
+    color: var(--Negro);
     
     
     
@@ -319,7 +320,7 @@ input, select{
 
 input:focus{
     background-color: var(--blanco);
-    color: var(--gris);
+    color: var(--Negro);
 }
 
 .Formulario button{
@@ -334,12 +335,10 @@ input:focus{
 .Formulario{
     justify-content: center;
 }
-.Formulario span{
-    color: var(--blanco);
+form span{
+    color: var(--Negro);
 }
-dialog{
-    background-color: var(--gris);
-}
+
 button{
     border-radius: 1.25rem;
     display: flex;
@@ -351,14 +350,21 @@ button{
 
 button:hover{
     background-color: var(--blanco);
+     
     color: #000000;
+}
+.botonesAgregar:hover{
+    border: 0.5rem var(--blanco) solid;
 }
 .botonesAgregar{
     display: flex;
+    background-color: var(--Amarillo);
     margin: 0 auto 0.625rem auto;
     margin-bottom: 0.625rem;
-    border: 0.5rem var(--Negro) solid;
+    border: 0.5rem var(--Amarillo) solid;
     border-radius: 0.9375rem;
+    box-shadow:  0.2px 0.2px 30px #1C1B1B;
+    color: var(--Negro);
     
 }
 
@@ -367,6 +373,7 @@ button:hover{
 
 
 fieldset table {
+    box-shadow:  0.2px 0.2px 30px #1C1B1B;
     border-collapse: separate;
     border-spacing: 0;
     padding: 0;
@@ -471,6 +478,19 @@ margin-right: 4.375rem;
     border-right: solid var(--Amarillo) 2rem;
     border-left: solid var(--Amarillo) 2rem;
 
+}
+
+dialog{
+    background-color: var(--AzulOscuro);
+    margin: auto;
+    max-width: 90vw;          
+             
+     
+}
+ 
+input{
+    
+     
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
