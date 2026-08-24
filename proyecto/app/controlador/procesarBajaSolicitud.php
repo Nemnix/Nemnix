@@ -1,14 +1,8 @@
 <?php
 
-/**
- * Procesa la eliminación de un préstamo enviada mediante POST.
- *
- * Valida la sesión del solicitante y delega la eliminación de la solicitud.
- */
-
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/ConectorPDO.php";
-require_once RUTA_MODELO . "/bajaSolicitud.php";
+require_once RUTA_MODELO . "/conectorPDO.php";
+require_once RUTA_MODELO . "/bajaSolicitudAdmin.php";
 
 session_start();
 
@@ -18,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST" || !isset($_SESSION["cedula"]) || ($_S
     exit;
 }
 
-$ID_Lab = trim($_POST["ID_L"] ?? "");
+$ID_L = trim($_POST["ID_L"] ?? "");
 
-if (!ctype_digit($ID_Lab) || (int) $ID_Lab <= 0) {
+if (!ctype_digit($ID_L) || (int) $ID_L <= 0) {
     $mensaje = "Identificador de laboratorio inválido.";
     header("Location: /proyecto/public/usuarioSolicitante/solicitudesLabs.php?error=" . urlencode($mensaje));
     exit;
@@ -36,7 +30,7 @@ if ($conexion === null) {
 }
 
 $bajaSolicitud = new BajaSolicitud($conexion);
-$resultado = $bajaSolicitud->eliminarSolicitud($ID_Lab);
+$resultado = $bajaSolicitud->eliminarSolicitud($ID_L);
 
 $conectorPDO->desconectar();
 

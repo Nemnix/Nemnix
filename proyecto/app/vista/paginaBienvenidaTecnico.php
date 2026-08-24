@@ -14,7 +14,7 @@
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="/Proyecto/Public/login.php" class="salida">
+        <a href="/proyecto/public/login.php" class="salida">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -23,7 +23,7 @@
                     d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
             </svg>
         </a>
-        <img class="logo" src="/Proyecto/Public/Assets/img/logoUTU.png" alt="Logo">
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png" alt="Logo">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -34,14 +34,14 @@
         
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="paginaBienvenidaTecnico.html" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="listaTicketsEntrantes.html" class="BotonNavegacion">Tickets entrantes</a></li>
-                <li><a href="/proyecto/app/controlador/cargarDiagnostico.php" class="BotonNavegacion">Diagnosticos</a></li>
-                <li><a href="inventarioPrestamos.html" class="BotonNavegacion">Prestamo equipos</a></li>
+                <li><a href="paginaBienvenidaTecnico.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="listaTicketsEntrantes.php" class="BotonNavegacion">Tickets entrantes</a></li>
+                <li><a href="listaDiagnosticos.php" class="BotonNavegacion">Diagnosticos</a></li>
+                <li><a href="inventarioPrestamos.php" class="BotonNavegacion">Prestamo equipos</a></li>
 
             </ul>
         </nav>
-        <script src="../assets/JavaScript/menu.js"></script>
+        <script src="/proyecto/public/assets/JavaScript/menu.js"></script>
     </header>
     <main>
         <section class="Bienvenida">
@@ -51,7 +51,7 @@
                 <ul>
                     <li>
                         <h3>Responder tickets</h3>
-                        <a href="listaTicketsEntrantes.html" class="boton">Responder</a>
+                        <a href="listaTicketsEntrantes.php" class="boton">Responder</a>
                     </li>
 
                     <li>
@@ -61,7 +61,7 @@
 
                     <li>
                         <h3>Diagnosticos</h3>
-                        <a href="/proyecto/app/controlador/cargarDiagnostico.php" class="boton">Diagnosticos</a>
+                        <a href="listaDiagnosticos.php" class="boton">Diagnosticos</a>
                     </li>
 
                 </ul>
@@ -70,7 +70,7 @@
     <footer>
         <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
     </footer>
-    <script src="../assets/JavaScript/botonSubir.js"></script>
+    <script src="/proyecto/public/assets/JavaScript/botonSubir.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

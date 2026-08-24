@@ -116,8 +116,8 @@ SELECT
 
 SELECT
     l.ID_L,
-    l.nombreLab,
-    l.numeroLab,
+    l.nombreLaboratorio,
+    l.numLaboratorio,
 
     FROM LABORATORIO AS l
 
@@ -136,18 +136,33 @@ SELECT
     LEFT JOIN LABORATORIO AS l
     ON l.ID_L = so.ID_L
 
+
 SELECT
-    LABORATORIO.ID_L,
-    LABORATORIO.cedulaA,
-    LABORATORIO.nombreLaboratorio,
-    LABORATORIO.numLaboratorio,
-    SOLICITA.ID_L,
-    SOLICITA.cedula,
-    SOLICITA.descripcionSolicitud,
-    SOLICITA.Fecha,
-    SOLICITA.Gmail
-FROM LABORATORIO
-LEFT JOIN SOLICITA ON LABORATORIO.ID_L = SOLICITA.ID_L;
+    l.ID_L,
+    l.nombreLaboratorio,
+    l.numLaboratorio,
+FROM LABORATORIO AS l
+
+
+SELECT
+    l.ID_L,
+    s.cedula,
+    r.ID_R,
+    r.fecha,
+    r.horaEntrada,
+    r.horaFin,
+    r.asignatura,
+    r.turno,
+    r.grupo,
+    FROM REGISTRO_DIARIO AS r
+
+    left JOIN SOLICITANTE AS s
+    ON s.cedula = r.cedula
+
+    LEFT JOIN LABORATORIO AS l
+    ON l.ID_L = r.ID_L
+
+
 
 
     

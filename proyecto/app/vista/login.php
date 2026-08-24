@@ -49,7 +49,7 @@
         </section>
     </main>
     <footer>
-        <img class="logo" src="/Proyecto/Public/Assets/img/logoUTU.png" alt="Logo">
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png" alt="Logo">
     </footer>
 </body>
 </html>

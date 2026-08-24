@@ -10,7 +10,7 @@ if (!isset($_SESSION["cedula"])) {
     exit;
 }
 
-if ( !isset($_SESSION["administrador"]) || !($_SESSION["administrador"] ?? false) ) {
+if ( !isset($_SESSION["tecnico"]) || !($_SESSION["tecnico"] ?? false) ) {
     $mensaje = "Acceso Denegado: Rol incorrecto";
     header("Location:  /proyecto/public/login.php?error=" . urlencode($mensaje));
     exit;

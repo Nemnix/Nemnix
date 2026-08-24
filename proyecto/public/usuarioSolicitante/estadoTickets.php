@@ -15,6 +15,6 @@ if (!isset($_SESSION["solicitante"]) || $_SESSION["solicitante"] !== true) {
     exit;
 }
 
-require_once __DIR__ . "/../../app/vista/estadoTickets.php";
+require_once __DIR__ . "/../../app/controlador/cargarEstadoTickets.php";
 
 ?>

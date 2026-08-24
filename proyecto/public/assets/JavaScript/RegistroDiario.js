@@ -5,13 +5,14 @@ const modalTicket = document.getElementById("TicketSolicitante");
 const formularioTicket = document.getElementById("FormularioTickets");
 
 const tabla = document.getElementById("registroDiario");
-const tablaTicketModal = document.getElementById("registroTicket");
+const tablaTicketModal = document.getElementById("cuerpoTicketModal");
 
 const btnAgregarRegistro = document.getElementById("btnAgregarRegistro");
 const btnCerrarRegistro = document.getElementById("btnCerrarRegistro");
 const AgregarTickets = document.getElementById("AgregarTickets");
 const btnCerrarTicket = document.getElementById("btnCerrarTicket");
 
+const entradaIdRegistro = document.getElementById("ID_R");
 const entradaNumAula = document.getElementById("numLabTaller");
 const entradaTipoAula = document.getElementById("IDLaboratorio");
 const entradaFecha = document.getElementById("fechaRegistroDiario");
@@ -21,10 +22,16 @@ const entradaHoraEntrada = document.getElementById("horaEntrada");
 const entradaGrupo = document.getElementById("grupoRegistroDiario");
 const entradaTurno = document.getElementById("turnoRegistroDiario");
 
+const URL_ALTA_REGISTRO = "/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php";
+const URL_MODIFICAR_REGISTRO = "/proyecto/public/usuarioSolicitante/procesarModificarRegistro.php";
+
+const entradaIdRegistroTicket = document.getElementById("ID_R_Ticket");
 const entradaIdDispositivo = document.getElementById("idDispositivo");
 const entradaNombreAlumno = document.getElementById("nombreAlumno");
 const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
 const entradaMotivoTicket = document.getElementById("motivoTicket");
+
+const URL_BAJA_TICKET = "/proyecto/public/usuarioSolicitante/procesarBajaTicket.php";
 
 
 let filaEditandoTicket = null
@@ -147,6 +154,7 @@ function abrirAltaRegistro() {
 
     filaEditando = null;
     formulario.reset();
+    formulario.action = URL_ALTA_REGISTRO;
     modal.showModal();
 
 }
@@ -155,6 +163,7 @@ function cerrarAltaRegistro() {
 
     filaEditando = null;
     formulario.reset();
+    formulario.action = URL_ALTA_REGISTRO;
     modal.close();
 
 }
@@ -163,6 +172,7 @@ modal.addEventListener("cancel", function () {
 
     filaEditando = null;
     formulario.reset();
+    formulario.action = URL_ALTA_REGISTRO;
 
 });
 
@@ -507,13 +517,106 @@ modalTicket.addEventListener("cancel", function () {
 //     actualizarTablaTicketModal();
 //     formularioTicket.reset();
 // });
+function abrirEditarRegistro(eventoModificar) {
+    const btnEditar = eventoModificar.target.closest(".btnEditar");
+    if (btnEditar === null) return;
 
+    const fila = btnEditar.closest("tr");
 
+    formulario.reset();
+    filaEditando = fila;
+    formulario.action = URL_MODIFICAR_REGISTRO;
 
+    entradaIdRegistro.value = btnEditar.dataset.id;
 
+    entradaFecha.value     = fila.cells[0].textContent.trim(); // fecha
+    entradaTipoAula.value  = fila.cells[1].textContent.trim(); // nombreLaboratorio
+    entradaNumAula.value   = fila.cells[2].textContent.trim(); // numLaboratorio
+    entradaHoraEntrada.value = fila.cells[3].textContent.trim(); // horaEntrada
+    entradaHoraSalida.value  = fila.cells[4].textContent.trim(); // horaFin
+    entradaTurno.value     = fila.cells[5].textContent.trim(); // turno
+    entradaGrupo.value     = fila.cells[6].textContent.trim(); // grupo
+    entradaAsignatura.value = fila.cells[7].textContent.trim(); // asignatura
 
-// btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
-// btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
+    modal.showModal();
+}
 
-// AgregarTickets.addEventListener("click", abrirTicket);
-// btnCerrarTicket.addEventListener("click", cerrarTicket);
+function renderizarTicketsModal(tickets) {
+
+    tablaTicketModal.innerHTML = "";
+
+    if (tickets.length === 0) {
+        const filaVacia = document.createElement("tr");
+        const celdaVacia = document.createElement("td");
+        celdaVacia.colSpan = 3;
+        celdaVacia.textContent = "No hay tickets cargados para este registro.";
+        filaVacia.appendChild(celdaVacia);
+        tablaTicketModal.appendChild(filaVacia);
+        return;
+    }
+
+    tickets.forEach(function (ticket) {
+        const fila = document.createElement("tr");
+
+        const celdaTicket = document.createElement("td");
+        celdaTicket.textContent = "Ticket " + ticket.ID_T;
+
+        const celdaProblema = document.createElement("td");
+        celdaProblema.textContent = ticket.descripcionT;
+
+        const celdaAcciones = document.createElement("td");
+
+        const formularioBajaTicket = document.createElement("form");
+        formularioBajaTicket.method = "post";
+        formularioBajaTicket.action = URL_BAJA_TICKET;
+        formularioBajaTicket.className = "formularioBajaTicket";
+
+        const entradaIdRegistroBaja = document.createElement("input");
+        entradaIdRegistroBaja.type = "hidden";
+        entradaIdRegistroBaja.name = "ID_R";
+        entradaIdRegistroBaja.value = ticket.ID_R;
+
+        const entradaIdTicketBaja = document.createElement("input");
+        entradaIdTicketBaja.type = "hidden";
+        entradaIdTicketBaja.name = "ID_T";
+        entradaIdTicketBaja.value = ticket.ID_T;
+
+        const btnEliminarTicket = document.createElement("button");
+        btnEliminarTicket.type = "submit";
+        btnEliminarTicket.className = "btnEliminar";
+        btnEliminarTicket.textContent = "Eliminar";
+
+        formularioBajaTicket.appendChild(entradaIdRegistroBaja);
+        formularioBajaTicket.appendChild(entradaIdTicketBaja);
+        formularioBajaTicket.appendChild(btnEliminarTicket);
+        celdaAcciones.appendChild(formularioBajaTicket);
+
+        fila.appendChild(celdaTicket);
+        fila.appendChild(celdaProblema);
+        fila.appendChild(celdaAcciones);
+
+        tablaTicketModal.appendChild(fila);
+    });
+}
+
+function abrirAltaTicket(eventoTicket) {
+    const btnTicket = eventoTicket.target.closest(".btnAgregarTicket");
+    if (btnTicket === null) return;
+
+    filaEditandoTicket = null;
+    idEditandoTicket = null;
+    formularioTicket.reset();
+    entradaIdRegistroTicket.value = btnTicket.dataset.id;
+
+    renderizarTicketsModal(JSON.parse(btnTicket.dataset.tickets));
+
+    modalTicket.showModal();
+}
+
+tabla.addEventListener("click", abrirEditarRegistro);
+tabla.addEventListener("click", abrirAltaTicket);
+
+btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
+ btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
+
+btnCerrarTicket.addEventListener("click", cerrarTicket);
