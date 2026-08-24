@@ -12,7 +12,7 @@
 <body>
     <main>
         <section class="seccionLogin">
-            <h2>Ingreso al sistema</h2>
+            <h2>Bienvenido a SGRSI</h2>
 
             <?php if (isset($_GET['error'])): ?>
                 <p style="color: red;"><?= htmlspecialchars($_GET['error']) ?></p>
@@ -29,7 +29,8 @@
 
                         <input type="text" id="cedula" name="cedula" autocomplete="username" pattern="[1-9][0-9]{7}"
                             title="Ingrese exactamente 8 dígitos sin puntos ni guiones" inputmode="numeric"
-                            maxlength="8" required>
+                            maxlength="8"required
+                                placeholder="Cédula">
                     </div>
 
                     <div class="cajaEntradaDeDatos">
@@ -38,13 +39,15 @@
                         </label>
 
                         <input type="password" id="clave" name="clave" autocomplete="current-password" minlength="12"
-                            required>
+                            required
+                                placeholder="Contraseña">
                     </div>
-                </fieldset>
+                
 
                 <button class="btnInicio"type="submit">
-                    Iniciar sesión
+                    Acceder
                 </button>
+            </fieldset>
             </form>
         </section>
     </main>
