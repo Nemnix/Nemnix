@@ -136,40 +136,33 @@ SELECT
     LEFT JOIN LABORATORIO AS l
     ON l.ID_L = so.ID_L
 
-SELECT
-    LABORATORIO.ID_L,
-    LABORATORIO.cedulaA,
-    LABORATORIO.nombreLaboratorio,
-    LABORATORIO.numLaboratorio,
-    SOLICITA.ID_L,
-    SOLICITA.cedula,
-    SOLICITA.descripcionSolicitud,
-    SOLICITA.Fecha,
-    SOLICITA.Gmail
-FROM LABORATORIO
-LEFT JOIN SOLICITA ON LABORATORIO.ID_L = SOLICITA.ID_L;
 
-SELECT * FROM REGISTRO_DIARIO;
+SELECT
+    l.ID_L,
+    l.nombreLaboratorio,
+    l.numLaboratorio,
+FROM LABORATORIO AS l
 
 
 SELECT
-    TICKET.ID_R,
-    TICKET.ID_T,
-    TICKET.estado,
-    TICKET.nombreEquipo,
-    TICKET.nombreAlumno,
-    TICKET.descripcionT,
-    TICKET.prioridad,
-    REGISTRO_DIARIO.grupo,
-    REGISTRO_DIARIO.horaEntrada,
-    REGISTRO_DIARIO.horaFin,
-    REGISTRO_DIARIO.docente,
-    REGISTRO_DIARIO.asignatura,
-    REGISTRO_DIARIO.fecha,
-    REGISTRO_DIARIO.nombreAula,
-    REGISTRO_DIARIO.turno
-FROM TICKET
-LEFT JOIN REGISTRO_DIARIO ON TICKET.ID_R = REGISTRO_DIARIO.ID_R;
+    l.ID_L,
+    s.cedula,
+    r.ID_R,
+    r.fecha,
+    r.horaEntrada,
+    r.horaFin,
+    r.asignatura,
+    r.turno,
+    r.grupo,
+    FROM REGISTRO_DIARIO AS r
+
+    left JOIN SOLICITANTE AS s
+    ON s.cedula = r.cedula
+
+    LEFT JOIN LABORATORIO AS l
+    ON l.ID_L = r.ID_L
+
+
 
 
     
