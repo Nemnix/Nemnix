@@ -9,10 +9,23 @@
     --AzulOscuro: #0A274C;
     --AzulMedio: #0F468C;
     --grisOscuro: #1C1B1B;
+    --grisRGBA: 183, 183, 183;
+    --grisBotones:  #2C2C2C;
+    --AzulOscuro: #0A274C;
+    --AzulRGB: 10, 39, 76;
+    --AzulMedio: #0F468C;
+    --Azu: #8c6b0f;
+    --grisOscuro: #1C1B1B;
+    --AmarilloBotones: 199, 163, 20;
+    --Amarillo:#EDC31C ;
+    --AmarilloClaro: #dfb50f;
+    --Campos: #C5C3C3;
+    --Incio: #EEEEEE;
 }
 
 body{
-   background: linear-gradient(to left, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 100%);
+   
+    background: linear-gradient(to left, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 100%);
 }
 
 
@@ -21,7 +34,8 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 16px;
+    
 }
 
 
@@ -32,32 +46,53 @@ body{
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: .625rem;
 }
 
 .formLogin fieldset{
-display: inline-block;
+display: flex;
+flex-direction: column;
+align-items: center;
 background-color: var(--Perla);
-border: none;
-width: 400px;
-padding: 20px 0px;
-
+border-radius: .3125rem;
+width: 25rem;
+padding: 1.25rem 0rem;
+box-shadow: 0.2px 0.2px 20px var(--grisBotones);
 }
 
 .formLogin legend{
 color: var(--Negro);
+border-bottom: .0625rem solid var(--Negro);
+width: 12rem;
+text-align: center;
 }
+
+.cajaEntradaDeDatos{
+    display: flex;
+    flex-direction: column;
+  
+    
+}
+
+.cajaEntradaDeDatos label{
+    align-self: flex-start;
+    text-align: left;
+    margin-left: 0;
+     display: block;
+    
+    }
 
 .formLogin input{
     background-color: var(--grisResaltado);
     color: var(--Negro);
     text-align: center;
     position: relative;
+    border-radius: 15px;
 }
 
 .formLogin label{
     color: var(--Negro);
-    margin-bottom: 4px;
+    margin-bottom: .25rem;
     
     
 }
@@ -67,10 +102,15 @@ color: var(--Negro);
     color: var(--Negro);
 }
 .btnInicio{
-    border: solid var(--Negro) 0.2rem;
-    margin-top: 1rem;
-    padding: 0.2rem;
-    border-radius: 0%;
+    background-color: var(--Amarillo);
+    border: solid var(--Amarillo) 3.2px;
+    margin-top: 16px;
+    padding: 2.2px;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    border-radius: 15px;
+    color: var(--Negro);
+    
 }
 
 .btnInicio:hover{
