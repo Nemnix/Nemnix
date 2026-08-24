@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Proporciona las operaciones de consulta de la tabla SOLICITA.
+ */
 class AccesoSolicita{
 private PDO $conexion;
 

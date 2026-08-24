@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Ejecuta operaciones de baja para las solicitudes de laboratorio.
+ */
 class BajaSolicitud
 {
     /**
@@ -22,11 +25,7 @@ class BajaSolicitud
 
 
     /**
-     * Elimina un préstamo y el equipo asociado.
-     *
-     * El equipo se elimina antes que el préstamo para respetar la clave foránea
-      * de EQUIPO_PRESTAMO hacia PRESTAMO. El alumno se elimina únicamente si
-      * no tiene otros préstamos asociados.
+     * Elimina las solicitudes asociadas a un laboratorio.
      *
      * @param string $ID_Lab Identificador del laboratorio.
      * @return bool TRUE si la operación se completa correctamente; FALSE si falla.

@@ -9,6 +9,10 @@ class AccesoRegistroYTickets
 {
     private PDO $conexion;
 
+    /**
+     * Constructor parametrizado que recibe una conexión a la base de datos.
+     * @param PDO $conexion La conexion a la base de datos. PRECONDICION: No debe ser NULL.
+     */
     public function __construct(PDO $conexion)
     {
         $this->conexion = $conexion;
@@ -74,6 +78,16 @@ class AccesoRegistroYTickets
 
     /**
      * Actualiza un registro en la tabla REGISTRO_DIARIO.
+     * @param int $idR Identificador del registro diario.
+     * @param string $grupo Grupo actualizado.
+     * @param string $horaEntrada Hora de entrada actualizada.
+     * @param string $horaFin Hora de salida actualizada.
+     * @param string $docente Docente actualizado.
+     * @param string $asignatura Asignatura actualizada.
+     * @param string $fecha Fecha actualizada en formato valido para SQL.
+     * @param string $nombreAula Aula actualizada.
+     * @param string $turno Turno actualizado.
+     * @return bool TRUE si se actualizo el registro; FALSE en caso contrario.
      */
     public function actualizarRegistro(int $idR, string $grupo, string $horaEntrada, string $horaFin, string $docente, string $asignatura, string $fecha, string $nombreAula, string $turno): bool
     {
@@ -101,6 +115,14 @@ class AccesoRegistroYTickets
 
     /**
      * Actualiza un ticket en la tabla TICKET.
+     * @param int $idT Identificador del ticket dentro del registro.
+     * @param int $idR Identificador del registro diario asociado.
+     * @param string $estado Estado actualizado del ticket.
+     * @param string $nombreEquipo Nombre o numero del dispositivo actualizado.
+     * @param string $nombreAlumno Nombre del alumno actualizado.
+     * @param string $descripcionT Descripcion/motivo del ticket actualizado.
+     * @param string $prioridad Prioridad actualizada.
+     * @return bool TRUE si se actualizo el ticket; FALSE en caso contrario.
      */
     public function actualizarTicket(int $idT, int $idR, string $estado, string $nombreEquipo, string $nombreAlumno, string $descripcionT, string $prioridad): bool
     {

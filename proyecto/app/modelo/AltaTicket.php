@@ -9,6 +9,10 @@ class AltaTicket
     private PDO $conexion;
     private string $ultimoError = "";
 
+    /**
+     * Constructor parametrizado que recibe una conexión a la base de datos.
+     * @param PDO $conexion La conexion a la base de datos. PRECONDICION: No debe ser NULL.
+     */
     public function __construct(PDO $conexion)
     {
         $this->conexion = $conexion;
@@ -84,6 +88,10 @@ class AltaTicket
         }
     }
 
+    /**
+     * Obtiene el mensaje del último error ocurrido al registrar un ticket.
+     * @return string El mensaje de error, o cadena vacía si no hubo error.
+     */
     public function obtenerUltimoError(): string
     {
         return $this->ultimoError;

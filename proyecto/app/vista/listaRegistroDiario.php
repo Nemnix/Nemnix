@@ -1,3 +1,12 @@
+<?php
+/**
+ * Vista: listado de registros diarios del usuario solicitante.
+ *
+ * Variables esperadas:
+ * @var array $registros Lista de registros diarios con los datos del laboratorio asociado.
+ * @var array $ticketsPorRegistro Tickets agrupados por ID_R de registro diario.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

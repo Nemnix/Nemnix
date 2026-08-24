@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: listado de diagnosticos del usuario tecnico.
+ *
+ * Variables esperadas:
+ * @var array $diagnosticos Lista de diagnosticos con sus campos.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

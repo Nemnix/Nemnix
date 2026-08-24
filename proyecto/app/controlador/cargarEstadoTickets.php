@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Carga la lista de tickets y la pasa a la vista estadoTickets.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoTickets.php";

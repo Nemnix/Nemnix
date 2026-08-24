@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Carga el listado de tickets entrantes del usuario tecnico.
+ *
+ * Valida la sesion y el rol tecnico antes de cargar los datos
+ * y pasarlos a la vista listaTicketsEntrantes.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoTickets.php";

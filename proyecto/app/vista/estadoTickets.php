@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: estado de tickets del usuario solicitante.
+ *
+ * Variables esperadas:
+ * @var array $tickets Lista de tickets con sus campos y los del registro asociado.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

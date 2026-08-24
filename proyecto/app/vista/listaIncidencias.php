@@ -1,3 +1,14 @@
+<?php
+/**
+ * Vista: visualización global de incidencias (tickets) del panel administrador.
+ *
+ * Variables esperadas:
+ * @var array $incidenciasPorAula Cantidad de incidencias agrupadas por laboratorio.
+ * @var int $incidenciasPrioridadAlta Cantidad de incidencias con prioridad alta sin resolver.
+ * @var int $incidenciasSinResolver Cantidad de incidencias sin resolver.
+ * @var int $incidenciasAutorizacion Cantidad de incidencias que requieren autorización.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

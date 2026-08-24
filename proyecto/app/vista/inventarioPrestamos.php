@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: inventario de préstamos de equipos del usuario técnico.
+ *
+ * Variables esperadas:
+ * @var array $prestamos Lista de préstamos con los datos del alumno y del equipo asociado.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

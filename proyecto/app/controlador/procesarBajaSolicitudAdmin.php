@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Procesa la eliminación de un préstamo enviada mediante POST.
+ * Procesa la eliminación de una solicitud de laboratorio enviada mediante POST.
  *
  * Valida la sesión del solicitante y delega la eliminación de la solicitud.
  */

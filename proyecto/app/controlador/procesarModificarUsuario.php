@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Procesa la modificacion de un usuario del sistema enviada mediante POST.
+ *
+ * Valida la sesion del administrador, valida y hashea la nueva contraseña,
+ * y delega la actualizacion (datos y rol) en ModificarDatosUsuario.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/ModificarDatosUsuario.php";

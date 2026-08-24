@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa la eliminacion de un usuario del sistema enviada mediante POST.
+ *
+ * Valida la sesion del administrador y delega la eliminacion en BajaDatosUsuario.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/BajaDatosUsuario.php";

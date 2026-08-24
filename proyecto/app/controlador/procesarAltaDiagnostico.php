@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa el alta de un diagnostico enviada mediante POST.
+ *
+ * Valida la sesion del tecnico y delega el registro en AltaDiagnostico.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/altaDiagnostico.php";

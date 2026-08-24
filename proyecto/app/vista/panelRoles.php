@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: selector de rol para usuarios con mas de un rol asignado
+ * (por ejemplo, administrador y tecnico).
+ *
+ * No recibe variables PHP.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
