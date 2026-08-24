@@ -1,8 +1,20 @@
 <?php
+
+/**
+ * Procesa la baja de una solicitud enviada mediante POST.
+ *
+ * Valida la sesion del usuario y delega la eliminacion en BajaSolicitudUS.
+ */
+
 session_start();
 require_once RUTA_MODELO . '/conexion.php';
 require_once RUTA_MODELO . '/BajaSolicitudUS.php';
 
+/**
+ * Verifica que exista una sesion de usuario iniciada.
+ *
+ * Responde con HTTP 401 y detiene la ejecucion si no hay sesion.
+ */
 function validarSesion(): void {
     if (!isset($_SESSION['usuario'])) {
         http_response_code(401);

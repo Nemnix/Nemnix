@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Punto de entrada publico del estado de tickets del usuario solicitante.
+ *
+ * Requiere sesion iniciada con rol solicitante; en caso contrario
+ * redirige al login con un mensaje de error. Delega la carga de datos
+ * en el controlador cargarEstadoTickets.
+ */
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 

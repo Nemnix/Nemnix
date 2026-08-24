@@ -1,3 +1,10 @@
+<?php
+/**
+ * Vista: página de bienvenida del usuario solicitante.
+ *
+ * No recibe variables PHP.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

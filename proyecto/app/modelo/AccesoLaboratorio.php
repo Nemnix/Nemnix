@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Proporciona las operaciones de consulta de la tabla LABORATORIO.
+ */
 class AccesoLaboratorio{
 private PDO $conexion;
 

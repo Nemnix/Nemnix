@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Configuracion global de la aplicacion.
+ *
+ * Define las constantes de ruta utilizadas por controladores y vistas
+ * para ubicar los directorios app/modelo, app/controlador, app/vista y public.
+ */
+
 define("RUTA_RAIZ", dirname(__DIR__));
 
 define("RUTA_APP", RUTA_RAIZ . "/app");

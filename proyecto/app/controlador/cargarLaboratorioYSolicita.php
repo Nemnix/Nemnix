@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa la baja de una solicitud de laboratorio enviada mediante POST.
+ *
+ * Valida la sesion del usuario y delega la eliminacion en BajaSolicitud.
+ */
+
 session_start();
 
 require_once RUTA_MODELO . '/conexion.php';

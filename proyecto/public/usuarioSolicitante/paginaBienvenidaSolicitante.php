@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Punto de entrada publico de la pagina de bienvenida del usuario solicitante.
+ *
+ * Requiere sesion iniciada con rol solicitante; en caso contrario
+ * redirige al login.
+ */
+
 session_start();
 
 if (!isset($_SESSION["cedula"])) {

@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: panel de gestión de usuarios del sistema (alta, baja, modificación).
+ *
+ * Variables esperadas:
+ * @var array $usuarios Lista de usuarios con cedula, nombre, apellido y cargo.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

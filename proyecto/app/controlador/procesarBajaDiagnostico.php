@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Procesa la eliminación de un diagnostico enviada mediante POST.
+ * Procesa la eliminacion de un diagnostico enviada mediante POST.
  *
- * Valida la sesión del técnico y delega la eliminación en BajaDiagnostico.
+ * Valida la sesion del tecnico y delega la eliminacion en BajaDiagnostico.
  */
 
 require_once __DIR__ . "/../../config/config.php";

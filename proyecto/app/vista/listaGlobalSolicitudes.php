@@ -1,3 +1,12 @@
+<?php
+/**
+ * Vista: visualización global de solicitudes del panel administrador.
+ *
+ * Variables esperadas:
+ * @var array $solicitudesPorAula Cantidad de solicitudes agrupadas por laboratorio.
+ * @var int $solicitudesPendientes Cantidad total de solicitudes pendientes.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

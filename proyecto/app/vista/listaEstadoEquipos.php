@@ -1,3 +1,10 @@
+<?php
+/**
+ * Vista: estado de equipos del panel administrador.
+ *
+ * No recibe variables PHP: actualmente es una vista estatica sin datos dinamicos.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

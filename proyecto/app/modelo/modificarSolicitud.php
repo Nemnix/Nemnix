@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Proporciona la operación de modificación de la tabla SOLICITA.
+ */
 class ModificarSolicitud{
 private PDO $conexion;
 

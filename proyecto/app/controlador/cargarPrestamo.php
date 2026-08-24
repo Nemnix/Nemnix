@@ -1,6 +1,10 @@
 
 <?php
 
+/**
+ * Carga la lista de prestamos de equipos y la pasa a la vista inventarioPrestamos.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/accesoPrestamos.php";

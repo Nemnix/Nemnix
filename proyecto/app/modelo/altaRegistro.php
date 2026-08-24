@@ -9,6 +9,10 @@ class AltaRegistro
     private PDO $conexion;
     private string $ultimoError = "";
 
+    /**
+     * Constructor parametrizado que recibe una conexión a la base de datos.
+     * @param PDO $conexion La conexion a la base de datos. PRECONDICION: No debe ser NULL.
+     */
     public function __construct(PDO $conexion)
     {
         $this->conexion = $conexion;
@@ -79,6 +83,10 @@ class AltaRegistro
         }
     }
 
+    /**
+     * Devuelve el último error registrado por la operación de alta.
+     * @return string Mensaje del último error; cadena vacía si no hubo error.
+     */
     public function obtenerUltimoError(): string
     {
         return $this->ultimoError;

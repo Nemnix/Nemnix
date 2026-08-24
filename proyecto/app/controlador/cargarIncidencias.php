@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Carga el resumen de incidencias (tickets) por laboratorio y los
+ * contadores de incidencias criticas, y los pasa a la vista listaIncidencias.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoIncidencias.php";

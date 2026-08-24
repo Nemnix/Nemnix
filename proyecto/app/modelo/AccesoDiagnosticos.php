@@ -1,5 +1,8 @@
 <?php
- 
+
+/**
+ * Proporciona las operaciones de consulta de la tabla DIAGNOSTICO.
+ */
  class AccesoDiagnosticos{
  private PDO $conexion;
 
@@ -12,9 +15,10 @@
     }
 
     /**
-     * Busca un usuario por su cédula y determina el rol.
-     * @param string $cedula La cedula del usuario sin puntos ni guiones.
-     * @return Usuario|null Los datos del usuario, retorna su objeto si existe, null en caso contrario.
+     * Lista todos los diagnosticos junto con si tienen registro diario
+     * y ticket asociados (LEFT JOIN con REGISTRO_DIARIO y TICKET).
+     * @return array Los diagnosticos con sus campos y los indicadores booleanos
+     *                "registro_diario" y "ticket".
      */
  public function listarDiagnosticos (): array {
         $sql = "

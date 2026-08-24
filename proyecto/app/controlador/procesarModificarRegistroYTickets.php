@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Procesa la modificacion de un registro diario o de un ticket enviada mediante POST.
+ *
+ * Determina si se trata de un registro o de un ticket segun los campos presentes
+ * (la presencia de ID_T indica un ticket) y delega la actualizacion en
+ * AccesoRegistroYTickets. La modificacion de tickets requiere sesion con rol tecnico.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoRegistroYTickets.php";

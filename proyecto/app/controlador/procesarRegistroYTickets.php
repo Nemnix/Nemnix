@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Carga registros diarios y/o tickets segun el parametro GET "tipo"
+ * ("registros", "tickets" o "ambos") y muestra la vista correspondiente.
+ *
+ * Requiere sesion iniciada.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/AccesoRegistroYTickets.php";

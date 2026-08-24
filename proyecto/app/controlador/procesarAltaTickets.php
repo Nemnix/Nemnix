@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa el alta de un ticket enviada mediante POST.
+ *
+ * Valida la sesion del solicitante y delega el registro en AltaTicket.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AltaTicket.php";

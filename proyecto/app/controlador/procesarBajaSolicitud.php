@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa la eliminacion de una solicitud de laboratorio enviada mediante POST.
+ *
+ * Valida la sesion del solicitante y delega la eliminacion en BajaSolicitud.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/bajaSolicitudAdmin.php";
