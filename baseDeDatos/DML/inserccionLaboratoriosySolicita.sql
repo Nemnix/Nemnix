@@ -1,10 +1,9 @@
-INSERT INTO LABORATORIO (cedulaA, nombreLaboratorio, numLaboratorio) VALUES
-(101, 'Laboratorio de Quimica', 'L-001'),
-(102, 'Laboratorio de Fisica', 'L-002'),
-(103, 'Laboratorio de Biologia', 'L-003');
+INSERT INTO LABORATORIO (nombreLaboratorio, numLaboratorio) VALUES
+('Laboratorio', 1),
+('Laboratorio', 2),
+('Taller', 1);
 
 
-INSERT INTO SOLICITA (ID_L, cedula, descripcionSolicitud, Fecha, Gmail) VALUES
-(1, 201, 'Solicitud de uso de microscopios', '2026-03-10', 'usuario1@gmail.com'),
-(2, 202, 'Solicitud de material de laboratorio', '2026-04-05', 'usuario2@gmail.com'),
-(3, 203, 'Solicitud de reactivos quimicos', '2026-05-20', 'usuario3@gmail.com');
+INSERT INTO SOLICITA (ID_L, cedula, descripcionSolicitud, fecha, gmail) VALUES
+(1, '33333333', 'Solicitud de uso de laboratorio para clase de Programacion', '2026-08-10', 'pedro.martinez@example.com'),
+(2, '33333333', 'Solicitud de uso de laboratorio para clase de Redes', '2026-08-12', 'pedro.martinez@example.com');

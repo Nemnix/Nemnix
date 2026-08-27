@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Procesa el inicio de sesion enviado mediante POST.
+ *
+ * Autentica la cedula y clave contra AccesoDatosUsuario a traves de Login,
+ * inicia la sesion y redirige a la pagina de bienvenida segun el rol del usuario.
+ */
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . "/../../config/config.php";

@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: listado de tickets entrantes del usuario tecnico.
+ *
+ * Variables esperadas:
+ * @var array $tickets Lista de tickets con los datos del registro diario y laboratorio asociados.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

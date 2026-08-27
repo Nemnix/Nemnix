@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Carga la lista de diagnosticos y la pasa a la vista listaDiagnosticos.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/accesoDiagnosticos.php";

@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Punto de entrada publico del listado de solicitudes de laboratorios del usuario solicitante.
+ *
+ * Requiere sesion iniciada con rol solicitante; en caso contrario
+ * redirige al login con un mensaje de error. Delega la carga de datos
+ * en el controlador cargarSolicitudes.
+ */
+
 session_start();
 
 if (!isset($_SESSION["cedula"])) {

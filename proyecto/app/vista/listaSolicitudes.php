@@ -1,3 +1,12 @@
+<?php
+/**
+ * Vista: listado detallado de solicitudes del panel administrador.
+ *
+ * Variables esperadas:
+ * @var array $solicitudes Lista de solicitudes con los datos del laboratorio y del solicitante.
+ * @var int $solicitudesPendientes Cantidad total de solicitudes pendientes.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -24,14 +33,13 @@
             </button>
             <nav>
                 <ul class="MenuPrincipal">
-                    <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                    <li><a href="panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
-                    <li><a href="listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                    <li><a href="listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a>
-                    </li>
-                    <li><a href="listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
-                    <li><a href="listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
-                    <li><a href="listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
                 </ul>
             </nav>
 

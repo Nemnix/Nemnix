@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: listado de solicitudes de laboratorios del usuario solicitante.
+ *
+ * Variables esperadas:
+ * @var array $solicitudes Lista de solicitudes del usuario solicitante.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Procesa el alta de un usuario del sistema enviada mediante POST.
+ *
+ * Valida la sesion del administrador, valida y hashea la contraseña,
+ * y delega el registro en AltaDatosUsuario.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AltaDatosUsuario.php";

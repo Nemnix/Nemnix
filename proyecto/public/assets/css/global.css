@@ -1,6 +1,5 @@
 :root{
     --blanco: #ffffff;
-    --grisLetras:#464646;
     --grisClaro: #D9D9D9;
     --grisRGBA: 183, 183, 183;
     --grisBotones:  #2C2C2C;
@@ -8,14 +7,10 @@
     --AzulOscuro: #0A274C;
     --AzulRGB: 10, 39, 76;
     --AzulMedio: #0F468C;
-    --Azu: #8c6b0f;
     --grisOscuro: #1C1B1B;
     --AmarilloBotones: 199, 163, 20;
     --Amarillo:#d6b017 ;
     --AmarilloClaro: #dfb50f;
-    --Campos: #C5C3C3;
-    --Incio: #EEEEEE;
-    
 }
 
 *{
@@ -410,7 +405,6 @@ th {
 }
 
 tr{
-    background-color: var();
     font-size: 0.75rem;
     color: var(--Negro);
     background-color: var(--grisClaro);
@@ -483,14 +477,7 @@ margin-right: 4.375rem;
 dialog{
     background-color: var(--AzulOscuro);
     margin: auto;
-    max-width: 90vw;          
-             
-     
-}
- 
-input{
-    
-     
+    max-width: 90vw;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -521,7 +508,7 @@ header {
     }
    .logo {
         max-width: 9.375rem;
-        max-height: 9.375rem; /* corregido: estaba en 93.75rem, mismo typo que en desktop */
+        max-height: 9.375rem;
         display: flex;
     }
 

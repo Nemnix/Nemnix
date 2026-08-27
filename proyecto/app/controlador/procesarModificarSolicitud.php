@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Procesa la modificacion de una solicitud de laboratorio enviada mediante POST.
+ *
+ * Valida la sesion del solicitante y delega la actualizacion en AccesoSolicitudes.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/accesoSolicitudes.php";

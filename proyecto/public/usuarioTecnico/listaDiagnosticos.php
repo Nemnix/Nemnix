@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Punto de entrada publico del listado de diagnosticos del usuario tecnico.
+ *
+ * Requiere sesion iniciada con rol tecnico; en caso contrario
+ * redirige al login con un mensaje de error. Delega la carga de datos
+ * en el controlador cargarDiagnostico.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 ini_set('display_errors', 1);
 error_reporting(E_ALL);

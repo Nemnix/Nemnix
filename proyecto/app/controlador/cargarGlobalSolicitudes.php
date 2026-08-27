@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Carga el resumen de solicitudes por laboratorio y la cantidad total
+ * de solicitudes pendientes, y los pasa a la vista listaGlobalSolicitudes.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/AccesoSolicita.php";

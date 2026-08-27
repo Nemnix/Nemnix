@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Carga el listado de solicitudes de laboratorios del usuario solicitante
+ * y lo pasa a la vista solicitudesLabs.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/accesoSolicitudes.php";

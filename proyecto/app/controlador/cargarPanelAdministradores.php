@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Carga la lista de usuarios del sistema y la pasa a la vista panelAdministradores.
+ */
+
 require_once __DIR__ . "/../../config/config.php";
 require_once RUTA_MODELO . "/conectorPDO.php";
 require_once RUTA_MODELO . "/accesoDatosUsuario.php";

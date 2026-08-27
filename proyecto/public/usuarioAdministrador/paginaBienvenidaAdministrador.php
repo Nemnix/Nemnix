@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Punto de entrada publico de la pagina de bienvenida del usuario administrador.
+ *
+ * Requiere sesion iniciada con rol administrador; en caso contrario
+ * redirige al login con un mensaje de error.
+ */
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();

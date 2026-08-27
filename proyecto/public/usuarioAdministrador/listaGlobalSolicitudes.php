@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Punto de entrada publico de la vista global de solicitudes.
+ *
+ * Requiere sesion iniciada con rol administrador; en caso contrario
+ * redirige al login con un mensaje de error. Delega la carga de datos
+ * en el controlador cargarGlobalSolicitudes.
+ */
+
 session_start();
 
 if (!isset($_SESSION["cedula"])) {

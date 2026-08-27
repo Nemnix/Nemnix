@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: formulario de inicio de sesión.
+ *
+ * No recibe variables PHP; opcionalmente lee $_GET['error'] para mostrar
+ * un mensaje de error tras un intento de login fallido.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

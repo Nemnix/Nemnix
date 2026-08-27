@@ -1,3 +1,10 @@
+<?php
+/**
+ * Vista: estado de equipos del panel administrador.
+ *
+ * No recibe variables PHP: actualmente es una vista estatica sin datos dinamicos.
+ */
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,13 +30,13 @@
 
         <nav>
             <ul class="MenuPrincipal">
-               <li><a href="paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
-                <li><a href="listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
 

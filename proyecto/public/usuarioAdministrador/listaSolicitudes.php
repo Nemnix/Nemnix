@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Punto de entrada publico del listado detallado de solicitudes.
+ *
+ * Requiere sesion iniciada con rol administrador; en caso contrario
+ * redirige al login con un mensaje de error. Delega la carga de datos
+ * en el controlador cargarSolicita.
+ */
+
 session_start();
 
 if (!isset($_SESSION["cedula"])) {
