@@ -1,0 +1,16 @@
+CREATE TABLE EQUIPO (
+    ID_E INT NOT NULL AUTO_INCREMENT,
+    ID_L INT NOT NULL,
+    cantMonitor INT NOT NULL,
+    cantPC INT NOT NULL,
+    cantTeclado INT NOT NULL,
+    cantMouse INT NOT NULL,
+
+    CONSTRAINT pk_equipo
+        PRIMARY KEY (ID_E)
+);
+
+ALTER TABLE EQUIPO
+    ADD CONSTRAINT fk_laboratorio_equipo
+    FOREIGN KEY (ID_L)
+    REFERENCES LABORATORIO(ID_L);

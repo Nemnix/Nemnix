@@ -99,8 +99,8 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Tipo de aula</th>
-                        <th>Numero de aula</th>
+                        <th>Nombre del laboratorio</th>
+                        <th>Numero del laboratorio</th>
                         <th>Monitores</th>
                         <th>Teclados</th>
                         <th>Ratones</th>
@@ -110,9 +110,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-
-                    </tr>
+                        <?php foreach ($inventarios as $inventario): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($inventario['ID_L']) ?></td>
+                                <td><?= htmlspecialchars($inventario['nombreLaboratorio']) ?></td>
+                                <td><?= htmlspecialchars($inventario['numLaboratorio']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantMonitor']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantTeclado']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantMouse']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantPC']) ?></td>
+                                <td></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </fieldset>
