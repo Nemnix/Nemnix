@@ -45,20 +45,21 @@
 
         <dialog id="AgregarLaboratorio" class="Formulario">
 
-            <form id="FormularioAgregarLaboratorio">
+            <form action="/proyecto/public/usuarioAdministrador/procesarAltaLaboratorios.php" method="POST" id="FormularioAgregarLaboratorio">
+                <input type="hidden" name="ID_L" id="idLaboratorio">
                 <fieldset>
                     <legend>Registrar nuevo laboratorio</legend>
                     <ul>
                         <li>
                             <label for="registroLaboratorio">Seleccione el tipo de aula</label>
-                            <select id="registroLaboratorio" name="registroLaboratorio" required>
+                            <select id="registroLaboratorio" name="nombreLaboratorio" required>
                                 <option>Laboratorio</option>
                                 <option>Taller</option>
                             </select>
                         </li>
                         <li>
                             <label for="registroNumLabTaller">Numero del laboratorio o taller</label>
-                            <input type="text" id="registroNumLabTaller" name="registroNumLabTaller" pattern="[0-9]{2}"
+                            <input type="text" id="registroNumLabTaller" name="numLaboratorio" pattern="[0-9]{2}"
                                 maxlength="2" required required placeholder="Escriba el numero laboratorio/taller" />
                         </li>
                         <li>
@@ -99,8 +100,8 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Tipo de aula</th>
-                        <th>Numero de aula</th>
+                        <th>Nombre del laboratorio</th>
+                        <th>Numero del laboratorio</th>
                         <th>Monitores</th>
                         <th>Teclados</th>
                         <th>Ratones</th>
@@ -109,10 +110,25 @@
 
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-
-                    </tr>
+                    <tbody id="tablaInventario">
+                        <?php foreach ($inventarios as $inventario): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($inventario['ID_L']) ?></td>
+                                <td><?= htmlspecialchars($inventario['nombreLaboratorio']) ?></td>
+                                <td><?= htmlspecialchars($inventario['numLaboratorio']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantMonitor']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantTeclado']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantMouse']) ?></td>
+                                <td><?= htmlspecialchars($inventario['cantPC']) ?></td>
+                                <td>
+                                    <button class="btnEditar" data-id="<?= htmlspecialchars($inventario["ID_L"]) ?>">Editar</button>
+                                <form action="/proyecto/public/usuarioAdministrador/procesarBajaInventario.php" method="post" class="formularioBajaInventario">
+                                        <input type="hidden" name="idInventario" value="<?= htmlspecialchars($inventario["ID_L"]) ?>">
+                                        <button type="submit" class="btnEliminar">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?> 
                     </tbody>
                 </table>
             </fieldset>

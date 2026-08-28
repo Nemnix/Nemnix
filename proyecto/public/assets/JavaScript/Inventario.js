@@ -4,20 +4,24 @@ const formulario = document.getElementById("FormularioAgregarLaboratorio");
 
 const btnAgregarLaboratorio = document.getElementById("btnAgregarLaboratorio");
 const btnCerrarRegistroLaboratorio = document.getElementById("btnCerrarRegistroLaboratorio");
+const tablaInventario = document.getElementById("tablaInventario");
+const btnEditarInventario = document.querySelectorAll(".btnEditar");
 
 const tabla = document.getElementById("Inventario");
-
-const idLaboratorio = obtenerSiguienteIdLaboratorio();
 const entradaTipoLaboratorio = document.getElementById("registroLaboratorio");
 const entradaNumAula = document.getElementById("registroNumLabTaller");
 const entradaCantMonitores = document.getElementById("cantMonitores");
 const entradaCantTeclados = document.getElementById("cantTeclados");
 const entradaCantMouses = document.getElementById("cantMouses");
 const entradaCantComputadoras = document.getElementById("cantComputadoras");
+const entradaIdLaboratorio = document.getElementById("idLaboratorio");
 
-
+let modoFormulario = "";
 let filaEditando = null;
 let idEditando = null;
+
+btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
+btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
 
 // function cargarLaboratoriosLocal() {
     // const laboratoriosGuardados = localStorage.getItem("laboratorios");
@@ -119,22 +123,51 @@ let idEditando = null;
 
 function abrirRegistroLaboratorios() {
     filaEditando = null;
+    modoFormulario = "alta";
+    formulario.action = "/proyecto/public/usuarioAdministrador/procesarAltaLaboratorios.php";
     formulario.reset();
     modal.showModal();
 }
 
-function abrirRegistroEquipo() {
-    filaEditando = null;
-    formulario.reset();
-    entradaIdEquipo.value = obtenerSiguienteIdEquipo();
-    entradaIdEquipo.readOnly = true;
-    modal.showModal();
-}
+// function abrirRegistroEquipo() {
+//     filaEditando = null;
+//     formulario.reset();
+//     entradaIdEquipo.value = obtenerSiguienteIdEquipo();
+//     entradaIdEquipo.readOnly = true;
+//     modal.showModal();
+// }
 
 function cerrarRegistroLaboratorio() {
     filaEditando = null;
     formulario.reset();
     modal.close();
+}
+function abrirEditarPrestamo(eventoModificar) {
+    const btnEditar = eventoModificar.target.closest(".btnEditar");
+
+    //Si el botón no se presionó, se sale de la función
+    if (btnEditar === null) {
+        return;
+    }
+
+    //Captura la fila en la que se encuentra el botón
+    const fila = btnEditar.closest("tr");
+
+    formulario.reset();
+    modoFormulario = "modificar";
+    formulario.action = "/proyecto/public/usuarioAdministrador/procesarModificarInventario.php";
+
+    //Escribe los datos del empleado provenientes de la fila en el formulario
+    entradaIdLaboratorio.value = btnEditar.dataset.id;
+    entradaTipoLaboratorio.value = fila.cells[1].textContent.trim();
+    entradaNumAula.value = fila.cells[2].textContent.trim();
+    entradaCantMonitores.value = fila.cells[3].textContent.trim();
+    entradaCantTeclados.value = fila.cells[4].textContent.trim();
+    entradaCantMouses.value = fila.cells[5].textContent.trim();
+    entradaCantComputadoras.value = fila.cells[6].textContent.trim();
+
+    //Muestra el cuadro de diálogo o "modal"
+    modal.showModal();
 }
 
 modal.addEventListener("cancel", function () {
@@ -224,8 +257,11 @@ modal.addEventListener("cancel", function () {
     // modal.showModal();
 // }
 
-// btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
-// btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
+tablaInventario.addEventListener("click", abrirEditarPrestamo);
+btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
+btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
+
+
 
 // formulario.addEventListener("submit", function (event) {
     // event.preventDefault();
