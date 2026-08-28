@@ -8,6 +8,7 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
+require_once __DIR__ . "/../../config/env.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/AccesoRegistroYTickets.php";
 
@@ -26,7 +27,7 @@ if (!isset($_SESSION["cedula"])) {
 // Determinar qué listar: 'registros', 'tickets' o 'ambos'
 $tipo = $_GET['tipo'] ?? 'registros';
 
-$conectorPDO = new ConectorPDO("localhost:3306", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST . ":" . DB_PUERTO, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 $conexion = $conectorPDO->establecerConexion();
 
 if ($conexion === null) {
