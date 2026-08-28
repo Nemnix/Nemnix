@@ -119,7 +119,13 @@
                                 <td><?= htmlspecialchars($inventario['cantTeclado']) ?></td>
                                 <td><?= htmlspecialchars($inventario['cantMouse']) ?></td>
                                 <td><?= htmlspecialchars($inventario['cantPC']) ?></td>
-                                <td></td>
+                                <td>
+                                    <button class="btnEditar" data-id="<?= htmlspecialchars($inventario["ID_L"]) ?>">Editar</button>
+                                <form action="/proyecto/public/usuarioAdministrador/procesarBajaInventario.php" method="post" class="formularioBajaInventario">
+                                        <input type="hidden" name="idInventario" value="<?= htmlspecialchars($inventario["ID_L"]) ?>">
+                                        <button type="submit" class="btnEliminar">Eliminar</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?> 
                     </tbody>
