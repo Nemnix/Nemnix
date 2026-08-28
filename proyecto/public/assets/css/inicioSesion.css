@@ -3,6 +3,7 @@
     --Perla: #EEEEEE;
     --grisResaltado:#B1B1B1;
     --grisClaro: #D9D9D9;
+    --grisMedio:  #656565;
     --gris: #464646;
     --Negro: #000000;
     --AzulOscuro: #0A274C;
@@ -10,10 +11,16 @@
     --grisOscuro: #1C1B1B;
     --grisRGBA: 183, 183, 183;
     --grisBotones:  #2C2C2C;
+    --AzulOscuro: #0A274C;
     --AzulRGB: 10, 39, 76;
+    --AzulMedio: #0F468C;
+    --Azu: #8c6b0f;
+    --grisOscuro: #1C1B1B;
     --AmarilloBotones: 199, 163, 20;
     --Amarillo:#EDC31C ;
     --AmarilloClaro: #dfb50f;
+    --Campos: #C5C3C3;
+    --Incio: #EEEEEE;
 }
 
 body{
@@ -27,7 +34,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 16px;
+    margin-top: 1rem;
     
 }
 
@@ -39,7 +46,7 @@ body{
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: .625rem;
+    gap: 10px;
 }
 
 .formLogin fieldset{
@@ -47,16 +54,16 @@ display: flex;
 flex-direction: column;
 align-items: center;
 background-color: var(--Perla);
-border-radius: .3125rem;
-width: 25rem;
-padding: 1.25rem 0rem;
-box-shadow: 0.2px 0.2px 20px var(--grisBotones);
+border-radius: 5px;
+width: 400px;
+padding: 20px 0px;
+box-shadow: .0125rem .0125rem 1.25rem var(--grisBotones);
 }
 
 .formLogin legend{
 color: var(--Negro);
-border-bottom: .0625rem solid var(--Negro);
-width: 12rem;
+border-bottom: 1px solid var(--Negro);
+width: 192px;
 text-align: center;
 }
 
@@ -80,12 +87,12 @@ text-align: center;
     color: var(--Negro);
     text-align: center;
     position: relative;
-    border-radius: 15px;
+    border-radius: .9375rem;
 }
 
 .formLogin label{
     color: var(--Negro);
-    margin-bottom: .25rem;
+    margin-bottom: 4px;
     
     
 }
@@ -96,12 +103,12 @@ text-align: center;
 }
 .btnInicio{
     background-color: var(--Amarillo);
-    border: solid var(--Amarillo) 3.2px;
-    margin-top: 16px;
-    padding: 2.2px;
-    padding-right: 2.5rem;
-    padding-left: 2.5rem;
-    border-radius: 15px;
+    border: solid var(--Amarillo) .2rem;
+    margin-top: 1rem;
+    padding: .1375rem;
+    padding-right: 40px;
+    padding-left: 40px;
+    border-radius: .9375rem;
     color: var(--Negro);
     
 }

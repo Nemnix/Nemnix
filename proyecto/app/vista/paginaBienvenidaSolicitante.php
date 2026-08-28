@@ -54,13 +54,13 @@
                 <ul>
                     <li>
 
-                        <h3>Realice su registro diario aqui:</h3>
+                        <h3>Realice su registro diario aqui</h3>
                         <a href="../../public/usuarioSolicitante/listaRegistroDiario.php" class="boton">Registro</a>
 
                     </li>
                     <li>
 
-                        <h3>Por solicitud de preparación de laboratorios ingrese aquí:</h3>
+                        <h3>Por solicitud de preparación de laboratorios ingrese aquí</h3>
                         <a href="../../public/usuarioSolicitante/solicitudesLabs.php" class="boton">Solicitudes</a>
 
                     </li>
