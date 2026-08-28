@@ -3,8 +3,22 @@
 /**
  * Procesa el inicio de sesion enviado mediante POST.
  *
- * Autentica la cedula y clave contra AccesoDatosUsuario a traves de Login,
- * inicia la sesion y redirige a la pagina de bienvenida segun el rol del usuario.
+ * Autentica la cédula y clave contra `AccesoDatosUsuario` a través de `Login`,
+ * inicia la sesión y redirige a la página de bienvenida según el rol del usuario.
+ *
+ * Expected POST parameters:
+ * - `cedula` (string): número de cédula del usuario.
+ * - `clave` (string): contraseña en texto plano recibida desde el formulario.
+ *
+ * Session values set on success:
+ * - `cedula` (string)
+ * - `administrador` (bool)
+ * - `tecnico` (bool)
+ * - `solicitante` (bool)
+ *
+ * @package Proyecto\App\Controlador
+ * @author Nahuel
+ * @license MIT
  */
 
 ini_set('display_errors', 1);
