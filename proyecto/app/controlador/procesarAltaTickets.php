@@ -7,7 +7,8 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/conectorPDO.php";
+require_once __DIR__ . "/../../config/env.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/AltaTicket.php";
 
 session_start();
@@ -42,7 +43,7 @@ if ($idRegistro <= 0 || empty($tipoDispositivo) || empty($nombreDispositivo) || 
     exit;
 }
 
-$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 
 $conexion = $conectorPDO->establecerConexion();
 

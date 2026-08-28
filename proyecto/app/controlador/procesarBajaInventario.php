@@ -8,8 +8,9 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
+require_once __DIR__ . "/../../config/env.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
-require_once RUTA_MODELO . "/BajaInventario.php";
+require_once RUTA_MODELO . "/bajaInventario.php";
 
 session_start();
 
@@ -27,7 +28,7 @@ if (!ctype_digit($idInventario) || (int) $idInventario <= 0) {
     exit;
 }
 
-$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 $conexion = $conectorPDO->establecerConexion();
 
 if ($conexion === null) {

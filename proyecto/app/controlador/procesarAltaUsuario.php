@@ -8,7 +8,8 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/conectorPDO.php";
+require_once __DIR__ . "/../../config/env.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/AltaDatosUsuario.php";
 
 session_start();
@@ -57,7 +58,7 @@ if ($clave !== $confirmarClave) {
 //Hasheo de la contraseña para almacenar en la base de datos
 $claveHash = password_hash($clave, PASSWORD_DEFAULT);
 
-$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 $conexion = $conectorPDO->establecerConexion();
 
 if ($conexion === null) {

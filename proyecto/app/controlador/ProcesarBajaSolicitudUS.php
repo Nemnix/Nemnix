@@ -6,9 +6,12 @@
  * Valida la sesion del usuario y delega la eliminacion en BajaSolicitudUS.
  */
 
+require_once __DIR__ . "/../../config/config.php";
+require_once __DIR__ . "/../../config/env.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/BajaSolicitudUS.php";
+
 session_start();
-require_once RUTA_MODELO . '/conexion.php';
-require_once RUTA_MODELO . '/BajaSolicitudUS.php';
 
 /**
  * Verifica que exista una sesion de usuario iniciada.
@@ -38,10 +41,19 @@ if (!$idL || !$cedula) {
     exit;
 }
  
-$conexion = obtenerConexion();
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
+$conexion = $conectorPDO->establecerConexion();
+
+if ($conexion === null) {
+    http_response_code(500);
+    echo json_encode(['error' => 'No se pudo establecer conexion con la base de datos.']);
+    exit;
+}
  
 $bajaSolicitud = new BajaSolicitudUS($conexion);
 $eliminado = $bajaSolicitud->eliminarSolicitud((int) $idL, (string) $cedula);
+
+$conectorPDO->desconectar();
  
 if ($eliminado) {
     header('Location: ../vista/solicitudesLabs.php?mensaje=Solicitud eliminada correctamente');
