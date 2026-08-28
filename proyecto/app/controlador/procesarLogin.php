@@ -10,6 +10,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . "/../../config/config.php";
+require_once __DIR__ . "/../../config/env.php";
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/Usuario.php";
 require_once RUTA_MODELO . "/AccesoDatosUsuario.php";
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $cedula = trim($_POST["cedula"] ?? "");
 $clave = $_POST["clave"] ?? "";
 
-$conectorPDO = new ConectorPDO ("localhost", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 $conexion = $conectorPDO->establecerConexion();
 
     $accesoDatosUsuario = new AccesoDatosUsuario($conexion);

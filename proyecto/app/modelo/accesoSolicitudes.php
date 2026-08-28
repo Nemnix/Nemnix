@@ -30,11 +30,13 @@ class AccesoSolicitudes
         l.numLaboratorio,
         s.fecha,
         s.descripcionSolicitud,
-        s.gmail
+        sol.gmail
 
         FROM SOLICITA AS s
         LEFT JOIN LABORATORIO AS l
-            ON l.ID_L = s.ID_L";
+            ON l.ID_L = s.ID_L
+        LEFT JOIN SOLICITANTE AS sol
+            ON sol.cedula = s.cedula";
 
         $consulta = $this->conexion->query($sql);
 
@@ -86,13 +88,21 @@ class AccesoSolicitudes
             ]);
 
             $consultaSolicitud = $this->conexion->prepare(
-                "UPDATE SOLICITA SET fecha = :fecha, descripcionSolicitud = :descripcionSolicitud, gmail = :gmail WHERE ID_L = :ID_L"
+                "UPDATE SOLICITA SET fecha = :fecha, descripcionSolicitud = :descripcionSolicitud WHERE ID_L = :ID_L AND cedula = :cedula"
             );
             $consultaSolicitud->execute([
                 "fecha" => $fecha,
                 "descripcionSolicitud" => $descripcionSolicitud,
-                "gmail" => $gmail,
                 "ID_L" => $ID_L,
+                "cedula" => $cedula,
+            ]);
+
+            $consultaSolicitante = $this->conexion->prepare(
+                "UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula"
+            );
+            $consultaSolicitante->execute([
+                "gmail" => $gmail,
+                "cedula" => $cedula,
             ]);
 
             $this->conexion->commit();

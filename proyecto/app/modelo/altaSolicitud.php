@@ -75,7 +75,7 @@ class AltaSolicitud
 
             $idLab = $this->conexion->lastInsertId();
 
-            $sqlPrestamo = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, gmail) VALUES (:cedula, :ID_L, :descripcionSolicitud, :fecha, :gmail)";
+            $sqlPrestamo = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha) VALUES (:cedula, :ID_L, :descripcionSolicitud, :fecha)";
 
             $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
 
@@ -83,8 +83,15 @@ class AltaSolicitud
                 "cedula" => $cedula,
                 "ID_L" => $idLab,
                 "descripcionSolicitud" => $descripcionSolicitud,
-                "fecha" => $fechaSolicitud,
-                "gmail" => $gmailDocente
+                "fecha" => $fechaSolicitud
+            ]);
+
+            $consultaSolicitante = $this->conexion->prepare(
+                "UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula"
+            );
+            $consultaSolicitante->execute([
+                "gmail" => $gmailDocente,
+                "cedula" => $cedula
             ]);
 
             $this->conexion->commit();

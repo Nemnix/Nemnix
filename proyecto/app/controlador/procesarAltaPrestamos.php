@@ -7,8 +7,8 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/conectorPDO.php";
-require_once RUTA_MODELO . "/altaPrestamos.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/AltaPrestamos.php";
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);

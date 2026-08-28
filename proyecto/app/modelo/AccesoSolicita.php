@@ -25,8 +25,8 @@ $sql = "
         s.ID_L,
         s.cedula,
         s.descripcionSolicitud,
-        s.Fecha,
-        s.Gmail,
+        s.fecha,
+        sol.gmail,
 
         l.nombreLaboratorio,
         l.numLaboratorio,
@@ -40,7 +40,10 @@ $sql = "
             ON l.ID_L = s.ID_L
 
         LEFT JOIN USUARIO AS u
-            ON u.cedula = s.cedula";
+            ON u.cedula = s.cedula
+
+        LEFT JOIN SOLICITANTE AS sol
+            ON sol.cedula = s.cedula";
 
 $consulta = $this->conexion->query($sql);
 

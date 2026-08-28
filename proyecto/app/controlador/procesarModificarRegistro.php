@@ -8,7 +8,8 @@
  */
 
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_MODELO . "/conectorPDO.php";
+require_once __DIR__ . "/../../config/env.php";
+require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/accesoRegistros.php";
 
 session_start();
@@ -33,7 +34,7 @@ if ($idRegistro === "" || $nombreLaboratorio === "" || $numLaboratorio === "" ||
     exit;
 }
 
-$conectorPDO = new ConectorPDO("localhost", "Tecnoemmn", "123", "db nemnix");
+$conectorPDO = new ConectorPDO(DB_HOST, DB_USUARIO, DB_CLAVE, DB_NOMBRE);
 $conexion = $conectorPDO->establecerConexion();
 $accesoRegistros = new AccesoRegistros($conexion);
 $resultado = $accesoRegistros->modificarRegistro($idRegistro, $nombreLaboratorio, $numLaboratorio, $grupo, $horaEntrada, $horaFin, $asignatura, $fecha, $turno);
