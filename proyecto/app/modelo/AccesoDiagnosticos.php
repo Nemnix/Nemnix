@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * Proporciona las operaciones de consulta de la tabla DIAGNOSTICO.
+ */
+ class AccesoDiagnosticos{
+ private PDO $conexion;
+
+    /**
+     * Constructor parametrizado que recibe una conexión a la base de datos.
+     * @param PDO $conexion La conexion a la base de datos. PRECONDICION: No debe ser NULL.
+     */
+    public function __construct (PDO $conexion) {
+        $this->conexion = $conexion;
+    }
+
+    /**
+     * Lista todos los diagnosticos junto con si tienen registro diario
+     * y ticket asociados (LEFT JOIN con REGISTRO_DIARIO y TICKET).
+     * @return array Los diagnosticos con sus campos y los indicadores booleanos
+     *                "registro_diario" y "ticket".
+     */
+ public function listarDiagnosticos (): array {
+        $sql = "
+        SELECT
+        d.ID_D,
+        d.ID_T,
+        d.ID_R,
+        d.fechaD,
+        d.estadoD,
+        d.descripcionD,
+
+        CASE
+            WHEN r.ID_R IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS registro_diario,
+
+        CASE
+            WHEN t.ID_T IS NOT NULL THEN TRUE
+            ELSE FALSE
+        END AS ticket
+
+        FROM DIAGNOSTICO AS d
+
+
+        LEFT JOIN TICKET AS t
+            ON t.ID_R = d.ID_R
+            AND t.ID_T = d.ID_T
+
+        LEFT JOIN REGISTRO_DIARIO AS r
+            ON r.ID_R = d.ID_R";
+
+        $consulta = $this->conexion->query($sql);
+
+        $diagnosticos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        
+
+        return $diagnosticos;
+    }
+
+
+    /*public function verDiagnostico (int $idR, int $idT): ?array {
+        $sql = "
+        SELECT
+    d.ID_D,
+    d.ID_T,
+    d.ID_R,
+    d.fechaD,
+    d.estadoD,
+    d.descripcionD,
+
+    CASE
+        WHEN r.ID_R IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS registro_diario,
+
+    CASE
+        WHEN t.ID_T IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS ticket
+
+    FROM DIAGNOSTICO AS d
+
+
+    LEFT JOIN TICKET AS t
+        ON t.ID_R = d.ID_R
+        AND t.ID_T = d.ID_T
+
+    LEFT JOIN REGISTRO_DIARIO AS r
+        ON r.ID_R = d.ID_R
+
+    WHERE d.ID_R = :idR AND d.ID_T = :idT";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        $consulta->execute(['idR' => $idR, 'idT' => $idT]);
+
+        $datos = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if ($datos === false) {
+            return null;
+        }
+        return $datos;
+
+    }*/
+ }
+
+?>

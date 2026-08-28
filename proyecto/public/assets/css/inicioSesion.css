@@ -1,0 +1,118 @@
+:root{
+    --blanco: #ffffff;
+    --Perla: #EEEEEE;
+    --grisResaltado:#B1B1B1;
+    --grisClaro: #D9D9D9;
+    --grisMedio:  #656565;
+    --gris: #464646;
+    --Negro: #000000;
+    --AzulOscuro: #0A274C;
+    --AzulMedio: #0F468C;
+    --grisOscuro: #1C1B1B;
+    --grisRGBA: 183, 183, 183;
+    --grisBotones:  #2C2C2C;
+    --AzulOscuro: #0A274C;
+    --AzulRGB: 10, 39, 76;
+    --AzulMedio: #0F468C;
+    --Azu: #8c6b0f;
+    --grisOscuro: #1C1B1B;
+    --AmarilloBotones: 199, 163, 20;
+    --Amarillo:#EDC31C ;
+    --AmarilloClaro: #dfb50f;
+    --Campos: #C5C3C3;
+    --Incio: #EEEEEE;
+}
+
+body{
+   
+    background: linear-gradient(to left, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 100%);
+}
+
+
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    
+}
+
+
+.formLogin ul{
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formLogin fieldset{
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: var(--Perla);
+border-radius: 5px;
+width: 400px;
+padding: 20px 0px;
+box-shadow: .0125rem .0125rem 1.25rem var(--grisBotones);
+}
+
+.formLogin legend{
+color: var(--Negro);
+border-bottom: 1px solid var(--Negro);
+width: 192px;
+text-align: center;
+}
+
+.cajaEntradaDeDatos{
+    display: flex;
+    flex-direction: column;
+  
+    
+}
+
+.cajaEntradaDeDatos label{
+    align-self: flex-start;
+    text-align: left;
+    margin-left: 0;
+     display: block;
+    
+    }
+
+.formLogin input{
+    background-color: var(--grisResaltado);
+    color: var(--Negro);
+    text-align: center;
+    position: relative;
+    border-radius: .9375rem;
+}
+
+.formLogin label{
+    color: var(--Negro);
+    margin-bottom: 4px;
+    
+    
+}
+
+.formLogin input:hover{
+    
+    color: var(--Negro);
+}
+.btnInicio{
+    background-color: var(--Amarillo);
+    border: solid var(--Amarillo) .2rem;
+    margin-top: 1rem;
+    padding: .1375rem;
+    padding-right: 40px;
+    padding-left: 40px;
+    border-radius: .9375rem;
+    color: var(--Negro);
+    
+}
+
+.btnInicio:hover{
+    border: solid var(--blanco);
+}

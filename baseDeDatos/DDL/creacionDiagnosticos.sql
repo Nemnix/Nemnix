@@ -1,0 +1,24 @@
+CREATE TABLE DIAGNOSTICO (
+    ID_D  INT NOT NULL AUTO_INCREMENT,
+    ID_R INT NOT NULL,
+    ID_T INT NOT NULL,
+    cedula CHAR(8) NOT NULL,
+    estadoD VARCHAR(50) NOT NULL,
+    fechaD DATE NOT NULL,
+    descripcionD VARCHAR(255) NOT NULL,
+    
+
+    CONSTRAINT pk_diagnostico
+        PRIMARY KEY (ID_D)
+);
+
+ALTER TABLE DIAGNOSTICO
+    ADD CONSTRAINT fk_diagnostico
+    FOREIGN KEY (ID_T, ID_R)
+    REFERENCES TICKET (ID_T, ID_R);
+
+ALTER TABLE DIAGNOSTICO
+    ADD CONSTRAINT fk_diagnostico2
+    FOREIGN KEY (cedula)
+    REFERENCES TECNICO (cedula);
+    

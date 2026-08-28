@@ -1,0 +1,138 @@
+<?php
+/**
+ * Vista: listado de solicitudes de laboratorios del usuario solicitante.
+ *
+ * Variables esperadas:
+ * @var array $solicitudes Lista de solicitudes del usuario solicitante.
+ */
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
+</head>
+
+<body>
+    <header>
+        <button onclick="subir()" class="botonSubir">▲</button>
+        <img class="logo" src="../assets/img/logoUTU.png">
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" type="button" aria-label="Cerrar menú">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                <path
+                    d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+            </svg>
+            </button>
+            <nav>
+                <ul class="MenuPrincipal">
+                   <li><a href="paginaBienvenidaSolicitante.php" class="BotonNavegacion">Inicio</a></li>
+                    <li><a href="listaRegistroDiario.php" class="BotonNavegacion">Registro</a></li>
+                    <li><a href="estadoTickets.php" class="BotonNavegacion">Estado Tickets</a></li>
+                    <li><a href="solicitudesLabs.php" class="BotonNavegacion">Solicitudes</a></li>
+                </ul>
+            </nav>
+
+    </header>
+
+
+    <main>
+        <h2>Solicitudes</h2>
+        <button id="btnSolicitudes" class="botonesAgregar">Agregar solicitud</button>
+<dialog id="SolicitudesL" class="Formulario">
+    <form id="FormularioSolicitudes" action="/proyecto/public/usuarioSolicitante/procesarAltaSolicitudes.php" method="POST">
+        <fieldset>
+            <legend>Solicitud de preparación de laboratorios</legend>
+            <input type="hidden" id="idSolicitud" name="ID_L">
+            <ul>
+                <li>
+                    <label for="IDLaboratorio">Seleccione el número del laboratorio o taller</label>
+                    <select id="IDLaboratorio" name="nombreLaboratorio">
+                        <option>Laboratorio</option>
+                        <option>Taller</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
+                    <input type="text" id="numLabTaller" name="numLaboratorio" pattern="[0-9]{2}" maxlength="2"
+                        required placeholder="Numero laboratorio/taller" />
+                </li>
+                <li>
+                    <label for="fechaLaboratorio">Fecha aproximda de cuando necesita esta preparación</label>
+                    <input type="date" id="fechaLaboratorio" name="fecha">
+                </li>
+                <li>
+                    <label for="motivoSolicitudes">Descripcion</label>
+                    <input type="text" id="motivoSolicitudes" name="descripcionSolicitud" required
+                        placeholder="Describa lo que precisa" />
+                </li>
+                <li>
+                    <label for="mailDocente">Mail</label>
+                    <input type="email" id="mailDocente" name="gmail" required
+                        placeholder="Escriba su mail" />
+                </li>
+                <li>
+                    <button type="submit"> Enviar </button>
+                </li>
+                <li>
+                    <button type="submit"> Cerrar </button>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</dialog>
+
+        <section class="Tablas">
+            <fieldset>
+                <table id="registroSolicitudes">
+                    <thead>
+                    <tr>
+                        <th>Tipo de laboratorio</th>
+                        <th>Numero de laboratorio</th>
+                        <th>Fecha</th>
+                        <th>Descripcion</th>
+                        <th>Mail</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tablaOpciones">
+                    <?php foreach ($solicitudes as $solicitud) { ?>
+                        <tr>
+                            <td><?= htmlspecialchars($solicitud["nombreLaboratorio"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["numLaboratorio"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["fecha"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["descripcionSolicitud"]) ?></td>
+                            <td><?= htmlspecialchars($solicitud["gmail"]) ?></td>
+                            <td>
+                                <button class="btnEditar" data-id="<?= htmlspecialchars($solicitud["ID_L"]) ?>">Editar</button>
+                             <form action="/proyecto/public/usuarioSolicitante/procesarBajaSolicitud.php" method="POST">
+                                 <input type="hidden" name="ID_L" value="<?= htmlspecialchars($solicitud["ID_L"]) ?>">
+                                    <button type="submit" class="btnEliminar">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php } ?>
+
+                    </tbody>
+                </table>
+            </fieldset>
+        </section>
+
+    </main>
+    <footer>
+        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+    </footer>
+    <script src="../assets/JavaScript/botonSubir.js"></script>
+    <script src="../assets/JavaScript/menu.js"></script>
+    <script src="../../public/assets/JavaScript/solicitudesLab.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
