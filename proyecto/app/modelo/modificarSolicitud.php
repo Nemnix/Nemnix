@@ -30,8 +30,7 @@ $sql = "UPDATE SOLICITA
         SET
             ID_L = :idLNuevo,
             descripcionSolicitud = :descripcionSolicitud,
-            Fecha = :fecha,
-            Gmail = :gmail
+            Fecha = :fecha
         WHERE ID_L = :idLActual AND cedula = :cedula";
 
 $consulta = $this->conexion->prepare($sql);
@@ -40,8 +39,15 @@ $consulta->execute([
     'idLNuevo' => $idLNuevo,
     'descripcionSolicitud' => $descripcionSolicitud,
     'fecha' => $fecha,
-    'gmail' => $gmail,
     'idLActual' => $idLActual,
+    'cedula' => $cedula
+]);
+
+$consultaSolicitante = $this->conexion->prepare(
+    "UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula"
+);
+$consultaSolicitante->execute([
+    'gmail' => $gmail,
     'cedula' => $cedula
 ]);
 

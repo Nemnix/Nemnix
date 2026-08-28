@@ -75,7 +75,7 @@
                             <td><?= htmlspecialchars($solicitud["nombre"] ?? "") ?></td>
                             <td><?= htmlspecialchars($solicitud["apellido"] ?? "") ?></td>
                             <td><?= htmlspecialchars($solicitud["Fecha"] ?? "") ?></td>
-                            <td><?= htmlspecialchars($solicitud["Gmail"] ?? "") ?></td>
+                            <td><?= htmlspecialchars($solicitud["gmail"] ?? "") ?></td>
                             <td><?= htmlspecialchars($solicitud["descripcionSolicitud"] ?? "") ?></td>
                             <td></td>
                         </tr>
