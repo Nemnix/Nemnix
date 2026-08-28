@@ -489,7 +489,7 @@ dialog{
     }
  
     .BotonesInicio h3 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         line-height: 2.0;
     }
  
@@ -502,7 +502,7 @@ dialog{
  
     .BotonesInicio a{
         background-color: rgba(var(--AmarilloBotones));
-        margin: 0rem 1.300rem 0rem 1.300rem;
+        margin: 0rem 1.200rem 0rem 1.200rem;
         border-radius: 0.7rem;
     }
  
