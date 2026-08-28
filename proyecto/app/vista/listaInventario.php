@@ -46,6 +46,7 @@
         <dialog id="AgregarLaboratorio" class="Formulario">
 
             <form action="/proyecto/public/usuarioAdministrador/procesarAltaLaboratorios.php" method="POST" id="FormularioAgregarLaboratorio">
+                <input type="hidden" name="ID_L" id="idLaboratorio">
                 <fieldset>
                     <legend>Registrar nuevo laboratorio</legend>
                     <ul>
@@ -109,7 +110,7 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tablaInventario">
                         <?php foreach ($inventarios as $inventario): ?>
                             <tr>
                                 <td><?= htmlspecialchars($inventario['ID_L']) ?></td>
