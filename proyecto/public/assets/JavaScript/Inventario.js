@@ -6,8 +6,6 @@ const btnAgregarLaboratorio = document.getElementById("btnAgregarLaboratorio");
 const btnCerrarRegistroLaboratorio = document.getElementById("btnCerrarRegistroLaboratorio");
 
 const tabla = document.getElementById("Inventario");
-
-const idLaboratorio = obtenerSiguienteIdLaboratorio();
 const entradaTipoLaboratorio = document.getElementById("registroLaboratorio");
 const entradaNumAula = document.getElementById("registroNumLabTaller");
 const entradaCantMonitores = document.getElementById("cantMonitores");
@@ -18,6 +16,9 @@ const entradaCantComputadoras = document.getElementById("cantComputadoras");
 
 let filaEditando = null;
 let idEditando = null;
+
+btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
+btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
 
 // function cargarLaboratoriosLocal() {
     // const laboratoriosGuardados = localStorage.getItem("laboratorios");
@@ -123,13 +124,13 @@ function abrirRegistroLaboratorios() {
     modal.showModal();
 }
 
-function abrirRegistroEquipo() {
-    filaEditando = null;
-    formulario.reset();
-    entradaIdEquipo.value = obtenerSiguienteIdEquipo();
-    entradaIdEquipo.readOnly = true;
-    modal.showModal();
-}
+// function abrirRegistroEquipo() {
+//     filaEditando = null;
+//     formulario.reset();
+//     entradaIdEquipo.value = obtenerSiguienteIdEquipo();
+//     entradaIdEquipo.readOnly = true;
+//     modal.showModal();
+// }
 
 function cerrarRegistroLaboratorio() {
     filaEditando = null;
@@ -224,8 +225,8 @@ modal.addEventListener("cancel", function () {
     // modal.showModal();
 // }
 
-// btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
-// btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
+btnAgregarLaboratorio.addEventListener("click", abrirRegistroLaboratorios);
+btnCerrarRegistroLaboratorio.addEventListener("click", cerrarRegistroLaboratorio);
 
 // formulario.addEventListener("submit", function (event) {
     // event.preventDefault();

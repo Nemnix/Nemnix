@@ -45,20 +45,20 @@
 
         <dialog id="AgregarLaboratorio" class="Formulario">
 
-            <form id="FormularioAgregarLaboratorio">
+            <form action="/proyecto/public/usuarioAdministrador/procesarAltaLaboratorios.php" method="POST" id="FormularioAgregarLaboratorio">
                 <fieldset>
                     <legend>Registrar nuevo laboratorio</legend>
                     <ul>
                         <li>
                             <label for="registroLaboratorio">Seleccione el tipo de aula</label>
-                            <select id="registroLaboratorio" name="registroLaboratorio" required>
+                            <select id="registroLaboratorio" name="nombreLaboratorio" required>
                                 <option>Laboratorio</option>
                                 <option>Taller</option>
                             </select>
                         </li>
                         <li>
                             <label for="registroNumLabTaller">Numero del laboratorio o taller</label>
-                            <input type="text" id="registroNumLabTaller" name="registroNumLabTaller" pattern="[0-9]{2}"
+                            <input type="text" id="registroNumLabTaller" name="numLaboratorio" pattern="[0-9]{2}"
                                 maxlength="2" required required placeholder="Escriba el numero laboratorio/taller" />
                         </li>
                         <li>
@@ -121,7 +121,7 @@
                                 <td><?= htmlspecialchars($inventario['cantPC']) ?></td>
                                 <td></td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endforeach; ?> 
                     </tbody>
                 </table>
             </fieldset>
