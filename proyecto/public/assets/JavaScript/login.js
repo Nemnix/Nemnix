@@ -1,31 +1,55 @@
-/*const formulario = document.querySelector("form");
+const API_LOGIN = "../api/login.php";
 
-const entradaCedula = document.getElementById("CI");
-const entradaContrasenia = document.getElementById("Contraseña");
+const formularioLogin = document.getElementById("formularioLogin");
 
-formulario.addEventListener("submit", function (event) {
+const entradaCedula = document.getElementById("cedula");
+const entradaClave = document.getElementById("clave");
 
-    event.preventDefault();
 
-    const cedula = entradaCedula.value;
-    const contrasenia = entradaContrasenia.value;
+async function loguear(cedula, clave) {
 
-    if (cedula === "11111111" && contrasenia === "tecnico123") {
-
-        window.location.href = "usuarioTecnico/paginaBienvenidaTecnico.html";
-
-    } else if (cedula === "22222222" && contrasenia === "coordinador123") {
-
-        window.location.href = "usuarioAdministrador/paginaBienvenidaCoordinador.html";
-
-    } else if (cedula === "33333333" && contrasenia === "solicitante123") {
-
-        window.location.href = "usuarioSolicitante/paginaBienvenidaSolicitante.html";
-
-    } else {
-
-        alert("Cédula o contraseña incorrecta");
-
+    const credenciales = {
+        cedula: cedula,
+        clave: clave
     }
 
-}); */
+    const respuesta = await fetch(
+        API_LOGIN,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(credenciales)
+        }
+    );
+
+    const json = await respuesta.json();
+
+    if (!respuesta.ok) {
+        throw new Error(json.mensaje ?? "No se pudo iniciar sesión.")
+    }
+
+    return json.datos;
+}
+
+async function gestionarLogin(eventoFormulario) {
+    eventoFormulario.preventDefault();
+
+    try {
+        const sesion = await loguear(entradaCedula.value.trim(), entradaClave.value);
+
+        if (!sesion.csrfToken) {
+            throw new Error("La API no devolvió el token CSRF.")
+        }
+
+        //Guardamos el token en la sesión
+        sessionStorage.setItem("csrfToken", sesion.csrfToken)
+        //replace() abre la siguiente página borrando el historial de la previa
+        window.location.replace("./administrador.html");
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
+formularioLogin.addEventListener("submit", gestionarLogin);
