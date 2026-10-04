@@ -4,6 +4,6 @@ require_once RUTA_CONTROLADOR . "/LoginControlador.php";
 
 session_start();
 
-$controlador = new LoginController();
+$controlador = new LoginControlador();
 $controlador->autenticar($_SERVER["REQUEST_METHOD"]);
 ?>
