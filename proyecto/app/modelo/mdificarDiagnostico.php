@@ -1,7 +1,10 @@
 <?php
 
-class ModificarDiagnostico{
-private PDO $conexion;
+/**
+ * Gestiona la actualización de diagnósticos en la base de datos.
+ */
+class ModificarDiagnostico {
+    private PDO $conexion;
 
 /**
      * Constructor parametrizado que recibe una conexión a la base de datos.
