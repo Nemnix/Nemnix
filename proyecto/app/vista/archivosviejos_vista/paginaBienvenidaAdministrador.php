@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 /**
  * Vista: página de bienvenida del usuario administrador.
  *
@@ -19,7 +19,7 @@
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <a href="/proyecto/public/login.php" class="salida">
+        <a href="login.html" class="salida">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -40,13 +40,13 @@
         
         <nav>
             <ul class="MenuPrincipal">
-                <li><a href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
-                <li><a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
+                <li><a href="paginaBienvenidaAdministrador.html" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
         
@@ -60,32 +60,32 @@
                 <ul>
                     <li>
                         <h3>Panel administradores</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="boton">Registrar</a>
+                        <a href="panelAdministradores.html" class="boton">Registrar</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de incidencias</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="boton">Ver incidencias</a>
+                        <a href="listaIncidencias.html" class="boton">Ver incidencias</a>
                     </li>
 
                     <li>
                         <h3>Vizualización de solicitudes</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="boton">Ver solicitudes</a>
+                        <a href="listaGlobalSolicitudes.html" class="boton">Ver solicitudes</a>
                     </li>
 
                     <li>
                         <h3>Inventario tecnologico</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="boton">Inventario tecnologico</a>
+                        <a href="listaInventario.html" class="boton">Inventario tecnologico</a>
                     </li>
 
                     <li>
                         <h3>Metricas y reportes</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="boton">Ver metricas</a>
+                        <a href="listaMetricas.html" class="boton">Ver metricas</a>
                     </li>
 
                     <li>
                         <h3>Estado de equipos</h3>
-                        <a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="boton">Ver estados</a>
+                        <a href="listaEstadoEquipos.html" class="boton">Ver estados</a>
                     </li>
                 </ul>
             </section>
@@ -99,4 +99,4 @@
     <script src="/proyecto/public/assets/JavaScript/botonSubir.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
-</html>
+</html> -->

@@ -1,4 +1,4 @@
-const API_LOGIN = "../api/login.php";
+const API_LOGIN = "../api/procesarLogin.php";
 
 const formularioLogin = document.getElementById("formularioLogin");
 
@@ -46,7 +46,15 @@ async function gestionarLogin(eventoFormulario) {
         //Guardamos el token en la sesión
         sessionStorage.setItem("csrfToken", sesion.csrfToken)
         //replace() abre la siguiente página borrando el historial de la previa
-        window.location.replace("./administrador.html");
+        if (sesion.administrador && sesion.tecnico) {
+            window.location.replace("./panelRoles.html");
+        } else if (sesion.administrador) {
+            window.location.replace("./paginaBienvenidaAdministrador.html");
+        } else if (sesion.tecnico) {
+            window.location.replace("./paginaBienvenidaTecnico.html");
+        } else {
+            window.location.replace("./paginaBienvenidaSolicitante.html");
+        }
     } catch (error) {
         window.alert(error.message);
     }

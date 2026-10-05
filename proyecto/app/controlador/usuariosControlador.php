@@ -1,20 +1,22 @@
 <?php
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/usuarioDAO.php";
-require_once RUTA_VISTA . "/respuestaJSON.php";
+require_once RUTA_VISTA . "/RespuestaJson.php";
+require_once RUTA_NUCLEO . "/Conexion.php";
+require_once RUTA_NUCLEO . "/Sesion.php";
+require_once RUTA_NUCLEO . "/Token.php";
+
 
 class UsuarioController
 {
 
     public function gestionar(string $metodo): void
     {
-        if (!isset($_SESSION["cedula"])) {
-            RespuestaJson::error("Acceso denegado: sesión no iniciada", 401);
-        }
-        if (!($_SESSION["administrador"] ?? false)) {
-            RespuestaJson::error("Acceso denegado: rol incorrecto", 403);
-        }
+        Sesion::verificarRol("administrador");
 
+         if ($metodo !== "GET") {
+            Token::verificarCSRF();
+        }
         
         match ($metodo) {
             "GET" => $this->listar(),
@@ -25,16 +27,21 @@ class UsuarioController
         };
     }
 
-    private function listar(): void
-    {
-        $conexion = $this->conectar();
-        $dao = new UsuarioDAO($conexion);
-        RespuestaJson::exito($dao->listarUsuarios());
+    private function listar(): void {
+        try{
+            $conexion = $this->conectar();
+            $dao = new AccesoDatosUsuario($conexion);
+             $usuarios = $dao->listarUsuarios();
+        }
+            catch (PDOException $error) {
+                error_log("Error en listarUsuarios: " . $error->getMessage());
+                RespuestaJson::error("Error al listar usuarios", 500);
+        }
+        RespuestaJson::exito($usuarios);
     }
 
     private function alta(): void
     {
-        $this->verificarCsrf();
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
@@ -44,12 +51,16 @@ class UsuarioController
         $clave = $datos["clave"] ?? "";
         $confirmarClave = $datos["confirmarClave"] ?? "";
         $rol = trim($datos["rol"] ?? "");
+        $gmail = trim($datos["gmail"] ?? "");
 
         if ($cedula === "" || $nombre === "" || $apellido === "" || $clave === "" || $confirmarClave === "" || $rol === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!preg_match("/^[1-9][0-9]{7}$/", $cedula)) {
             RespuestaJson::error("Cédula incorrecta", 422);
+        }
+        if (!in_array($rol, ["Administrador", "Tecnico", "Solicitante"], true)) {
+            RespuestaJson::error("Rol incorrecto", 422);
         }
         if (strlen($clave) < 12) {
             RespuestaJson::error("La contraseña debe contener al menos 12 caracteres", 422);
@@ -58,14 +69,28 @@ class UsuarioController
             RespuestaJson::error("Las contraseñas ingresadas no coinciden", 422);
         }
 
+        // El gmail solo se pide para el rol Solicitante.
+        if ($rol === "Solicitante") {
+            if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
+                RespuestaJson::error("Gmail incorrecto", 422);
+            }
+        } else {
+            $gmail = null;
+        }
+
         $claveHash = password_hash($clave, PASSWORD_DEFAULT);
 
-        $conexion = $this->conectar();
-        $dao = new UsuarioDAO($conexion);
-        $resultado = $dao->registrarUsuario($cedula, $nombre, $apellido, $claveHash, $rol);
+        try {
+            $conexion = $this->conectar();
+            $dao = new AccesoDatosUsuario($conexion);
+            $resultado = $dao->registrarUsuario($cedula, $nombre, $apellido, $claveHash, $rol, $gmail);
+        } catch (PDOException $error) {
+            error_log("Error en alta de usuario: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
+        }
 
         if (!$resultado) {
-            RespuestaJson::error("No se pudo registrar el usuario", 400);
+            RespuestaJson::error("Ya existe un usuario activo con esa cédula", 409);
         }
 
         RespuestaJson::exito(["mensaje" => "Usuario ingresado exitosamente"], 201);
@@ -73,7 +98,6 @@ class UsuarioController
 
     private function modificar(): void
     {
-        $this->verificarCsrf();
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
@@ -82,19 +106,47 @@ class UsuarioController
         $apellido = trim($datos["apellido"] ?? "");
         $clave = $datos["clave"] ?? "";
         $rol = trim($datos["rol"] ?? "");
+        $gmail = trim($datos["gmail"] ?? "");
 
         if ($cedula === "" || $nombre === "" || $apellido === "" || $rol === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
+        if (!preg_match("/^[1-9][0-9]{7}$/", $cedula)) {
+            RespuestaJson::error("Cédula incorrecta", 422);
+        }
+        if (!in_array($rol, ["Administrador", "Tecnico", "Solicitante"], true)) {
+            RespuestaJson::error("Rol incorrecto", 422);
+        }
 
-        $claveHash = password_hash($clave, PASSWORD_DEFAULT);
+        // El gmail solo se pide para el rol Solicitante.
+        if ($rol === "Solicitante") {
+            if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
+                RespuestaJson::error("Gmail incorrecto", 422);
+            }
+        } else {
+            $gmail = null;
+        }
 
-        $conexion = $this->conectar();
-        $dao = new UsuarioDAO($conexion);
-        $resultado = $dao->modificarUsuario($cedula, $nombre, $apellido, $claveHash, $rol);
+        // Si no se ingresó una clave nueva, se mantiene la actual.
+        $claveHash = null;
+        if ($clave !== "") {
+            if (strlen($clave) < 12) {
+                RespuestaJson::error("La contraseña debe contener al menos 12 caracteres", 422);
+            }
+            $claveHash = password_hash($clave, PASSWORD_DEFAULT);
+        }
+
+        try {
+            $conexion = $this->conectar();
+            $dao = new AccesoDatosUsuario($conexion);
+            $resultado = $dao->modificarUsuario($cedula, $nombre, $apellido, $claveHash, $rol, $gmail);
+        } catch (PDOException $error) {
+            error_log("Error en modificación de usuario: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
+        }
 
         if (!$resultado) {
-            RespuestaJson::error("No se pudo modificar el usuario", 400);
+            RespuestaJson::error("El usuario no existe", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Usuario modificado exitosamente"]);
@@ -102,7 +154,6 @@ class UsuarioController
 
     private function baja(): void
     {
-        $this->verificarCsrf();
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
         $cedula = trim($datos["cedula"] ?? "");
@@ -110,33 +161,28 @@ class UsuarioController
         if ($cedula === "") {
             RespuestaJson::error("Falta la cédula del empleado", 422);
         }
+        if ($cedula === $_SESSION["cedula"]) {
+            RespuestaJson::error("No puede eliminar su propio usuario", 422);
+        }
 
-        $conexion = $this->conectar();
-        $dao = new UsuarioDAO($conexion);
-        $resultado = $dao->eliminarUsuario($cedula);
+        try {
+            $conexion = $this->conectar();
+            $dao = new AccesoDatosUsuario($conexion);
+            $resultado = $dao->eliminarUsuario($cedula);
+        } catch (PDOException $error) {
+            error_log("Error en baja de usuario: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
+        }
 
         if (!$resultado) {
-            RespuestaJson::error("No se pudo eliminar usuario", 400);
+            RespuestaJson::error("El usuario no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "usuario eliminado exitosamente"]);
     }
 
-    private function verificarCsrf(): void
-    {
-        $token = $_SERVER["HTTP_X_CSRF_TOKEN"] ?? "";
-        if (!isset($_SESSION["csrfToken"]) || !hash_equals($_SESSION["csrfToken"], $token)) {
-            RespuestaJson::error("Solicitud rechazada", 403);
-        }
-    }
-
     private function conectar(): PDO
     {
-        $conector = new ConectorPDO($_ENV["DB_HOST"] . ":" . $_ENV["DB_PUERTO"], $_ENV["DB_USUARIO"], $_ENV["DB_CLAVE"], $_ENV["DB_NOMBRE"]);
-        $conexion = $conector->establecerConexion();
-        if ($conexion === null) {
-            RespuestaJson::error("Error de conexión con la base de datos", 500);
-        }
-        return $conexion;
+        return Conexion::conectar();
     }
 }

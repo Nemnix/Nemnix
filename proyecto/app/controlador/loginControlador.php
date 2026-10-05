@@ -1,6 +1,7 @@
 <?php
 require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/usuarioDAO.php";
+require_once RUTA_MODELO . "/Login.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 
 require_once RUTA_NUCLEO . "/Conexion.php";
@@ -29,16 +30,13 @@ class LoginControlador
         }
 
         $conexion = Conexion::conectar();
-        $dao = new usuarioDAO($conexion);
-        $usuario = $dao->buscarUsuario($cedula);
+        $dao = new AccesoDatosUsuario($conexion);
+        $login = new Login($dao);
+        $usuario = $login->autenticar($cedula, $clave);
         Conexion::desconectar();
 
-        if ($usuario === null || !password_verify($clave, $usuario->getClaveHash())) {
-            RespuestaJson::error("Usuario o credenciales incorrectas", 401);
-        }
-
-        if (!$usuario->esAdministrador()) {
-            RespuestaJson::error("Acceso denegado: no tiene privilegios de administrador", 403);
+        if ($usuario === null || $usuario->sinRoles()) {
+            RespuestaJson::error("Cédula o contraseña incorrectas", 401);
         }
 
         Sesion::iniciar($usuario);
@@ -46,7 +44,10 @@ class LoginControlador
 
         RespuestaJson::exito([
             "mensaje" => "Sesión iniciada correctamente",
-            "csrfToken" => $_SESSION["csrfToken"]
+            "csrfToken" => $_SESSION["csrfToken"],
+            "administrador" => $usuario->esAdministrador(),
+            "tecnico" => $usuario->esTecnico(),
+            "solicitante" => $usuario->esSolicitante()
         ]);
     }
 

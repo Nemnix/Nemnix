@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../config/config.php";
-require_once RUTA_CONTROLADOR . "/LoginControlador.php";
+require_once __DIR__ . "/../../config/env.php";
+require_once RUTA_CONTROLADOR . "/loginControlador.php";
 
 session_start();
 

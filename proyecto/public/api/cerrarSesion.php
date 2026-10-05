@@ -1,18 +1,9 @@
 <?php
-
-/**
- * Punto de entrada publico que cierra la sesion del usuario actual.
- *
- * Destruye todos los datos de sesion y redirige al formulario de login.
- */
+require_once __DIR__ . "/../../config/config.php";
+require_once RUTA_CONTROLADOR . "/loginControlador.php";
 
 session_start();
 
-$_SESSION = [];
-
-session_destroy();
-
-header("Location: login.php");
-exit;
-
+$controlador = new LoginControlador();
+$controlador->cerrarSesion($_SERVER["REQUEST_METHOD"]);
 ?>

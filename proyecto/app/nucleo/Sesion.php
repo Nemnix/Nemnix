@@ -57,4 +57,23 @@ class Sesion
 
     }
 
+    public static function verificarAlgunRol(array $roles): void
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION["cedula"])) {
+            RespuestaJson::error("Acceso denegado: sesión no iniciada", 401);
+        }
+
+        foreach ($roles as $rol) {
+            if ($_SESSION[$rol] ?? false) {
+                return;
+            }
+        }
+
+        RespuestaJson::error("Acceso denegado: rol incorrecto", 403);
+    }
+
 }
