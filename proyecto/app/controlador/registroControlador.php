@@ -1,18 +1,21 @@
 <?php
 require_once RUTA_MODELO . "/ConectorPDO.php";
-require_once RUTA_MODELO . "/registroDAO.php";
+require_once RUTA_MODELO . "/registroDao.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
+require_once RUTA_NUCLEO . "/Conexion.php";
+require_once RUTA_NUCLEO . "/Sesion.php";
+require_once RUTA_NUCLEO . "/Token.php";
 
 class registroControlador
 {
     public function gestionar(string $metodo): void
     {
-        if (!isset($_SESSION["cedula"])) {
-        RespuestaJson::error("Acceso denegado: sesión no iniciada", 401);
+        Sesion::verificarRol("solicitante");
+
+        if ($metodo !== "GET") {
+            Token::verificarCSRF();
         }
-        if(!($_SESSION["solicitante"] ?? false)) {
-            RespuestaJson::error("Acceso denegado: rol incorrecto", 403);
-        }
+
         match($metodo){
             "GET" => $this->listar(),
             "POST"=> $this->alta(),
@@ -21,10 +24,18 @@ class registroControlador
             default => RespuestaJson::error("Metodo no permitido", 405),
         };
     }
-    public function listar(): void{
-        $conexion = $this->conectar();
-        $dao = new RegistrosDao($conexion);
-        RespuestaJson::exito($dao->listarRegistros());
+
+    private function listar(): void
+    {
+        try {
+            $conexion = $this->conectar();
+            $dao = new RegistrosDao($conexion);
+            $registros = $dao->listarRegistros();
+        } catch (PDOException $error) {
+            error_log("Error en listarRegistros: " . $error->getMessage());
+            RespuestaJson::error("Error al listar registros", 500);
+        }
+        RespuestaJson::exito($registros);
     }
 
     private function alta(): void
@@ -32,11 +43,10 @@ class registroControlador
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
-        $ID_R = $datos["ID_R"] ?? "";
-        $cedula = $datos["cedula"] ?? "";
+        // La cédula sale de la sesión, no del cuerpo de la petición.
+        $cedula = $_SESSION["cedula"];
         $nombreLaboratorio = $datos["nombreLaboratorio"] ?? "";
         $numLaboratorio = $datos["numLaboratorio"] ?? "";
-        $ID_L = $datos["ID_L"] ?? "";
         $grupo = $datos["grupo"] ?? "";
         $horaEntrada = $datos["horaEntrada"] ?? "";
         $horaSalida = $datos["horaSalida"] ?? "";
@@ -44,32 +54,34 @@ class registroControlador
         $fecha = $datos["fecha"] ?? "";
         $turno = $datos["turno"] ?? "";
 
-        if($cedula == "" || $nombreLaboratorio == "" || $numLaboratorio == "" || $ID_L == "" || $grupo == "" || $horaEntrada == "" || $horaSalida == "" || $asignatura == "" || $fecha == "" || $turno == ""){
+        if($nombreLaboratorio == "" || $numLaboratorio == "" || $grupo == "" || $horaEntrada == "" || $horaSalida == "" || $asignatura == "" || $fecha == "" || $turno == ""){
             RespuestaJson::error("Existen campos vacíos", 422);
         }
-        if(!preg_match("/^\d{8}$/", $cedula)) {
-            RespuestaJson::error("Cédula inválida. Debe contener exactamente 8 dígitos.", 422);
+
+        try {
+            $conexion = $this->conectar();
+            $dao = new RegistrosDao($conexion);
+            $resultado = $dao->registrarRegistro($cedula, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $nombreLaboratorio, $numLaboratorio, $turno);
+        } catch (PDOException $error) {
+            error_log("Error en alta de registro: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
         }
-        $conexion = $this->conectar();
-        $dao = new RegistrosDao($conexion);
-        $resultado = $dao->registrarRegistro($cedula, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $nombreLaboratorio, $numLaboratorio, $turno);
-        if($resultado){
-            RespuestaJson::exito("Registro creado exitosamente");
-        } else {
+
+        if (!$resultado) {
             RespuestaJson::error("Error al crear el registro", 500);
         }
-        
+
+        RespuestaJson::exito(["mensaje" => "Registro creado exitosamente"], 201);
     }
+
     private function modificar(): void
     {
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
         $ID_R = $datos["ID_R"] ?? "";
-        $cedula = $datos["cedula"] ?? "";
         $nombreLaboratorio = $datos["nombreLaboratorio"] ?? "";
         $numLaboratorio = $datos["numLaboratorio"] ?? "";
-        $ID_L = $datos["ID_L"] ?? "";
         $grupo = $datos["grupo"] ?? "";
         $horaEntrada = $datos["horaEntrada"] ?? "";
         $horaSalida = $datos["horaSalida"] ?? "";
@@ -77,19 +89,26 @@ class registroControlador
         $fecha = $datos["fecha"] ?? "";
         $turno = $datos["turno"] ?? "";
 
-        if($cedula == "" || $nombreLaboratorio == "" || $numLaboratorio == "" || $ID_L == "" || $grupo == "" || $horaEntrada == "" || $horaSalida == "" || $asignatura == "" || $fecha == "" || $turno == ""){
+        if($ID_R == "" || $nombreLaboratorio == "" || $numLaboratorio == "" || $grupo == "" || $horaEntrada == "" || $horaSalida == "" || $asignatura == "" || $fecha == "" || $turno == ""){
             RespuestaJson::error("Existen campos vacíos", 422);
         }
 
-        $conexion = $this->conectar();
-        $dao = new RegistrosDao($conexion);
-        $resultado = $dao->modificarRegistro($ID_R, $nombreLaboratorio, $numLaboratorio, $ID_L, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
-        if($resultado){
-            RespuestaJson::exito("Registro modificado exitosamente");
-        } else {
-            RespuestaJson::error("Error al modificar el registro", 400);
+        try {
+            $conexion = $this->conectar();
+            $dao = new RegistrosDao($conexion);
+            $resultado = $dao->modificarRegistro($ID_R, $nombreLaboratorio, $numLaboratorio, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
+        } catch (PDOException $error) {
+            error_log("Error en modificación de registro: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
         }
+
+        if (!$resultado) {
+            RespuestaJson::error("El registro no existe", 404);
+        }
+
+        RespuestaJson::exito(["mensaje" => "Registro modificado exitosamente"]);
     }
+
     private function baja(): void
     {
 
@@ -100,22 +119,24 @@ class registroControlador
             RespuestaJson::error("ID de registro no proporcionado", 422);
         }
 
-        $conexion = $this->conectar();
-        $dao = new RegistrosDao($conexion);
-        $resultado = $dao->eliminarRegistro($ID_R);
-        if($resultado){
-            RespuestaJson::exito("Registro eliminado exitosamente");
-        } else {
-            RespuestaJson::error("Error al eliminar el registro", 400);
+        try {
+            $conexion = $this->conectar();
+            $dao = new RegistrosDao($conexion);
+            $resultado = $dao->eliminarRegistro($ID_R);
+        } catch (PDOException $error) {
+            error_log("Error en baja de registro: " . $error->getMessage());
+            RespuestaJson::error("Error interno del servidor", 500);
         }
+
+        if (!$resultado) {
+            RespuestaJson::error("El registro no existe", 404);
+        }
+
+        RespuestaJson::exito(["mensaje" => "Registro eliminado exitosamente"]);
     }
+
     private function conectar(): PDO
     {
-        $conector = new ConectorPDO();
-        return $conector->establecerConexion();
-        if ($conexion === null) {
-            RespuestaJson::error("Error al conectar con la base de datos", 500);
-        }
-        return $conexion;
+        return Conexion::conectar();
     }
 }

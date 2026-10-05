@@ -12,8 +12,6 @@ class Token
 
     public static function generarTokenCSRF(): void
     {
-        if (!isset($_SESSION["csrfToken"])) {
-            $_SESSION["csrfToken"] = bin2hex(random_bytes(32));
-        }
+        $_SESSION["csrfToken"] = bin2hex(random_bytes(32));
     }
 }

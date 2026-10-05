@@ -8,51 +8,86 @@ class AccesoDatosUsuario {
         $this->conexion = $conexion;
     }
 
-    public function registrarUsuario(string $cedula, string $nombre, string $apellido, string $claveHash, string $rol): bool {
+      public function registrarUsuario(string $cedula, string $nombre, string $apellido, string $claveHash, string $rol, ?string $gmail): bool {
+
+        switch ($rol) {
+            case "Administrador":
+                $tablaRol = "ADMINISTRADOR";
+                break;
+            case "Tecnico":
+                $tablaRol = "TECNICO";
+                break;
+            case "Solicitante":
+                $tablaRol = "SOLICITANTE";
+                break;
+            default:
+                return false;
+        }
 
         try {
             $this->conexion->beginTransaction();
 
-            $sqlUsuario = "INSERT INTO USUARIO (cedula, nombre, apellido, claveHash) VALUES (:cedula, :nombre, :apellido, :claveHash)";
+            // Se busca si la cédula ya existe (activa o dada de baja).
+            $consultaExiste = $this->conexion->prepare("SELECT activo FROM USUARIO WHERE cedula = :cedula");
+            $consultaExiste->execute(["cedula" => $cedula]);
+            $activo = $consultaExiste->fetchColumn();
 
-            $consultaUsuario = $this->conexion->prepare($sqlUsuario);
-
-            $consultaUsuario->execute(["cedula" => $cedula, "nombre" => $nombre, "apellido" => $apellido, "claveHash" => $claveHash]);
-
-            switch ($rol) {
-                case "Administrador":
-                    $sqlRol = "INSERT INTO ADMINISTRADOR (cedula) VALUES (:cedula)";
-                    break;
-                case "Tecnico":
-                    $sqlRol = "INSERT INTO TECNICO (cedula) VALUES (:cedula)";
-                    break;
-                case "Solicitante":
-                    $sqlRol = "INSERT INTO SOLICITANTE (cedula) VALUES (:cedula)";
-                    break;
-                default:
-                    $this->conexion->rollBack();
-                    return false;
+            if ($activo === false) {
+                // No existe: se crea el usuario.
+                $sqlUsuario = "INSERT INTO USUARIO (cedula, nombre, apellido, claveHash, activo) VALUES (:cedula, :nombre, :apellido, :claveHash, 1)";
+            } elseif ((int) $activo === 0) {
+                // Existe dado de baja: se reactiva con los datos nuevos.
+                $sqlUsuario = "UPDATE USUARIO SET nombre = :nombre, apellido = :apellido, claveHash = :claveHash, activo = 1 WHERE cedula = :cedula";
+            } else {
+                // Existe y está activo: es un duplicado.
+                $this->conexion->rollBack();
+                return false;
             }
 
-            $consultaRol = $this->conexion->prepare($sqlRol);
+            $consultaUsuario = $this->conexion->prepare($sqlUsuario);
+            $consultaUsuario->execute(["cedula" => $cedula, "nombre" => $nombre, "apellido" => $apellido, "claveHash" => $claveHash]);
 
-            $consultaRol->execute(["cedula" => $cedula]);
+            // Quita los roles que el usuario tenía antes de la baja.
+            foreach (["ADMINISTRADOR", "TECNICO", "SOLICITANTE"] as $tabla) {
+                if ($tabla === $tablaRol) {
+                    continue;
+                }
+
+                $consultaQuitarRol = $this->conexion->prepare("DELETE FROM $tabla WHERE cedula = :cedula");
+                $consultaQuitarRol->execute(["cedula" => $cedula]);
+            }
+
+            // Asigna el rol nuevo si todavía no lo tiene.
+            $consultaBuscarRol = $this->conexion->prepare("SELECT cedula FROM $tablaRol WHERE cedula = :cedula");
+            $consultaBuscarRol->execute(["cedula" => $cedula]);
+
+            if ($consultaBuscarRol->fetch(PDO::FETCH_ASSOC) === false) {
+                if ($tablaRol === "SOLICITANTE") {
+                    // El solicitante guarda además su gmail.
+                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO SOLICITANTE (cedula, gmail) VALUES (:cedula, :gmail)");
+                    $consultaAsignarRol->execute(["cedula" => $cedula, "gmail" => $gmail]);
+                } else {
+                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tablaRol (cedula) VALUES (:cedula)");
+                    $consultaAsignarRol->execute(["cedula" => $cedula]);
+                }
+            } elseif ($tablaRol === "SOLICITANTE") {
+                // Ya era solicitante: se actualiza su gmail.
+                $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
+                $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
+            }
 
             $this->conexion->commit();
 
             return true;
 
         } catch (PDOException $error) {
-
             if ($this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
-
-            error_log("Error en AltaDatosUsuario: " . $error->getMessage());
-
-            return false;
+            throw $error;
         }
     }
+
 
 public function buscarUsuario(string $cedula): ?Usuario {
         $sql = "
@@ -78,15 +113,15 @@ public function buscarUsuario(string $cedula): ?Usuario {
             ELSE FALSE
         END AS solicitante
 
-    FROM usuario AS u
+    FROM USUARIO AS u
 
-    LEFT JOIN administrador AS a
+    LEFT JOIN ADMINISTRADOR AS a
         ON a.cedula = u.cedula
 
-    LEFT JOIN tecnico AS t
+    LEFT JOIN TECNICO AS t
         ON t.cedula = u.cedula
 
-    LEFT JOIN solicitante AS s
+    LEFT JOIN SOLICITANTE AS s
         ON s.cedula = u.cedula
 
     WHERE u.cedula = :cedula
@@ -115,8 +150,9 @@ public function buscarUsuario(string $cedula): ?Usuario {
     }
 
     /**
-     * Lista todos los usuarios del sistema junto con su cargo.
+     * Lista los usuarios activos del sistema junto con su cargo.
      * @return array Los usuarios con cedula, nombre, apellido y cargo.
+     * @throws PDOException Si la consulta no puede ejecutarse.
      */
     public function listarUsuarios(): array
     {
@@ -131,18 +167,22 @@ public function buscarUsuario(string $cedula): ?Usuario {
             WHEN t.cedula IS NOT NULL THEN 'Tecnico'
             WHEN s.cedula IS NOT NULL THEN 'Solicitante'
             ELSE 'Sin rol'
-        END AS cargo
+        END AS cargo,
 
-    FROM usuario AS u
+        s.gmail
 
-    LEFT JOIN administrador AS a
+    FROM USUARIO AS u
+
+    LEFT JOIN ADMINISTRADOR AS a
         ON a.cedula = u.cedula
 
-    LEFT JOIN tecnico AS t
+    LEFT JOIN TECNICO AS t
         ON t.cedula = u.cedula
 
-    LEFT JOIN solicitante AS s
+    LEFT JOIN SOLICITANTE AS s
         ON s.cedula = u.cedula
+
+    WHERE u.activo = 1
 
     ORDER BY u.nombre, u.apellido
 ";
@@ -153,13 +193,30 @@ public function buscarUsuario(string $cedula): ?Usuario {
     
 }
 
-public function modificarUsuario(string $cedula, string $nombre, string $apellido, string $claveHash, string $rol): bool {
+public function modificarUsuario(string $cedula, string $nombre, string $apellido, ?string $claveHash, string $rol, ?string $gmail): bool {
         try {
             $this->conexion->beginTransaction();
 
-            $sqlUsuario = "UPDATE USUARIO SET nombre = :nombre, apellido = :apellido, claveHash = :claveHash WHERE cedula = :cedula";
+            // Solo se modifican usuarios existentes y activos.
+            $consultaExiste = $this->conexion->prepare("SELECT activo FROM USUARIO WHERE cedula = :cedula");
+            $consultaExiste->execute(["cedula" => $cedula]);
+
+            if ((int) $consultaExiste->fetchColumn() !== 1) {
+                $this->conexion->rollBack();
+                return false;
+            }
+
+
+            // Solo actualiza la clave si se ingresó una nueva.
+            if ($claveHash === null) {
+                $sqlUsuario = "UPDATE USUARIO SET nombre = :nombre, apellido = :apellido WHERE cedula = :cedula";
+                $parametros = ["nombre" => $nombre, "apellido" => $apellido, "cedula" => $cedula];
+            } else {
+                $sqlUsuario = "UPDATE USUARIO SET nombre = :nombre, apellido = :apellido, claveHash = :claveHash WHERE cedula = :cedula";
+                $parametros = ["nombre" => $nombre, "apellido" => $apellido, "claveHash" => $claveHash, "cedula" => $cedula];
+            }
             $consultaUsuario = $this->conexion->prepare($sqlUsuario);
-            $consultaUsuario->execute(["nombre" => $nombre, "apellido" => $apellido, "claveHash" => $claveHash, "cedula" => $cedula]);
+            $consultaUsuario->execute($parametros);
 
             switch ($rol) {
                 case "Administrador":
@@ -190,8 +247,18 @@ public function modificarUsuario(string $cedula, string $nombre, string $apellid
             $consultaBuscarRol->execute(["cedula" => $cedula]);
 
             if ($consultaBuscarRol->fetch(PDO::FETCH_ASSOC) === false) {
-                $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tablaRol (cedula) VALUES (:cedula)");
-                $consultaAsignarRol->execute(["cedula" => $cedula]);
+                if ($tablaRol === "SOLICITANTE") {
+                    // El solicitante guarda además su gmail.
+                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO SOLICITANTE (cedula, gmail) VALUES (:cedula, :gmail)");
+                    $consultaAsignarRol->execute(["cedula" => $cedula, "gmail" => $gmail]);
+                } else {
+                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tablaRol (cedula) VALUES (:cedula)");
+                    $consultaAsignarRol->execute(["cedula" => $cedula]);
+                }
+            } elseif ($tablaRol === "SOLICITANTE") {
+                // Ya era solicitante: se actualiza su gmail.
+                $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
+                $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
             }
 
             $this->conexion->commit();
@@ -201,44 +268,17 @@ public function modificarUsuario(string $cedula, string $nombre, string $apellid
             if ($this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
-
-            error_log("Error en ModificarDatosUsuario: " . $error->getMessage());
-
-            return false;
+            throw $error;
         }
     }
      public function eliminarUsuario(string $cedula): bool {
 
-        try {
-            $this->conexion->beginTransaction();
+        // Baja lógica: el usuario queda inactivo y conserva sus roles e historial.
+        // Devuelve false si la cédula no existe o el usuario ya estaba dado de baja.
+        $sqlUsuario = "UPDATE USUARIO SET activo = 0 WHERE cedula = :cedula AND activo = 1";
+        $consultaUsuario = $this->conexion->prepare($sqlUsuario);
+        $consultaUsuario->execute(["cedula" => $cedula]);
 
-            $sqlAdministrador = "DELETE FROM ADMINISTRADOR WHERE cedula = :cedula";
-            $consultaAdministrador = $this->conexion->prepare($sqlAdministrador);
-            $consultaAdministrador->execute(["cedula" => $cedula]);
-
-            $sqlTecnico = "DELETE FROM TECNICO WHERE cedula = :cedula";
-            $consultaTecnico = $this->conexion->prepare($sqlTecnico);
-            $consultaTecnico->execute(["cedula" => $cedula]);
-
-            $sqlSolicitante = "DELETE FROM SOLICITANTE WHERE cedula = :cedula";
-            $consultaSolicitante = $this->conexion->prepare($sqlSolicitante);
-            $consultaSolicitante->execute(["cedula" => $cedula]);
-
-            $sqlUsuario = "DELETE FROM USUARIO WHERE cedula = :cedula";
-            $consultaUsuario = $this->conexion->prepare($sqlUsuario);
-            $consultaUsuario->execute(["cedula" => $cedula]);
-
-            $this->conexion->commit();
-            return true;
-
-        } catch (PDOException $error) {
-            if ($this->conexion->inTransaction()) {
-                $this->conexion->rollBack();
-            }
-
-            error_log("Error en BajaDatosUsuario: " . $error->getMessage());
-
-            return false;
-        }
+        return $consultaUsuario->rowCount() > 0;
     }
 }

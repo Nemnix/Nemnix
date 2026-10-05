@@ -21,10 +21,6 @@ class ConectorPDO {
 
     private function __clone(): void {}
 
-    public function __wakeup(): void
-    {
-        throw new Exception("No se puede deserializar un Singleton.");
-    }
     public function __serialize(): array
     {
         throw new LogicException(
@@ -55,7 +51,10 @@ class ConectorPDO {
 
         $dsn = "mysql:" . "host={$this->servername};" . "port={$this->port};" . "dbname={$this->dbname};" . "charset=utf8mb4";
 
-        $this->conexion = new PDO($dsn, $this->username, $this->password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $this->conexion = new PDO($dsn, $this->username, $this->password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
 
         return $this->conexion;
     }
