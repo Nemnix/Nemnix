@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 /**
  * Vista: formulario de inicio de sesión.
  *
@@ -64,4 +64,4 @@
         <img class="logo" src="/proyecto/public/assets/img/logoUTU.png" alt="Logo">
     </footer>
 </body>
-</html>
+</html> -->

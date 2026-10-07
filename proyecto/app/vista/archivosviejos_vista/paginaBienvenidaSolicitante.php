@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 /**
  * Vista: página de bienvenida del usuario solicitante.
  *
@@ -86,4 +86,4 @@
         crossorigin="anonymous"></script>
 </body>
 
-</html>
+</html> -->
