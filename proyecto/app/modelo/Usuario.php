@@ -12,6 +12,7 @@ class Usuario {
     private bool $administrador;
     private bool $tecnico;
     private bool $solicitante;
+    private ?string $gmail;
 
     /**
      * Constructor parametrizado con los datos del usuario y sus roles.
@@ -23,8 +24,9 @@ class Usuario {
      * @param bool $administrador Indica si el usuario tiene el rol administrador.
      * @param bool $tecnico Indica si el usuario tiene el rol tecnico.
      * @param bool $solicitante Indica si el usuario tiene el rol solicitante.
+     * @param string|null $gmail Gmail del usuario (solo lo tienen los solicitantes).
      */
-    public function __construct(string $cedula, string $nombre, string $apellido, string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante) {
+    public function __construct(string $cedula, string $nombre, string $apellido, string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante, ?string $gmail = null) {
         $this->cedula = $cedula;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -33,6 +35,7 @@ class Usuario {
         $this->administrador = $administrador;
         $this->tecnico = $tecnico;
         $this->solicitante = $solicitante;
+        $this->gmail = $gmail;
     }
 
     /**
@@ -96,6 +99,13 @@ class Usuario {
      */
     public function sinRoles(): bool {
         return !$this->administrador && !$this->tecnico && !$this->solicitante;
+    }
+
+    /**
+     * @return string|null El gmail del usuario, o NULL si no es solicitante.
+     */
+    public function getGmail(): ?string {
+        return $this->gmail;
     }
 }
 

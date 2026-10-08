@@ -4,13 +4,13 @@
  * Encapsula la lógica de autenticación de usuarios del sistema.
  */
 class Login {
-    private AccesoDatosUsuario $accesoDatosUsuario;
+    private UsuarioDAO $accesoDatosUsuario;
 
     /**
      * Constructor parametrizado que recibe el acceso a datos de usuario.
-     * @param AccesoDatosUsuario $accesoDatosUsuario Fuente de datos de usuarios.
+     * @param UsuarioDAO $accesoDatosUsuario Fuente de datos de usuarios.
      */
-    public function __construct(AccesoDatosUsuario $accesoDatosUsuario) {
+    public function __construct(UsuarioDAO $accesoDatosUsuario) {
         $this->accesoDatosUsuario = $accesoDatosUsuario;
     }
 

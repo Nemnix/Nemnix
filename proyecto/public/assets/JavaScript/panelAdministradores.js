@@ -210,7 +210,7 @@ function abrirModificarEmpleado(eventoModificar) {
     dialogGestionarEmpleado.showModal();
 }
 
-//Envía el formulario a la API: POST para el alta, PATCH para la modificación
+//Envía el formulario a la API: POST para el alta, PUT para la modificación
 async function gestionarEmpleado(evento) {
     evento.preventDefault();
 
@@ -231,7 +231,7 @@ async function gestionarEmpleado(evento) {
     }
 
     try {
-        const metodo = modoFormulario === "alta" ? "POST" : "PATCH";
+        const metodo = modoFormulario === "alta" ? "POST" : "PUT";
         const respuesta = await llamarApi(metodo, datos);
         window.alert(respuesta.mensaje);
         cerrarGestionarEmpleado();
