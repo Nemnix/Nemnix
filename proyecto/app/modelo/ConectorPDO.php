@@ -1,53 +1,67 @@
 <?php
 
-/**
- * Encapsula la creación y el cierre de una conexión PDO hacia MySQL.
- */
-class ConectorPDO
-{
+class ConectorPDO {
     private string $servername;
+    private int $port;
     private string $username;
     private string $password;
     private string $dbname;
-    private ?PDO $conexion;
+    private ?PDO $conexion = null;
 
-    /**
-     * Constructor parametrizado con los datos de conexión a la base de datos.
-     * @param string $servername Servidor (y puerto opcional) de la base de datos.
-     * @param string $username Usuario de la base de datos.
-     * @param string $password Contraseña del usuario.
-     * @param string $dbname Nombre de la base de datos.
-     */
-    public function __construct (string $servername, string $username, string $password, string $dbname) {
+    private static ?self $instancia = null;
+
+    private function __construct(string $servername, int $port, string $username, string $password, string $dbname) {
         $this->servername = $servername;
+        $this->port = $port;
         $this->username = $username;
         $this->password = $password;
         $this->dbname = $dbname;
         $this->conexion = null;
     }
 
-    /**
-     * Abre la conexión PDO con los datos provistos en el constructor.
-     * @return PDO La conexión establecida, o null si ocurrió un error.
-     */
-    public function establecerConexion(): PDO {
-        try {
-            $this->conexion = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->password);
+    private function __clone(): void {}
 
-            $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo "Error al conectar..." . $e->getMessage();
+    public function __serialize(): array
+    {
+        throw new LogicException(
+            "El objeto no puede serializarse."
+        );
+    }
+    public function __unserialize(array $data): void
+    {
+        throw new LogicException(
+            "El objeto no puede deserializarse."
+        );
+    }
+
+    public static function obtenerInstancia(string $servername, int $port, string $username, string $password, string $dbname): ConectorPDO
+    {
+        if (self::$instancia === null) {
+            self::$instancia = new self ($servername, $port, $username, $password, $dbname);
         }
+
+        return self::$instancia;
+    }
+
+    public function establecerConexion(): PDO
+    {
+                if ($this->conexion !== null) {
+            return $this->conexion;
+        }
+
+        $dsn = "mysql:" . "host={$this->servername};" . "port={$this->port};" . "dbname={$this->dbname};" . "charset=utf8mb4";
+
+        $this->conexion = new PDO($dsn, $this->username, $this->password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
+
         return $this->conexion;
     }
 
-    /**
-     * Libera la referencia a la conexión activa.
-     */
-    public function desconectar() {
+    public function desconectar(): void
+    {
         $this->conexion = null;
     }
-};
-
-
+}
 ?>

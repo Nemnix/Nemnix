@@ -1,0 +1,101 @@
+<?php
+/*
+ * ARCHIVO VIEJO (no se usa). Movido y comentado el 2026-10-07 (corrección 1 del profesor).
+ * Ubicación original: app/vista/listaGlobalSolicitudes.php
+ * Reemplazado por: public/paginas/listaGlobalSolicitudes.html
+ * Todo el código está comentado para que no se ejecute. Dentro del código
+ * los cierres de comentario internos (asterisco + barra) se cambiaron por '* /'.
+ * ------------------------------------------------------------------------
+
+<?php
+/**
+ * Vista: visualización global de solicitudes del panel administrador.
+ *
+ * Variables esperadas:
+ * @var array $solicitudesPorAula Cantidad de solicitudes agrupadas por laboratorio.
+ * @var int $solicitudesPendientes Cantidad total de solicitudes pendientes.
+ * /
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global solicitudes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/proyecto/public/assets/css/usuarioAdmistrador.css">
+    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
+</head>
+
+<body>
+    <header>
+        <button onclick="subir()" class="botonSubir">▲</button>
+        <img class="logo" src="/proyecto/public/assets/img/logoUTU.png">
+
+        <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
+        <button id="btnCerrar" type="button" aria-label="Cerrar menú">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                <path
+                    d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+            </svg>
+        </button>
+
+        <nav>
+            <ul class="MenuPrincipal">
+                <li><a href="/proyecto/public/usuarioAdministrador/paginaBienvenidaAdministrador.php" class="BotonNavegacion">Inicio</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/panelAdministradores.php" class="BotonNavegacion">Panel administradores</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaIncidencias.php" class="BotonNavegacion">Vizualización de incidencias</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaGlobalSolicitudes.php" class="BotonNavegacion">Vizualización de solicitudes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaInventario.php" class="BotonNavegacion">Inventario tecnologico </a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaMetricas.php" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="/proyecto/public/usuarioAdministrador/listaEstadoEquipos.php" class="BotonNavegacion">Estado de equipos</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <main>
+        <h2>Vizualización global de solicitudes</h2>
+
+        <section id="CuadroSolicitudes" class="CuadrosTexto">
+            <label>Solicitudes pendientes</label>
+            <span id="SolicitudesPendientes">0</span>
+        </section>
+
+        <section class="Tablas">
+            <fieldset>
+                <table id="VizualizacionGlobalSolicitudes">
+                    <thead>
+                    <tr>
+                        <th>Tipo de aula</th>
+                        <th>Numero de aula</th>
+                        <th>Cantidad solicitudes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+            </fieldset>
+        </section>
+
+        <a href="/proyecto/public/usuarioAdministrador/listaSolicitudes.php" class="link">Ver solicitudes</a>
+    </main>
+    <footer>
+        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+    </footer>
+
+    <script src="../Assets/JavaScript/menu.js"></script>
+    <script src="../Assets/JavaScript/botonSubir.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+*/
