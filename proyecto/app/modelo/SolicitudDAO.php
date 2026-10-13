@@ -23,7 +23,7 @@ class SolicitudDAO {
         l.numLaboratorio,
         s.fecha,
         s.descripcionSolicitud,
-        sol.gmail,
+        s.gmail,
         u.nombre,
         u.apellido
 
@@ -34,9 +34,6 @@ class SolicitudDAO {
 
     LEFT JOIN USUARIO AS u
         ON u.cedula = s.cedula
-
-    LEFT JOIN SOLICITANTE AS sol
-        ON sol.cedula = s.cedula
 ";
 
         $consulta = $this->conexion->query($sql);
@@ -59,15 +56,12 @@ class SolicitudDAO {
         l.numLaboratorio,
         s.fecha,
         s.descripcionSolicitud,
-        sol.gmail
+        s.gmail
 
     FROM SOLICITA AS s
 
     LEFT JOIN LABORATORIO AS l
         ON l.ID_L = s.ID_L
-
-    LEFT JOIN SOLICITANTE AS sol
-        ON sol.cedula = s.cedula
 
     WHERE s.cedula = :cedula
 ";
@@ -144,18 +138,16 @@ class SolicitudDAO {
                 return false;
             }
 
-            $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha)";
+            // Cada solicitud guarda su propio gmail de contacto.
+            $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, gmail) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha, :gmail)";
             $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
             $consultaSolicitud->execute([
                 "cedula" => $cedula,
                 "idLaboratorio" => $idLaboratorio,
                 "descripcionSolicitud" => $descripcionSolicitud,
-                "fecha" => $fecha
+                "fecha" => $fecha,
+                "gmail" => $gmail
             ]);
-
-            // El gmail se guarda en el solicitante.
-            $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
-            $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
 
             $this->conexion->commit();
 
@@ -183,19 +175,16 @@ class SolicitudDAO {
             }
 
             // Cambia el laboratorio de la solicitud, sin modificar el laboratorio en sí.
-            $sqlSolicitud = "UPDATE SOLICITA SET ID_L = :idLaboratorioNuevo, descripcionSolicitud = :descripcionSolicitud, fecha = :fecha WHERE ID_L = :idLaboratorioActual AND cedula = :cedula";
+            $sqlSolicitud = "UPDATE SOLICITA SET ID_L = :idLaboratorioNuevo, descripcionSolicitud = :descripcionSolicitud, fecha = :fecha, gmail = :gmail WHERE ID_L = :idLaboratorioActual AND cedula = :cedula";
             $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
             $consultaSolicitud->execute([
                 "idLaboratorioNuevo" => $idLaboratorioNuevo,
                 "descripcionSolicitud" => $descripcionSolicitud,
                 "fecha" => $fecha,
+                "gmail" => $gmail,
                 "idLaboratorioActual" => $idLaboratorioActual,
                 "cedula" => $cedula
             ]);
-
-            // El gmail se guarda en el solicitante.
-            $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
-            $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
 
             $this->conexion->commit();
             return true;
