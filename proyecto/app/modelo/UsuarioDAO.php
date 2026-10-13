@@ -8,7 +8,17 @@ class UsuarioDAO {
         $this->conexion = $conexion;
     }
 
-      public function registrarUsuario(string $cedula, string $nombre, string $apellido, string $claveHash, string $rol, ?string $gmail): bool {
+      public function registrarUsuario(Usuario $usuario): bool {
+        // Se toman los datos del objeto.
+        $cedula = $usuario->getCedula();
+        $nombre = $usuario->getNombre();
+        $apellido = $usuario->getApellido();
+        $claveHash = $usuario->getClaveHash();
+        $gmail = $usuario->getGmail();
+
+        // El rol se deduce de los roles del objeto (el panel asigna uno solo).
+        $rol = $usuario->esAdministrador() ? "Administrador" : ($usuario->esTecnico() ? "Tecnico" : ($usuario->esSolicitante() ? "Solicitante" : ""));
+
 
         switch ($rol) {
             case "Administrador":
@@ -196,7 +206,17 @@ public function buscarUsuario(string $cedula): ?Usuario {
     
 }
 
-public function modificarUsuario(string $cedula, string $nombre, string $apellido, ?string $claveHash, string $rol, ?string $gmail): bool {
+public function modificarUsuario(Usuario $usuario): bool {
+        // Se toman los datos del objeto.
+        $cedula = $usuario->getCedula();
+        $nombre = $usuario->getNombre();
+        $apellido = $usuario->getApellido();
+        $claveHash = $usuario->getClaveHash();
+        $gmail = $usuario->getGmail();
+
+        // El rol se deduce de los roles del objeto (el panel asigna uno solo).
+        $rol = $usuario->esAdministrador() ? "Administrador" : ($usuario->esTecnico() ? "Tecnico" : ($usuario->esSolicitante() ? "Solicitante" : ""));
+
         try {
             $this->conexion->beginTransaction();
 

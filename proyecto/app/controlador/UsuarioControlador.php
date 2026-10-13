@@ -1,5 +1,6 @@
 <?php
 require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/Usuario.php";
 require_once RUTA_MODELO . "/UsuarioDAO.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
@@ -83,7 +84,9 @@ class UsuarioControlador
         try {
             $conexion = $this->conectar();
             $dao = new UsuarioDAO($conexion);
-            $resultado = $dao->registrarUsuario($cedula, $nombre, $apellido, $claveHash, $rol, $gmail);
+            // Se arma el usuario con los datos ya validados: activo y con el rol elegido.
+            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, $rol === "Administrador", $rol === "Tecnico", $rol === "Solicitante", $gmail);
+            $resultado = $dao->registrarUsuario($usuario);
         } catch (PDOException $error) {
             error_log("Error en alta de usuario: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -139,7 +142,9 @@ class UsuarioControlador
         try {
             $conexion = $this->conectar();
             $dao = new UsuarioDAO($conexion);
-            $resultado = $dao->modificarUsuario($cedula, $nombre, $apellido, $claveHash, $rol, $gmail);
+            // Se arma el usuario con los datos ya validados; la clave es NULL si no se ingresó una nueva.
+            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, $rol === "Administrador", $rol === "Tecnico", $rol === "Solicitante", $gmail);
+            $resultado = $dao->modificarUsuario($usuario);
         } catch (PDOException $error) {
             error_log("Error en modificación de usuario: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);

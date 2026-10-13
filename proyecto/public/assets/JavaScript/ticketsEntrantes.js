@@ -28,6 +28,82 @@ const entradaModificarIdR = document.getElementById("modificarTicketID_R");
 
 let ticketEditando = null;
 
+//Dirección de la API de tickets
+const API_TICKETS = "../api/tickets.php";
+
+//Constante para trabajar con el cuerpo de la tabla de tickets
+const cuerpoTablaTickets = tabla.tBodies[0];
+
+
+/**
+ * COMUNICACIÓN CON LA API
+ */
+
+//Envía la petición a la API con el token CSRF y devuelve los datos de la respuesta
+async function llamarApi(metodo, datos = null) {
+    const opciones = {
+        method: metodo,
+        headers: { "Content-Type": "application/json" }
+    };
+
+    if (metodo !== "GET") {
+        opciones.headers["X-CSRF-Token"] = sessionStorage.getItem("csrfToken") ?? "";
+        opciones.body = JSON.stringify(datos);
+    }
+
+    const respuesta = await fetch(API_TICKETS, opciones);
+    const json = await respuesta.json();
+
+    //Si la sesión no está iniciada o venció, vuelve al login
+    if (respuesta.status === 401) {
+        window.location.replace("./login.html");
+    }
+    if (!respuesta.ok) {
+        throw new Error(json.mensaje ?? "Error en la solicitud.");
+    }
+
+    return json.datos;
+}
+
+
+/**
+ * TABLA DE TICKETS
+ */
+
+//Crea la fila de un ticket. Usa textContent para que los datos no se interpreten como HTML
+function crearFila(ticket) {
+    const fila = document.createElement("tr");
+
+    for (const valor of [ticket.ID_T, ticket.prioridad, ticket.estado, ticket.fechaRegistro]) {
+        const celda = document.createElement("td");
+        celda.textContent = valor;
+        fila.appendChild(celda);
+    }
+
+    //El botón Visualizar guarda el ticket completo para cargarlo en el modal
+    const celdaAcciones = document.createElement("td");
+    const btnVisualizar = document.createElement("button");
+    btnVisualizar.type = "button";
+    btnVisualizar.className = "btnVisualizar";
+    btnVisualizar.textContent = "Visualizar";
+    btnVisualizar.dataset.ticket = JSON.stringify(ticket);
+
+    celdaAcciones.appendChild(btnVisualizar);
+    fila.appendChild(celdaAcciones);
+
+    return fila;
+}
+
+//Pide los tickets a la API y dibuja la tabla
+async function cargarTickets() {
+    try {
+        const tickets = await llamarApi("GET");
+        cuerpoTablaTickets.replaceChildren(...tickets.map(crearFila));
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
 
 /**
  * LOCAL STORAGE
@@ -210,8 +286,6 @@ function visualizar(ticket) {
         campo.disabled = false;
     });
 
-    formulario.action = "/proyecto/public/usuarioTecnico/procesarModificarRegistroYTickets.php";
-
     modal.showModal();
 
 }
@@ -319,5 +393,34 @@ function abrirVisualizacionTicket(eventoVisualizar) {
 
 // actualizarTabla();
 
+//Envía los cambios del ticket a la API con PUT
+async function gestionarTicket(evento) {
+    evento.preventDefault();
+
+    const datos = {
+        ID_R: entradaModificarIdR.value,
+        ID_T: entradaModificarIdT.value,
+        estado: entradaEstado.value,
+        nombreEquipo: entradaNombreDispositivo.value.trim(),
+        nombreAlumno: entradaNombreAlumno.value.trim(),
+        descripcion: entradaMotivo.value.trim(),
+        prioridad: entradaPrioridad.value
+    };
+
+    try {
+        const respuesta = await llamarApi("PUT", datos);
+        window.alert(respuesta.mensaje);
+        cerrarVisualizacionTicket();
+        cargarTickets();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
 tabla.addEventListener("click", abrirVisualizacionTicket);
 btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
+
+formulario.addEventListener("submit", gestionarTicket);
+
+//Carga inicial de la tabla
+cargarTickets();

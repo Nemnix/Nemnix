@@ -124,7 +124,14 @@ class SolicitudDAO {
         return $consulta->fetchColumn() !== false;
     }
 
-    public function registrarSolicitud(string $cedula, int $idLaboratorio, string $fecha, string $descripcionSolicitud, string $gmail): bool {
+    public function registrarSolicitud(Solicitud $solicitud): bool {
+        // Se toman los datos del objeto.
+        $cedula = $solicitud->getCedula();
+        $idLaboratorio = $solicitud->getIdLaboratorio();
+        $fecha = $solicitud->getFecha();
+        $descripcionSolicitud = $solicitud->getDescripcionSolicitud();
+        $gmail = $solicitud->getGmail();
+
         try {
             $this->conexion->beginTransaction();
 
@@ -161,7 +168,14 @@ class SolicitudDAO {
         }
     }
 
-    public function modificarSolicitud(int $idLaboratorioActual, string $cedula, int $idLaboratorioNuevo, string $fecha, string $descripcionSolicitud, string $gmail): bool {
+    public function modificarSolicitud(int $idLaboratorioActual, Solicitud $solicitud): bool {
+        // Se toman los datos del objeto.
+        $cedula = $solicitud->getCedula();
+        $idLaboratorioNuevo = $solicitud->getIdLaboratorio();
+        $fecha = $solicitud->getFecha();
+        $descripcionSolicitud = $solicitud->getDescripcionSolicitud();
+        $gmail = $solicitud->getGmail();
+
         try {
             $this->conexion->beginTransaction();
 

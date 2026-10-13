@@ -41,7 +41,18 @@ class PrestamoDAO {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function registrarPrestamo(string $cedula, string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite, string $estado, int $idEquipo, string $modelo): bool {
+    public function registrarPrestamo(Prestamo $prestamo): bool {
+        // Se toman los datos del objeto.
+        $cedula = $prestamo->getCedula();
+        $ciAlumno = $prestamo->getCiAlumno();
+        $nombreAlumno = $prestamo->getNombreAlumno();
+        $apellidoAlumno = $prestamo->getApellidoAlumno();
+        $fechaInicio = $prestamo->getFechaInicio();
+        $fechaLimite = $prestamo->getFechaLimite();
+        $estado = $prestamo->getEstado();
+        $idEquipo = $prestamo->getIdEquipo();
+        $modelo = $prestamo->getModelo();
+
         try {
             $this->conexion->beginTransaction();
 
@@ -90,7 +101,16 @@ class PrestamoDAO {
         }
     }
 
-    public function modificarPrestamo(int $idPrestamo, string $modelo, string $estado, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite): bool {
+    public function modificarPrestamo(Prestamo $prestamo): bool {
+        // Se toman los datos del objeto.
+        $idPrestamo = $prestamo->getIdPrestamo();
+        $modelo = $prestamo->getModelo();
+        $estado = $prestamo->getEstado();
+        $nombreAlumno = $prestamo->getNombreAlumno();
+        $apellidoAlumno = $prestamo->getApellidoAlumno();
+        $fechaInicio = $prestamo->getFechaInicio();
+        $fechaLimite = $prestamo->getFechaLimite();
+
         try {
             $this->conexion->beginTransaction();
 

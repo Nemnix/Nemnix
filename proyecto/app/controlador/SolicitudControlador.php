@@ -100,7 +100,9 @@ class SolicitudControlador
             }
 
             $dao = new SolicitudDAO($conexion);
-            $resultado = $dao->registrarSolicitud($cedula, $idLaboratorio, $fecha, $descripcionSolicitud, $gmail);
+            // Se arma la solicitud con los datos ya validados.
+            $solicitud = new Solicitud($idLaboratorio, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $descripcionSolicitud, $gmail);
+            $resultado = $dao->registrarSolicitud($solicitud);
         } catch (PDOException $error) {
             error_log("Error en alta de solicitud: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -160,12 +162,19 @@ class SolicitudControlador
 
             $dao = new SolicitudDAO($conexion);
 
+            // Primero se comprueba que la solicitud a modificar exista y sea del solicitante.
+            if (!$dao->existeSolicitud((int) $idLaboratorioActual, $cedula)) {
+                RespuestaJson::error("La solicitud no existe", 404);
+            }
+
             // Si cambia de laboratorio, no puede tener ya una solicitud para el nuevo.
             if ($idLaboratorioNuevo !== (int) $idLaboratorioActual && $dao->existeSolicitud($idLaboratorioNuevo, $cedula)) {
                 RespuestaJson::error("Ya existe una solicitud para ese laboratorio", 409);
             }
 
-            $resultado = $dao->modificarSolicitud((int) $idLaboratorioActual, $cedula, $idLaboratorioNuevo, $fecha, $descripcionSolicitud, $gmail);
+            // Se arma la solicitud con los datos nuevos; el laboratorio actual la identifica.
+            $solicitud = new Solicitud($idLaboratorioNuevo, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $descripcionSolicitud, $gmail);
+            $resultado = $dao->modificarSolicitud((int) $idLaboratorioActual, $solicitud);
         } catch (PDOException $error) {
             error_log("Error en modificación de solicitud: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);

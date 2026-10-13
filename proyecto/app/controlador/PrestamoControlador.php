@@ -79,7 +79,9 @@ class PrestamoControlador
         try {
             $conexion = $this->conectar();
             $dao = new PrestamoDAO($conexion);
-            $resultado = $dao->registrarPrestamo($cedula, $ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite, $estado, (int) $idEquipo, $modelo);
+            // Se arma el préstamo con los datos ya validados.
+            $prestamo = new Prestamo(0, (int) $idEquipo, $modelo, $cedula, $ciAlumno, $nombreAlumno, $apellidoAlumno, $estado, $fechaInicio, $fechaLimite);
+            $resultado = $dao->registrarPrestamo($prestamo);
         } catch (PDOException $error) {
             error_log("Error en alta de préstamo: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -125,7 +127,10 @@ class PrestamoControlador
         try {
             $conexion = $this->conectar();
             $dao = new PrestamoDAO($conexion);
-            $resultado = $dao->modificarPrestamo((int) $idPrestamo, $modelo, $estado, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite);
+            // Se arma el préstamo con los datos ya validados. Al modificar no se usan
+            // el equipo, el técnico ni la cédula del alumno, porque no cambian.
+            $prestamo = new Prestamo((int) $idPrestamo, 0, $modelo, "", "", $nombreAlumno, $apellidoAlumno, $estado, $fechaInicio, $fechaLimite);
+            $resultado = $dao->modificarPrestamo($prestamo);
         } catch (PDOException $error) {
             error_log("Error en modificación de préstamo: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
