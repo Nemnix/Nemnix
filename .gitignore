@@ -1,0 +1,7 @@
+proyecto/.env
+proyecto/vendor/
+proyecto/composer.phar
+baseDeDatos/DML/hash.php
+/html/
+/latex/
+.vscode/
