@@ -8,6 +8,12 @@ const tabla = document.getElementById("estadoTickets");
 //Constante para trabajar con el cuerpo de la tabla de diagnósticos
 const cuerpoTablaDiagnosticos = tabla.tBodies[0];
 
+const filtroEstado = document.getElementById("idDiagnosticoEstado");
+const filtroTiempo = document.getElementById("IDtiempoDiagnostico");
+
+//Diagnósticos traídos de la API, para filtrarlos sin volver a pedirlos
+let todosLosDiagnosticos = [];
+
 const entradaIdDiagnostico = document.getElementById("IDDiagnostico");
 const entradaEstado = document.getElementById("IDestadoDiagnostico");
 const entradaTicket = document.getElementById("IDTicketAsociado");
@@ -87,12 +93,28 @@ function crearFila(diagnostico) {
 //Pide los diagnósticos a la API y dibuja la tabla
 async function cargarDiagnosticos() {
     try {
-        const diagnosticos = await llamarApi("GET");
-        cuerpoTablaDiagnosticos.replaceChildren(...diagnosticos.map(crearFila));
+        todosLosDiagnosticos = await llamarApi("GET");
+        aplicarFiltros();
     } catch (error) {
         window.alert(error.message);
     }
 }
+
+//Dibuja la tabla con los diagnósticos que cumplen los filtros, en el orden elegido
+function aplicarFiltros() {
+    const estado = filtroEstado.value;
+
+    const filtrados = todosLosDiagnosticos
+        .filter(diagnostico => estado === "Todos" || diagnostico.estadoD === estado)
+        .sort((a, b) => filtroTiempo.value === "Más recientes"
+            ? b.fechaD.localeCompare(a.fechaD)
+            : a.fechaD.localeCompare(b.fechaD));
+
+    cuerpoTablaDiagnosticos.replaceChildren(...filtrados.map(crearFila));
+}
+
+filtroEstado.addEventListener("change", aplicarFiltros);
+filtroTiempo.addEventListener("change", aplicarFiltros);
 
 
 /**

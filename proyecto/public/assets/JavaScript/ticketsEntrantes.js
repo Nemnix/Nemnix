@@ -34,6 +34,8 @@ const API_TICKETS = "../api/tickets.php";
 //Constante para trabajar con el cuerpo de la tabla de tickets
 const cuerpoTablaTickets = tabla.tBodies[0];
 
+//Tickets traídos de la API, para filtrarlos sin volver a pedirlos
+let todosLosTickets = [];
 
 /**
  * COMUNICACIÓN CON LA API
@@ -94,132 +96,35 @@ function crearFila(ticket) {
     return fila;
 }
 
-//Pide los tickets a la API y dibuja la tabla
+
 async function cargarTickets() {
     try {
-        const tickets = await llamarApi("GET");
-        cuerpoTablaTickets.replaceChildren(...tickets.map(crearFila));
+        todosLosTickets = await llamarApi("GET");
+        aplicarFiltros();
     } catch (error) {
         window.alert(error.message);
     }
 }
 
+//Dibuja la tabla con los tickets que cumplen los filtros, en el orden elegido
+function aplicarFiltros() {
+    const prioridad = filtroPrioridad.value;
+    const estado = filtroEstado.value;
 
-/**
- * LOCAL STORAGE
- */
+    const filtrados = todosLosTickets
+        .filter(ticket => prioridad === "Todos" || ticket.prioridad === prioridad)
+        .filter(ticket => estado === "Todos" || ticket.estado === estado)
+        .sort((a, b) => filtroTiempo.value === "Más recientes"
+            ? b.fechaRegistro.localeCompare(a.fechaRegistro)
+            : a.fechaRegistro.localeCompare(b.fechaRegistro));
 
-// function cargarTicketsLocal() {
+    cuerpoTablaTickets.replaceChildren(...filtrados.map(crearFila));
+}
 
-    // const ticketsGuardados = localStorage.getItem("tickets");
+filtroPrioridad.addEventListener("change", aplicarFiltros);
+filtroEstado.addEventListener("change", aplicarFiltros);
+filtroTiempo.addEventListener("change", aplicarFiltros);
 
-    // if (ticketsGuardados === null) {
-        // return [];
-    // }
-
-    // return JSON.parse(ticketsGuardados);
-
-// }
-
-// function actualizarTicketsLocal(tickets) {
-
-    // localStorage.setItem(
-        // "tickets",
-        // JSON.stringify(tickets)
-    // );
-
-// }
-
-// function cargarRegistrosLocal() {
-
-    // const registrosGuardados = localStorage.getItem("registros");
-
-    // if (registrosGuardados === null) {
-        // return [];
-    // }
-
-    // return JSON.parse(registrosGuardados);
-
-// }
-
-// function buscarRegistroAsociado(ticket) {
-
-    // const registros = cargarRegistrosLocal();
-
-    // return registros.find(
-        // r => r.numAula === ticket.numAula && r.fecha === ticket.fecha
-    // );
-
-// }
-
-// function modificarTicketLocal(ticketEditado) {
-
-    // const tickets = cargarTicketsLocal();
-
-    // const ticket = tickets.find(
-        // t => t.id === ticketEditado.id
-    // );
-
-    // if (ticket === undefined) {
-        // return;
-    // }
-
-    // ticket.prioridad = ticketEditado.prioridad;
-    // ticket.estado = ticketEditado.estado;
-
-    // actualizarTicketsLocal(tickets);
-// }
-
-
-// function obtenerTicketsFiltrados() {
-
-    // let tickets = cargarTicketsLocal();
-
-    // const prioridadSeleccionada = filtroPrioridad.value;
-
-    // if (prioridadSeleccionada !== "Todos") {
-        // tickets = tickets.filter(
-            // t => (t.prioridad ?? "Sin definir") === prioridadSeleccionada
-        // );
-    // }
-
-    // const estadoSeleccionado = filtroEstado.value;
-
-    // if (estadoSeleccionado !== "Todos") {
-        // tickets = tickets.filter(
-            // t => (t.estado ?? "Pendiente") === estadoSeleccionado
-        // );
-    // }
-
-    // const tiempoSeleccionado = filtroTiempo.value;
-
-    // tickets.sort(function (a, b) {
-
-        // const fechaA = new Date(a.fecha);
-        // const fechaB = new Date(b.fecha);
-
-        // if (tiempoSeleccionado === "Mas antiguos") {
-            // return fechaA - fechaB;
-        // }
-
-        // return fechaB - fechaA;
-
-    // });
-
-    // return tickets;
-
-// }
-
-
-// function obtenerDatosFormulario() {
-
-    // return {
-        // id: ticketEditando.id,
-        // prioridad: entradaPrioridad.value,
-        // estado: entradaEstado.value
-    // };
-
-// }
 
 function cerrarVisualizacionTicket() {
 
@@ -297,130 +202,6 @@ function abrirVisualizacionTicket(eventoVisualizar) {
     visualizar(JSON.parse(btnVisualizar.dataset.ticket));
 }
 
-// function agregarTicket(ticket) {
-
-    // let fila = document.createElement("tr");
-
-    // let tdId = document.createElement("td");
-    // tdId.innerText = ticket.id;
-
-    // let tdPrioridad = document.createElement("td");
-    // tdPrioridad.innerText = ticket.prioridad ?? "Sin definir";
-
-    // let tdEstado = document.createElement("td");
-    // tdEstado.innerText = ticket.estado ?? "Pendiente";
-
-    // let tdFecha = document.createElement("td");
-    // tdFecha.innerText = ticket.fecha;
-
-    // let tdVisualizacion = document.createElement("td");
-    // let btnVisualizar = document.createElement("button");
-    // btnVisualizar.innerText = "Visualizar";
-    // btnVisualizar.onclick = function () {
-        // visualizar(ticket);
-    // };
-    // tdVisualizacion.appendChild(btnVisualizar);
-    // fila.appendChild(tdId);
-    // fila.appendChild(tdPrioridad);
-    // fila.appendChild(tdEstado);
-    // fila.appendChild(tdFecha);
-    // fila.appendChild(tdVisualizacion);
-    // tabla.appendChild(fila);
-
-// }
-
-// function actualizarTabla() {
-
-    // while (tabla.rows.length > 1) {
-        // tabla.deleteRow(1);
-    // }
-    // const tickets = obtenerTicketsFiltrados();
-    // for (const ticket of tickets) {
-        // agregarTicket(ticket);
-    // }
-
-// }
-
-// function visualizar(ticket) {
-    // ticketEditando = ticket;
-    // window.ticketEnVisualizacion = ticket;
-
-    // const registroAsociado = buscarRegistroAsociado(ticket);
-
-    // entradaTipoAula.value = ticket.tipoAula ?? "";
-    // entradaNumAula.value = ticket.numAula ?? "";
-    // entradaIdDispositivo.value = ticket.idDispositivo ?? "";
-    // entradaNombreAlumno.value = ticket.nombreAlumno ?? "";
-    // entradaNombreDispositivo.value = ticket.nombreDispositivo ?? "";
-    // entradaMotivo.value = ticket.motivoTicket ?? "";
-    // entradaPrioridad.value = ticket.prioridad ?? "Sin definir";
-    // entradaEstado.value = ticket.estado ?? "Pendiente";
-
-    // if (registroAsociado !== undefined) {
-        // entradaAsignatura.value = registroAsociado.asignatura ?? "";
-        // entradaHoraEntrada.value = registroAsociado.entrada ?? "";
-        // entradaHoraSalida.value = registroAsociado.salida ?? "";
-        // entradaGrupo.value = registroAsociado.grupo ?? "";
-        // entradaTurno.value = registroAsociado.turno ?? "";
-    // } else {
-        // entradaAsignatura.value = "";
-        // entradaHoraEntrada.value = "";
-        // entradaHoraSalida.value = "";
-        // entradaGrupo.value = "";
-        // entradaTurno.value = "";
-    // }
-    // modal.showModal();
-
-// }
-
-// btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
-
-// filtroPrioridad.addEventListener("change", actualizarTabla);
-
-// filtroEstado.addEventListener("change", actualizarTabla);
-
-// filtroTiempo.addEventListener("change", actualizarTabla);
-
-// formulario.addEventListener("submit", function (event) {
-
-    // event.preventDefault();
-    // const ticket = obtenerDatosFormulario();
-    // modificarTicketLocal(ticket);
-    // ticketEditando = null;
-    // actualizarTabla();
-    // modal.close();
-// });
-
-// actualizarTabla();
-
-//Envía los cambios del ticket a la API con PUT
-async function gestionarTicket(evento) {
-    evento.preventDefault();
-
-    const datos = {
-        ID_R: entradaModificarIdR.value,
-        ID_T: entradaModificarIdT.value,
-        estado: entradaEstado.value,
-        nombreEquipo: entradaNombreDispositivo.value.trim(),
-        nombreAlumno: entradaNombreAlumno.value.trim(),
-        descripcion: entradaMotivo.value.trim(),
-        prioridad: entradaPrioridad.value
-    };
-
-    try {
-        const respuesta = await llamarApi("PUT", datos);
-        window.alert(respuesta.mensaje);
-        cerrarVisualizacionTicket();
-        cargarTickets();
-    } catch (error) {
-        window.alert(error.message);
-    }
-}
 
 tabla.addEventListener("click", abrirVisualizacionTicket);
 btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
-
-formulario.addEventListener("submit", gestionarTicket);
-
-//Carga inicial de la tabla
-cargarTickets();
