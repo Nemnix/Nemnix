@@ -183,7 +183,7 @@ class UsuarioControlador
             RespuestaJson::error("El usuario no existe o ya fue dado de baja", 404);
         }
 
-        RespuestaJson::exito(["mensaje" => "usuario eliminado exitosamente"]);
+        RespuestaJson::exito(["mensaje" => "Usuario eliminado exitosamente"]);
     }
 
     private function conectar(): PDO

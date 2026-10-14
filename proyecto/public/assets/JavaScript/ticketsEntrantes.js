@@ -203,5 +203,34 @@ function abrirVisualizacionTicket(eventoVisualizar) {
 }
 
 
+//Envía los cambios del ticket a la API con PUT
+async function gestionarTicket(evento) {
+    evento.preventDefault();
+
+    const datos = {
+        ID_R: entradaModificarIdR.value,
+        ID_T: entradaModificarIdT.value,
+        estado: entradaEstado.value,
+        nombreEquipo: entradaNombreDispositivo.value.trim(),
+        nombreAlumno: entradaNombreAlumno.value.trim(),
+        descripcion: entradaMotivo.value.trim(),
+        prioridad: entradaPrioridad.value
+    };
+
+    try {
+        const respuesta = await llamarApi("PUT", datos);
+        window.alert(respuesta.mensaje);
+        cerrarVisualizacionTicket();
+        cargarTickets();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
 tabla.addEventListener("click", abrirVisualizacionTicket);
 btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
+
+formulario.addEventListener("submit", gestionarTicket);
+
+//Carga inicial de la tabla
+cargarTickets();

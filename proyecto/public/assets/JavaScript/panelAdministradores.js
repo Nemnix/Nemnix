@@ -162,7 +162,7 @@ async function eliminarEmpleado(eventoEliminar) {
     }
 
     //Mensaje de confirmación, se puede reemplazar por cuadros de diálogo (IMPLEMENTAR EN UN FUTURO)
-    const confirmacion = confirm("¿Está seguro de eliminar usuario?");
+    const confirmacion = confirm("¿Está seguro de eliminar el usuario?");
 
     if (!confirmacion) {
         return;

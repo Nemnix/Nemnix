@@ -23,7 +23,7 @@ class RegistroControlador
             "POST"=> $this->alta(),
             "PUT" => $this->modificar(),
             "DELETE" => $this->baja(),
-            default => RespuestaJson::error("Metodo no permitido", 405),
+            default => RespuestaJson::error("Método no permitido", 405),
         };
     }
 

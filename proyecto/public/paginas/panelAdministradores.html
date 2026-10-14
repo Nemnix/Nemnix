@@ -34,10 +34,10 @@
             <ul class="MenuPrincipal">
                <li><a href="paginaBienvenidaAdministrador.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Vizualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Vizualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnologico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Metricas y reportes</a></li>
+                <li><a href="listaIncidencias.html" class="BotonNavegacion">Visualización de incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Visualización de solicitudes</a></li>
+                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnológico </a></li>
+                <li><a href="listaMetricas.html" class="BotonNavegacion">Métricas y reportes</a></li>
                 <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
@@ -55,15 +55,15 @@
                     <legend>Panel de administradores</legend>
                     <ul>
                         <li>
-                            <label for="cedula">Cedula de identidad</label>
+                            <label for="cedula">Cédula de identidad</label>
                             <input type="text" id="cedula" name="cedula" pattern="[1-9][0-9]{7}"
-                                title="8 numeros, sin puntos ni guiones" maxlength="8" required
-                                placeholder="Escribe la cedula del usuario" />
+                                title="8 números, sin puntos ni guiones" maxlength="8" required
+                                placeholder="Escribe la cédula del usuario" />
                         </li>
                         <li>
                             <label for="nombre">Nombre</label>
                             <input type="text" id="nombre" name="nombre" required
-                                placeholder="Escribe el nombre del usuario aqui" />
+                                placeholder="Escribe el nombre del usuario aquí" />
                         </li>
                         <li>
                             <label for="apellido">Apellido</label>
@@ -75,7 +75,7 @@
                             <select id="rol" name="rol" required>
                                 <option value="">-- Seleccione un cargo --</option>
                                 <option>Solicitante</option>
-                                <option>Tecnico</option>
+                                <option value="Tecnico">Técnico</option>
                                 <option>Administrador</option>
                             </select>
                         </li>
@@ -87,7 +87,7 @@
                         <li>
                             <label for="clave">Contraseña</label>
                             <input type="password" id="clave" name="clave" required minlength="12"
-                                placeholder="Minimo 12 caracteres" />
+                                placeholder="Mínimo 12 caracteres" />
                         </li>
                         <li>
                             <label for="confirmarClave">Confirmar contraseña</label>
@@ -123,7 +123,7 @@
         </section>
     </main>
     <footer>
-        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+        <span>¿Problemas con la página? Escríbenos a: nemnix1@gmail.com</span>
     </footer>
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/menu.js"></script>
