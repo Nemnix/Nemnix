@@ -1,4 +1,4 @@
-const API_CERRAR_SESION = "/proyecto/public/api/cerrarSesion.php";
+const API_CERRAR_SESION = "../index.php";
 
 const botonSalida = document.querySelector(".salida");
 
@@ -15,7 +15,7 @@ async function cerrarSesion(evento) {
     } finally {
         // Aunque la API falle, se borra el token y se vuelve al login
         sessionStorage.removeItem("csrfToken");
-        window.location.replace("/proyecto/public/paginas/login.html");
+        window.location.replace("./login.html");
     }
 }
 
