@@ -1,4 +1,4 @@
-const API_LOGIN = "../api/iniciarSesion.php";
+const API_LOGIN = "../index.php?ruta=login";
 
 const formularioLogin = document.getElementById("formularioLogin");
 

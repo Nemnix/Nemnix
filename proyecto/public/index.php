@@ -27,5 +27,5 @@ try {
 }
 
 
-index.php?recurso=sesion&funcion=cerrar
+//index.php?recurso=sesion&funcion=cerrar
 

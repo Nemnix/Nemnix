@@ -1,5 +1,5 @@
 //Dirección de la API de solicitudes
-const API_SOLICITUDES = "../api/solicitudes.php";
+const API_SOLICITUDES = "../index.php?ruta=solicitudes";
 
 const modal = document.getElementById("SolicitudesL");
 
@@ -43,7 +43,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

@@ -1,5 +1,5 @@
 //Dirección de la API de préstamos
-const API_PRESTAMOS = "../api/prestamos.php";
+const API_PRESTAMOS = "../index.php?ruta=prestamos";
 
 const modal = document.getElementById("RegistroEquipoP");
 
@@ -45,7 +45,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

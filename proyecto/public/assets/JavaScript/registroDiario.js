@@ -1,5 +1,5 @@
 //Dirección de la API de registros
-const API_REGISTROS = "../api/registros.php";
+const API_REGISTROS = "../index.php?ruta=registros";
 
 const modal = document.getElementById("RegistroSolicitante");
 const formulario = document.getElementById("FormularioRegistroDiario");
@@ -34,7 +34,7 @@ const entradaMotivoTicket = document.getElementById("motivoTicket");
 const entradaPrioridadTicket = document.getElementById("prioridadTicket");
 
 //Dirección de la API de tickets
-const API_TICKETS = "../api/tickets.php";
+const API_TICKETS = "../index.php?ruta=tickets";
 
 
 let filaEditandoTicket = null
@@ -64,7 +64,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");
@@ -133,7 +133,7 @@ async function llamarApiTickets(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

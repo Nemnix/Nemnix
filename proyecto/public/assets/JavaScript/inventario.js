@@ -1,5 +1,5 @@
 //Dirección de la API de laboratorios
-const API_LABORATORIOS = "../api/laboratorios.php";
+const API_LABORATORIOS = "../index.php?ruta=laboratorios";
 
 const modal = document.getElementById("AgregarLaboratorio");
 
@@ -45,7 +45,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

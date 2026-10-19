@@ -29,7 +29,7 @@ const entradaModificarIdR = document.getElementById("modificarTicketID_R");
 let ticketEditando = null;
 
 //Dirección de la API de tickets
-const API_TICKETS = "../api/tickets.php";
+const API_TICKETS = "../index.php?ruta=tickets";
 
 //Constante para trabajar con el cuerpo de la tabla de tickets
 const cuerpoTablaTickets = tabla.tBodies[0];
@@ -58,7 +58,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

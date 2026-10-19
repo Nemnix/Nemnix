@@ -3,7 +3,7 @@
  */
 
 //Dirección de la API de usuarios
-const API_USUARIOS = "../api/usuarios.php";
+const API_USUARIOS = "../index.php?ruta=usuarios";
 
 //Constantes para el cuadro de diálogo
 const btnAltaEmpleado = document.getElementById("btnAltaEmpleado");
@@ -51,7 +51,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

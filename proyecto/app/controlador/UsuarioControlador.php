@@ -44,7 +44,7 @@ class UsuarioControlador
     private function alta(): void
     {
 
-        $datos = json_decode(file_get_contents("php://input"), true) ?? [];
+        $datos = $this->leerJson();
 
         $cedula = trim($datos["cedula"] ?? "");
         $nombre = trim($datos["nombre"] ?? "");
@@ -102,7 +102,7 @@ class UsuarioControlador
     private function modificar(): void
     {
 
-        $datos = json_decode(file_get_contents("php://input"), true) ?? [];
+        $datos = $this->leerJson();
 
         $cedula = trim($datos["cedula"] ?? "");
         $nombre = trim($datos["nombre"] ?? "");
@@ -160,11 +160,14 @@ class UsuarioControlador
     private function baja(): void
     {
 
-        $datos = json_decode(file_get_contents("php://input"), true) ?? [];
+        $datos = $this->leerJson();
         $cedula = trim($datos["cedula"] ?? "");
 
         if ($cedula === "") {
             RespuestaJson::error("Falta la cédula del empleado", 422);
+        }
+        if (!preg_match("/^[1-9][0-9]{7}$/", $cedula)) {
+            RespuestaJson::error("Cédula incorrecta", 422);
         }
         if ($cedula === $_SESSION["cedula"]) {
             RespuestaJson::error("No puede eliminar su propio usuario", 422);
@@ -189,5 +192,17 @@ class UsuarioControlador
     private function conectar(): PDO
     {
         return Conexion::conectar();
+    }
+
+    //Decodifica el cuerpo JSON de la petición; si no es un objeto JSON válido responde 400
+    private function leerJson(): array
+    {
+        $datos = json_decode(file_get_contents("php://input"), true);
+
+        if (!is_array($datos)) {
+            RespuestaJson::error("JSON inválido", 400);
+        }
+
+        return $datos;
     }
 }
