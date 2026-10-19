@@ -7,12 +7,21 @@
     <title>Lista registro diario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/proyecto/public/assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
+        <a href="./index.html" class="salida">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                <path fill-rule="evenodd"
+                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+            </svg>
+        </a>
         <img class="logo" src="../assets/img/logoUTU.png">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
@@ -50,9 +59,9 @@
                             </select>
                         </li>
                         <li>
-                            <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
+                            <label for="numLabTaller">Escriba el número del laboratorio o taller</label>
                             <input type="text" id="numLabTaller" name="numLaboratorio" pattern="[0-9]{2}" maxlength="2"
-                                required required placeholder="Numero laboratorio/taller" />
+                                required required placeholder="Número laboratorio/taller" />
                         </li>
                         <li>
                             <label for="fechaRegistroDiario">Fecha</label>
@@ -74,7 +83,7 @@
                         <li>
                             <label for="grupoRegistroDiario">Grupo</label>
                             <input type="text" id="grupoRegistroDiario" name="grupo"
-                                placeholder="Ingrese nombre del grupo aqui" required>
+                                placeholder="Ingrese nombre del grupo aquí" required>
                         </li>
                         <li>
                             <label for="turnoRegistroDiario">Turno</label>
@@ -109,16 +118,16 @@
                         <li>
                             <label for="idDispositivo">Tipo de dispositivo</label>
                             <input type="text" id="idDispositivo" name="idDispositivo" required
-                                placeholder="Escribe el tipo del dispositivo aqui" />
+                                placeholder="Escribe el tipo del dispositivo aquí" />
                         </li>
                         <li>
-                            <label for="nombreAlumno">En caso de ser una maquina, escriba el nombre completo del alumno
-                                que utilizo ese equipo</label>
+                            <label for="nombreAlumno">En caso de ser una máquina, escriba el nombre completo del alumno
+                                que utilizó ese equipo</label>
                             <input type="text" id="nombreAlumno" name="nombreAlumno"
                                 placeholder="Nombre del alumno" />
                         </li>
                         <li>
-                            <label for="nombreDispositivo">Nombre o numero del dispositivo</label>
+                            <label for="nombreDispositivo">Nombre o número del dispositivo</label>
                             <input type="text" id="nombreDispositivo" name="nombreDispositivo" required
                                 placeholder="Nombre del equipo" />
                         </li>
@@ -170,7 +179,7 @@
                         <tr>
                             <th>Fecha</th>
                             <th>Tipo de aula</th>
-                            <th>Numero de aula</th>
+                            <th>Número de aula</th>
                             <th>Entrada</th>
                             <th>Salida</th>
                             <th>Turno</th>
@@ -209,11 +218,12 @@
         </section>
     </main>
     <footer>
-        <span>¿Problemas con la pagina? Escribenos a: nemnix1@gmail.com</span>
+        <span>¿Problemas con la página? Escríbenos a: nemnix1@gmail.com</span>
     </footer>
 
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/menu.js"></script>
+    <script src="../assets/JavaScript/cerrarSesion.js"></script>
     <script src="../assets/JavaScript/registroDiario.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

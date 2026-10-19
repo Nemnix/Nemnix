@@ -42,7 +42,17 @@ class RegistroDAO {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function registrarRegistro(string $cedula, int $idLaboratorio, string $grupo, string $horaEntrada, string $horaFin, string $asignatura, string $fecha, string $turno): bool {
+    public function registrarRegistro(Registro $registro): bool {
+        // Se toman los datos del objeto.
+        $cedula = $registro->getCedula();
+        $idLaboratorio = $registro->getIdLaboratorio();
+        $grupo = $registro->getGrupo();
+        $horaEntrada = $registro->getHoraEntrada();
+        $horaFin = $registro->getHoraFin();
+        $asignatura = $registro->getAsignatura();
+        $fecha = $registro->getFecha();
+        $turno = $registro->getTurno();
+
         try {
             $this->conexion->beginTransaction();
 
@@ -71,7 +81,18 @@ class RegistroDAO {
         }
     }
 
-    public function modificarRegistro(int $idRegistro, string $cedula, int $idLaboratorio, string $grupo, string $horaEntrada, string $horaFin, string $asignatura, string $fecha, string $turno): bool {
+    public function modificarRegistro(Registro $registro): bool {
+        // Se toman los datos del objeto.
+        $idRegistro = $registro->getIdRegistro();
+        $cedula = $registro->getCedula();
+        $idLaboratorio = $registro->getIdLaboratorio();
+        $grupo = $registro->getGrupo();
+        $horaEntrada = $registro->getHoraEntrada();
+        $horaFin = $registro->getHoraFin();
+        $asignatura = $registro->getAsignatura();
+        $fecha = $registro->getFecha();
+        $turno = $registro->getTurno();
+
         try {
             $this->conexion->beginTransaction();
 

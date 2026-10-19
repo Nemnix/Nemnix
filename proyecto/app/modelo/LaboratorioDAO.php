@@ -39,7 +39,15 @@ class LaboratorioDAO {
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function registrarLaboratorio(string $nombreLaboratorio, int $numLaboratorio, int $cantMonitores, int $cantTeclados, int $cantMouses, int $cantComputadoras): bool {
+    public function registrarLaboratorio(Laboratorio $laboratorio): bool {
+        // Se toman los datos del objeto.
+        $nombreLaboratorio = $laboratorio->getNombreLaboratorio();
+        $numLaboratorio = $laboratorio->getNumLaboratorio();
+        $cantMonitores = $laboratorio->getCantMonitores();
+        $cantTeclados = $laboratorio->getCantTeclados();
+        $cantMouses = $laboratorio->getCantMouses();
+        $cantComputadoras = $laboratorio->getCantComputadoras();
+
         try {
             $this->conexion->beginTransaction();
 
@@ -81,7 +89,16 @@ class LaboratorioDAO {
         }
     }
 
-    public function modificarLaboratorio(int $idLaboratorio, string $nombreLaboratorio, int $numLaboratorio, int $cantMonitores, int $cantTeclados, int $cantMouses, int $cantComputadoras): bool {
+    public function modificarLaboratorio(Laboratorio $laboratorio): bool {
+        // Se toman los datos del objeto.
+        $idLaboratorio = $laboratorio->getIdLaboratorio();
+        $nombreLaboratorio = $laboratorio->getNombreLaboratorio();
+        $numLaboratorio = $laboratorio->getNumLaboratorio();
+        $cantMonitores = $laboratorio->getCantMonitores();
+        $cantTeclados = $laboratorio->getCantTeclados();
+        $cantMouses = $laboratorio->getCantMouses();
+        $cantComputadoras = $laboratorio->getCantComputadoras();
+
         try {
             $this->conexion->beginTransaction();
 

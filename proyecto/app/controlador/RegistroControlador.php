@@ -1,5 +1,6 @@
 <?php
 require_once RUTA_MODELO . "/ConectorPDO.php";
+require_once RUTA_MODELO . "/Registro.php";
 require_once RUTA_MODELO . "/RegistroDAO.php";
 require_once RUTA_MODELO . "/LaboratorioDAO.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
@@ -22,7 +23,7 @@ class RegistroControlador
             "POST"=> $this->alta(),
             "PUT" => $this->modificar(),
             "DELETE" => $this->baja(),
-            default => RespuestaJson::error("Metodo no permitido", 405),
+            default => RespuestaJson::error("Método no permitido", 405),
         };
     }
 
@@ -87,7 +88,9 @@ class RegistroControlador
             }
 
             $dao = new RegistroDAO($conexion);
-            $resultado = $dao->registrarRegistro($cedula, $idLaboratorio, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
+            // Se arma el registro con los datos ya validados.
+            $registro = new Registro(0, $cedula, $idLaboratorio, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
+            $resultado = $dao->registrarRegistro($registro);
         } catch (PDOException $error) {
             error_log("Error en alta de registro: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -150,7 +153,9 @@ class RegistroControlador
             }
 
             $dao = new RegistroDAO($conexion);
-            $resultado = $dao->modificarRegistro((int) $ID_R, $cedula, $idLaboratorio, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
+            // Se arma el registro con los datos ya validados.
+            $registro = new Registro((int) $ID_R, $cedula, $idLaboratorio, $grupo, $horaEntrada, $horaSalida, $asignatura, $fecha, $turno);
+            $resultado = $dao->modificarRegistro($registro);
         } catch (PDOException $error) {
             error_log("Error en modificación de registro: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);

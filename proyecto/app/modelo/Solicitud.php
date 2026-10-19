@@ -20,7 +20,7 @@ class Solicitud {
      * @param int $numLaboratorio Número del laboratorio.
      * @param string $fecha Fecha para la que se solicita el laboratorio.
      * @param string $descripcionSolicitud Descripción de lo que se necesita.
-     * @param string|null $gmail Gmail del solicitante.
+     * @param string|null $gmail Gmail de contacto de esta solicitud.
      */
     public function __construct(int $idLaboratorio, string $cedula, string $nombreLaboratorio, int $numLaboratorio, string $fecha, string $descripcionSolicitud, ?string $gmail) {
         $this->idLaboratorio = $idLaboratorio;
@@ -75,7 +75,7 @@ class Solicitud {
     }
 
     /**
-     * @return string|null El gmail del solicitante.
+     * @return string|null El gmail de contacto de esta solicitud.
      */
     public function getGmail(): ?string {
         return $this->gmail;

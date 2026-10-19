@@ -48,7 +48,15 @@ class DiagnosticoDAO {
         return $consulta->fetchColumn() !== false;
     }
 
-    public function registrarDiagnostico(int $idRegistro, int $idTicket, string $cedula, string $estado, string $fecha, string $descripcion): bool {
+    public function registrarDiagnostico(Diagnostico $diagnostico): bool {
+        // Se toman los datos del objeto.
+        $idRegistro = $diagnostico->getIdRegistro();
+        $idTicket = $diagnostico->getIdTicket();
+        $cedula = $diagnostico->getCedula();
+        $estado = $diagnostico->getEstado();
+        $fecha = $diagnostico->getFecha();
+        $descripcion = $diagnostico->getDescripcion();
+
         try {
             $this->conexion->beginTransaction();
 
@@ -75,7 +83,13 @@ class DiagnosticoDAO {
         }
     }
 
-    public function modificarDiagnostico(int $idDiagnostico, string $estado, string $fecha, string $descripcion): bool {
+    public function modificarDiagnostico(Diagnostico $diagnostico): bool {
+        // Se toman los datos del objeto.
+        $idDiagnostico = $diagnostico->getIdDiagnostico();
+        $estado = $diagnostico->getEstado();
+        $fecha = $diagnostico->getFecha();
+        $descripcion = $diagnostico->getDescripcion();
+
         try {
             $this->conexion->beginTransaction();
 

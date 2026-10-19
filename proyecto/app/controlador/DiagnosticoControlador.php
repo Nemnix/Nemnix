@@ -76,7 +76,9 @@ class DiagnosticoControlador
                 RespuestaJson::error("El ticket no existe", 422);
             }
 
-            $resultado = $dao->registrarDiagnostico((int) $idRegistro, (int) $idTicket, $cedula, $estado, $fecha, $descripcion);
+            // Se arma el diagnóstico con los datos ya validados.
+            $diagnostico = new Diagnostico(0, (int) $idRegistro, (int) $idTicket, $cedula, $estado, $fecha, $descripcion);
+            $resultado = $dao->registrarDiagnostico($diagnostico);
         } catch (PDOException $error) {
             error_log("Error en alta de diagnóstico: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -115,7 +117,10 @@ class DiagnosticoControlador
         try {
             $conexion = $this->conectar();
             $dao = new DiagnosticoDAO($conexion);
-            $resultado = $dao->modificarDiagnostico((int) $idDiagnostico, $estado, $fecha, $descripcion);
+            // Se arma el diagnóstico con los datos ya validados. Al modificar solo se usan
+            // el id, el estado, la fecha y la descripción; el ticket y el técnico no cambian.
+            $diagnostico = new Diagnostico((int) $idDiagnostico, 0, 0, "", $estado, $fecha, $descripcion);
+            $resultado = $dao->modificarDiagnostico($diagnostico);
         } catch (PDOException $error) {
             error_log("Error en modificación de diagnóstico: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);

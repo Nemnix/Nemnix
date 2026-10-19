@@ -7,7 +7,7 @@ class Usuario {
     private string $cedula;
     private string $nombre;
     private string $apellido;
-    private string $claveHash;
+    private ?string $claveHash;
     private bool $activo;
     private bool $administrador;
     private bool $tecnico;
@@ -19,14 +19,14 @@ class Usuario {
      * @param string $cedula Cédula del usuario.
      * @param string $nombre Nombre del usuario.
      * @param string $apellido Apellido del usuario.
-     * @param string $claveHash Hash de la contraseña del usuario.
+     * @param string|null $claveHash Hash de la contraseña del usuario (NULL al modificar sin clave nueva).
      * @param bool $activo Indica si el usuario está activo.
      * @param bool $administrador Indica si el usuario tiene el rol administrador.
      * @param bool $tecnico Indica si el usuario tiene el rol tecnico.
      * @param bool $solicitante Indica si el usuario tiene el rol solicitante.
      * @param string|null $gmail Gmail del usuario (solo lo tienen los solicitantes).
      */
-    public function __construct(string $cedula, string $nombre, string $apellido, string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante, ?string $gmail = null) {
+    public function __construct(string $cedula, string $nombre, string $apellido, ?string $claveHash, bool $activo, bool $administrador, bool $tecnico, bool $solicitante, ?string $gmail = null) {
         $this->cedula = $cedula;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -60,9 +60,9 @@ class Usuario {
     }
 
     /**
-     * @return string El hash de la contraseña del usuario.
+     * @return string|null El hash de la contraseña del usuario.
      */
-    public function getClaveHash(): string {
+    public function getClaveHash(): ?string {
         return $this->claveHash;
     }
 

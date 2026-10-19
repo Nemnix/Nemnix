@@ -31,6 +31,10 @@ const entradaIdDispositivo = document.getElementById("idDispositivo");
 const entradaNombreAlumno = document.getElementById("nombreAlumno");
 const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
 const entradaMotivoTicket = document.getElementById("motivoTicket");
+const entradaPrioridadTicket = document.getElementById("prioridadTicket");
+
+//Dirección de la API de tickets
+const API_TICKETS = "../api/tickets.php";
 
 
 let filaEditandoTicket = null
@@ -97,7 +101,7 @@ function crearFila(registro) {
     btnTicket.className = "btnAgregarTicket";
     btnTicket.textContent = "Ticket";
     btnTicket.dataset.id = registro.ID_R;
-    //La API de registros todavía no devuelve los tickets de cada registro
+    //Los tickets de cada registro los agrega cargarRegistros() desde la API de tickets
     btnTicket.dataset.tickets = JSON.stringify(registro.tickets ?? []);
 
     const btnEliminar = document.createElement("button");
@@ -112,10 +116,43 @@ function crearFila(registro) {
     return fila;
 }
 
-//Pide los registros a la API y dibuja la tabla
+//Envía la petición a la API de tickets con el token CSRF y devuelve los datos de la respuesta
+async function llamarApiTickets(metodo, datos = null) {
+    const opciones = {
+        method: metodo,
+        headers: { "Content-Type": "application/json" }
+    };
+
+    if (metodo !== "GET") {
+        opciones.headers["X-CSRF-Token"] = sessionStorage.getItem("csrfToken") ?? "";
+        opciones.body = JSON.stringify(datos);
+    }
+
+    const respuesta = await fetch(API_TICKETS, opciones);
+    const json = await respuesta.json();
+
+    //Si la sesión no está iniciada o venció, vuelve al login
+    if (respuesta.status === 401) {
+        window.location.replace("./login.html");
+    }
+    if (!respuesta.ok) {
+        throw new Error(json.mensaje ?? "Error en la solicitud.");
+    }
+
+    return json.datos;
+}
+
+//Pide los registros y los tickets a la API y dibuja la tabla
 async function cargarRegistros() {
     try {
         const registros = await llamarApi("GET");
+        const tickets = await llamarApiTickets("GET");
+
+        //Cada registro guarda sus tickets, que el botón "Ticket" muestra en el modal
+        registros.forEach(function (registro) {
+            registro.tickets = tickets.filter(ticket => ticket.ID_R === registro.ID_R);
+        });
+
         cuerpoTablaRegistros.replaceChildren(...registros.map(crearFila));
     } catch (error) {
         window.alert(error.message);
@@ -645,30 +682,15 @@ function renderizarTicketsModal(tickets) {
 
         const celdaAcciones = document.createElement("td");
 
-        const formularioBajaTicket = document.createElement("form");
-        formularioBajaTicket.method = "post";
-        formularioBajaTicket.action = "/proyecto/public/usuarioSolicitante/procesarBajaTicket.php";
-        formularioBajaTicket.className = "formularioBajaTicket";
-
-        const entradaIdRegistroBaja = document.createElement("input");
-        entradaIdRegistroBaja.type = "hidden";
-        entradaIdRegistroBaja.name = "ID_R";
-        entradaIdRegistroBaja.value = ticket.ID_R;
-
-        const entradaIdTicketBaja = document.createElement("input");
-        entradaIdTicketBaja.type = "hidden";
-        entradaIdTicketBaja.name = "ID_T";
-        entradaIdTicketBaja.value = ticket.ID_T;
-
+        //El ticket se identifica por su registro y su número dentro del registro
         const btnEliminarTicket = document.createElement("button");
-        btnEliminarTicket.type = "submit";
-        btnEliminarTicket.className = "btnEliminar";
+        btnEliminarTicket.type = "button";
+        btnEliminarTicket.className = "btnEliminar btnEliminarTicket";
         btnEliminarTicket.textContent = "Eliminar";
+        btnEliminarTicket.dataset.idRegistro = ticket.ID_R;
+        btnEliminarTicket.dataset.idTicket = ticket.ID_T;
 
-        formularioBajaTicket.appendChild(entradaIdRegistroBaja);
-        formularioBajaTicket.appendChild(entradaIdTicketBaja);
-        formularioBajaTicket.appendChild(btnEliminarTicket);
-        celdaAcciones.appendChild(formularioBajaTicket);
+        celdaAcciones.appendChild(btnEliminarTicket);
 
         fila.appendChild(celdaTicket);
         fila.appendChild(celdaProblema);
@@ -755,6 +777,59 @@ btnAgregarRegistro.addEventListener("click", abrirAltaRegistro);
  btnCerrarRegistro.addEventListener("click", cerrarAltaRegistro);
 
 btnCerrarTicket.addEventListener("click", cerrarTicket);
+
+//Envía el ticket nuevo a la API con POST
+async function registrarTicket(evento) {
+    evento.preventDefault();
+
+    const datos = {
+        ID_R: entradaIdRegistroTicket.value,
+        tipoDispositivo: entradaIdDispositivo.value.trim(),
+        nombreDispositivo: entradaNombreDispositivo.value.trim(),
+        nombreAlumno: entradaNombreAlumno.value.trim(),
+        descripcion: entradaMotivoTicket.value.trim(),
+        prioridad: entradaPrioridadTicket.value
+    };
+
+    try {
+        const respuesta = await llamarApiTickets("POST", datos);
+        window.alert(respuesta.mensaje);
+        cerrarTicket();
+        cargarRegistros();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
+//Función que escucha los clicks de la tabla del modal, si es proveniente del botón eliminar da de baja el ticket
+async function eliminarTicket(eventoEliminar) {
+    const btnEliminar = eventoEliminar.target.closest(".btnEliminarTicket");
+
+    //Si el botón no se presionó, se sale de la función
+    if (btnEliminar === null) {
+        return;
+    }
+
+    const confirmacion = confirm("¿Está seguro de eliminar el ticket?");
+
+    if (!confirmacion) {
+        return;
+    }
+
+    try {
+        const respuesta = await llamarApiTickets("DELETE", { ID_R: btnEliminar.dataset.idRegistro, ID_T: btnEliminar.dataset.idTicket });
+        window.alert(respuesta.mensaje);
+        cerrarTicket();
+        cargarRegistros();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
+formularioTicket.addEventListener("submit", registrarTicket);
+
+//Baja de tickets desde el botón eliminar de cada fila del modal
+tablaTicketModal.addEventListener("click", eliminarTicket);
 
 //Carga inicial de la tabla
 cargarRegistros();

@@ -28,122 +28,103 @@ const entradaModificarIdR = document.getElementById("modificarTicketID_R");
 
 let ticketEditando = null;
 
+//Dirección de la API de tickets
+const API_TICKETS = "../api/tickets.php";
+
+//Constante para trabajar con el cuerpo de la tabla de tickets
+const cuerpoTablaTickets = tabla.tBodies[0];
+
+//Tickets traídos de la API, para filtrarlos sin volver a pedirlos
+let todosLosTickets = [];
 
 /**
- * LOCAL STORAGE
+ * COMUNICACIÓN CON LA API
  */
 
-// function cargarTicketsLocal() {
+//Envía la petición a la API con el token CSRF y devuelve los datos de la respuesta
+async function llamarApi(metodo, datos = null) {
+    const opciones = {
+        method: metodo,
+        headers: { "Content-Type": "application/json" }
+    };
 
-    // const ticketsGuardados = localStorage.getItem("tickets");
+    if (metodo !== "GET") {
+        opciones.headers["X-CSRF-Token"] = sessionStorage.getItem("csrfToken") ?? "";
+        opciones.body = JSON.stringify(datos);
+    }
 
-    // if (ticketsGuardados === null) {
-        // return [];
-    // }
+    const respuesta = await fetch(API_TICKETS, opciones);
+    const json = await respuesta.json();
 
-    // return JSON.parse(ticketsGuardados);
+    //Si la sesión no está iniciada o venció, vuelve al login
+    if (respuesta.status === 401) {
+        window.location.replace("./login.html");
+    }
+    if (!respuesta.ok) {
+        throw new Error(json.mensaje ?? "Error en la solicitud.");
+    }
 
-// }
-
-// function actualizarTicketsLocal(tickets) {
-
-    // localStorage.setItem(
-        // "tickets",
-        // JSON.stringify(tickets)
-    // );
-
-// }
-
-// function cargarRegistrosLocal() {
-
-    // const registrosGuardados = localStorage.getItem("registros");
-
-    // if (registrosGuardados === null) {
-        // return [];
-    // }
-
-    // return JSON.parse(registrosGuardados);
-
-// }
-
-// function buscarRegistroAsociado(ticket) {
-
-    // const registros = cargarRegistrosLocal();
-
-    // return registros.find(
-        // r => r.numAula === ticket.numAula && r.fecha === ticket.fecha
-    // );
-
-// }
-
-// function modificarTicketLocal(ticketEditado) {
-
-    // const tickets = cargarTicketsLocal();
-
-    // const ticket = tickets.find(
-        // t => t.id === ticketEditado.id
-    // );
-
-    // if (ticket === undefined) {
-        // return;
-    // }
-
-    // ticket.prioridad = ticketEditado.prioridad;
-    // ticket.estado = ticketEditado.estado;
-
-    // actualizarTicketsLocal(tickets);
-// }
+    return json.datos;
+}
 
 
-// function obtenerTicketsFiltrados() {
+/**
+ * TABLA DE TICKETS
+ */
 
-    // let tickets = cargarTicketsLocal();
+//Crea la fila de un ticket. Usa textContent para que los datos no se interpreten como HTML
+function crearFila(ticket) {
+    const fila = document.createElement("tr");
 
-    // const prioridadSeleccionada = filtroPrioridad.value;
+    for (const valor of [ticket.ID_T, ticket.prioridad, ticket.estado, ticket.fechaRegistro]) {
+        const celda = document.createElement("td");
+        celda.textContent = valor;
+        fila.appendChild(celda);
+    }
 
-    // if (prioridadSeleccionada !== "Todos") {
-        // tickets = tickets.filter(
-            // t => (t.prioridad ?? "Sin definir") === prioridadSeleccionada
-        // );
-    // }
+    //El botón Visualizar guarda el ticket completo para cargarlo en el modal
+    const celdaAcciones = document.createElement("td");
+    const btnVisualizar = document.createElement("button");
+    btnVisualizar.type = "button";
+    btnVisualizar.className = "btnVisualizar";
+    btnVisualizar.textContent = "Visualizar";
+    btnVisualizar.dataset.ticket = JSON.stringify(ticket);
 
-    // const estadoSeleccionado = filtroEstado.value;
+    celdaAcciones.appendChild(btnVisualizar);
+    fila.appendChild(celdaAcciones);
 
-    // if (estadoSeleccionado !== "Todos") {
-        // tickets = tickets.filter(
-            // t => (t.estado ?? "Pendiente") === estadoSeleccionado
-        // );
-    // }
-
-    // const tiempoSeleccionado = filtroTiempo.value;
-
-    // tickets.sort(function (a, b) {
-
-        // const fechaA = new Date(a.fecha);
-        // const fechaB = new Date(b.fecha);
-
-        // if (tiempoSeleccionado === "Mas antiguos") {
-            // return fechaA - fechaB;
-        // }
-
-        // return fechaB - fechaA;
-
-    // });
-
-    // return tickets;
-
-// }
+    return fila;
+}
 
 
-// function obtenerDatosFormulario() {
+async function cargarTickets() {
+    try {
+        todosLosTickets = await llamarApi("GET");
+        aplicarFiltros();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
 
-    // return {
-        // id: ticketEditando.id,
-        // prioridad: entradaPrioridad.value,
-        // estado: entradaEstado.value
-    // };
+//Dibuja la tabla con los tickets que cumplen los filtros, en el orden elegido
+function aplicarFiltros() {
+    const prioridad = filtroPrioridad.value;
+    const estado = filtroEstado.value;
 
-// }
+    const filtrados = todosLosTickets
+        .filter(ticket => prioridad === "Todos" || ticket.prioridad === prioridad)
+        .filter(ticket => estado === "Todos" || ticket.estado === estado)
+        .sort((a, b) => filtroTiempo.value === "Más recientes"
+            ? b.fechaRegistro.localeCompare(a.fechaRegistro)
+            : a.fechaRegistro.localeCompare(b.fechaRegistro));
+
+    cuerpoTablaTickets.replaceChildren(...filtrados.map(crearFila));
+}
+
+filtroPrioridad.addEventListener("change", aplicarFiltros);
+filtroEstado.addEventListener("change", aplicarFiltros);
+filtroTiempo.addEventListener("change", aplicarFiltros);
+
 
 function cerrarVisualizacionTicket() {
 
@@ -210,8 +191,6 @@ function visualizar(ticket) {
         campo.disabled = false;
     });
 
-    formulario.action = "/proyecto/public/usuarioTecnico/procesarModificarRegistroYTickets.php";
-
     modal.showModal();
 
 }
@@ -223,101 +202,35 @@ function abrirVisualizacionTicket(eventoVisualizar) {
     visualizar(JSON.parse(btnVisualizar.dataset.ticket));
 }
 
-// function agregarTicket(ticket) {
 
-    // let fila = document.createElement("tr");
+//Envía los cambios del ticket a la API con PUT
+async function gestionarTicket(evento) {
+    evento.preventDefault();
 
-    // let tdId = document.createElement("td");
-    // tdId.innerText = ticket.id;
+    const datos = {
+        ID_R: entradaModificarIdR.value,
+        ID_T: entradaModificarIdT.value,
+        estado: entradaEstado.value,
+        nombreEquipo: entradaNombreDispositivo.value.trim(),
+        nombreAlumno: entradaNombreAlumno.value.trim(),
+        descripcion: entradaMotivo.value.trim(),
+        prioridad: entradaPrioridad.value
+    };
 
-    // let tdPrioridad = document.createElement("td");
-    // tdPrioridad.innerText = ticket.prioridad ?? "Sin definir";
-
-    // let tdEstado = document.createElement("td");
-    // tdEstado.innerText = ticket.estado ?? "Pendiente";
-
-    // let tdFecha = document.createElement("td");
-    // tdFecha.innerText = ticket.fecha;
-
-    // let tdVisualizacion = document.createElement("td");
-    // let btnVisualizar = document.createElement("button");
-    // btnVisualizar.innerText = "Visualizar";
-    // btnVisualizar.onclick = function () {
-        // visualizar(ticket);
-    // };
-    // tdVisualizacion.appendChild(btnVisualizar);
-    // fila.appendChild(tdId);
-    // fila.appendChild(tdPrioridad);
-    // fila.appendChild(tdEstado);
-    // fila.appendChild(tdFecha);
-    // fila.appendChild(tdVisualizacion);
-    // tabla.appendChild(fila);
-
-// }
-
-// function actualizarTabla() {
-
-    // while (tabla.rows.length > 1) {
-        // tabla.deleteRow(1);
-    // }
-    // const tickets = obtenerTicketsFiltrados();
-    // for (const ticket of tickets) {
-        // agregarTicket(ticket);
-    // }
-
-// }
-
-// function visualizar(ticket) {
-    // ticketEditando = ticket;
-    // window.ticketEnVisualizacion = ticket;
-
-    // const registroAsociado = buscarRegistroAsociado(ticket);
-
-    // entradaTipoAula.value = ticket.tipoAula ?? "";
-    // entradaNumAula.value = ticket.numAula ?? "";
-    // entradaIdDispositivo.value = ticket.idDispositivo ?? "";
-    // entradaNombreAlumno.value = ticket.nombreAlumno ?? "";
-    // entradaNombreDispositivo.value = ticket.nombreDispositivo ?? "";
-    // entradaMotivo.value = ticket.motivoTicket ?? "";
-    // entradaPrioridad.value = ticket.prioridad ?? "Sin definir";
-    // entradaEstado.value = ticket.estado ?? "Pendiente";
-
-    // if (registroAsociado !== undefined) {
-        // entradaAsignatura.value = registroAsociado.asignatura ?? "";
-        // entradaHoraEntrada.value = registroAsociado.entrada ?? "";
-        // entradaHoraSalida.value = registroAsociado.salida ?? "";
-        // entradaGrupo.value = registroAsociado.grupo ?? "";
-        // entradaTurno.value = registroAsociado.turno ?? "";
-    // } else {
-        // entradaAsignatura.value = "";
-        // entradaHoraEntrada.value = "";
-        // entradaHoraSalida.value = "";
-        // entradaGrupo.value = "";
-        // entradaTurno.value = "";
-    // }
-    // modal.showModal();
-
-// }
-
-// btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
-
-// filtroPrioridad.addEventListener("change", actualizarTabla);
-
-// filtroEstado.addEventListener("change", actualizarTabla);
-
-// filtroTiempo.addEventListener("change", actualizarTabla);
-
-// formulario.addEventListener("submit", function (event) {
-
-    // event.preventDefault();
-    // const ticket = obtenerDatosFormulario();
-    // modificarTicketLocal(ticket);
-    // ticketEditando = null;
-    // actualizarTabla();
-    // modal.close();
-// });
-
-// actualizarTabla();
+    try {
+        const respuesta = await llamarApi("PUT", datos);
+        window.alert(respuesta.mensaje);
+        cerrarVisualizacionTicket();
+        cargarTickets();
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
 
 tabla.addEventListener("click", abrirVisualizacionTicket);
 btnCerrarTicket.addEventListener("click", cerrarVisualizacionTicket);
+
+formulario.addEventListener("submit", gestionarTicket);
+
+//Carga inicial de la tabla
+cargarTickets();

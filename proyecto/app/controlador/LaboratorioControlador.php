@@ -69,7 +69,9 @@ class LaboratorioControlador
         try {
             $conexion = $this->conectar();
             $dao = new LaboratorioDAO($conexion);
-            $resultado = $dao->registrarLaboratorio($nombreLaboratorio, (int) $numLaboratorio, (int) $cantMonitores, (int) $cantTeclados, (int) $cantMouses, (int) $cantComputadoras);
+            // Se arma el laboratorio con los datos ya validados.
+            $laboratorio = new Laboratorio(0, $nombreLaboratorio, (int) $numLaboratorio, (int) $cantMonitores, (int) $cantTeclados, (int) $cantMouses, (int) $cantComputadoras);
+            $resultado = $dao->registrarLaboratorio($laboratorio);
         } catch (PDOException $error) {
             error_log("Error en alta de laboratorio: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -120,7 +122,9 @@ class LaboratorioControlador
                 RespuestaJson::error("Ya existe un laboratorio con ese tipo y número", 409);
             }
 
-            $resultado = $dao->modificarLaboratorio((int) $idLaboratorio, $nombreLaboratorio, (int) $numLaboratorio, (int) $cantMonitores, (int) $cantTeclados, (int) $cantMouses, (int) $cantComputadoras);
+            // Se arma el laboratorio con los datos ya validados.
+            $laboratorio = new Laboratorio((int) $idLaboratorio, $nombreLaboratorio, (int) $numLaboratorio, (int) $cantMonitores, (int) $cantTeclados, (int) $cantMouses, (int) $cantComputadoras);
+            $resultado = $dao->modificarLaboratorio($laboratorio);
         } catch (PDOException $error) {
             error_log("Error en modificación de laboratorio: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
