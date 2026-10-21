@@ -3,7 +3,7 @@
  */
 
 //Dirección de la API de incidencias
-const API_INCIDENCIAS = "../api/incidencias.php";
+const API_INCIDENCIAS = "../index.php?ruta=incidencias";
 
 //Constante para trabajar con la tabla de incidencias por laboratorio
 const cuerpoTablaIncidencias = document.querySelector("#VizualizacionIncidencias tbody");
@@ -30,7 +30,7 @@ async function llamarApi(metodo) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

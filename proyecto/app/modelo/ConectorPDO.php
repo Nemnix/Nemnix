@@ -21,6 +21,13 @@ class ConectorPDO {
 
     private function __clone(): void {}
 
+    public function __wakeup(): void
+    {
+        throw new LogicException(
+            "El objeto no puede deserializarse."
+        );
+    }
+
     public function __serialize(): array
     {
         throw new LogicException(

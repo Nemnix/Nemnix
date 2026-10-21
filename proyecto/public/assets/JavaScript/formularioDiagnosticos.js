@@ -1,5 +1,5 @@
 //Dirección de la API de diagnósticos
-const API_DIAGNOSTICOS = "../api/diagnosticos.php";
+const API_DIAGNOSTICOS = "../index.php?ruta=diagnosticos";
 
 const modalDiagnostico = document.getElementById("RegistroDiagnostico");
 const formularioDiagnostico = document.getElementById("FormularioDiagnostico");
@@ -62,7 +62,7 @@ async function llamarApiDiagnosticos(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

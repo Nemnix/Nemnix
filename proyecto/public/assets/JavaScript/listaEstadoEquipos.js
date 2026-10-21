@@ -3,7 +3,7 @@
  */
 
 //Dirección de la API de incidencias, pidiendo el estado de los equipos
-const API_INCIDENCIAS = "../api/incidencias.php?equipos=1";
+const API_INCIDENCIAS = "../index.php?ruta=incidencias&equipos=1";
 
 //La tabla tiene una sola fila de datos (la segunda), debajo de los encabezados
 const filaEstadoEquipos = document.getElementById("Metricas").rows[1];
@@ -25,7 +25,7 @@ async function llamarApi(metodo) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");

@@ -7,28 +7,29 @@ CREATE TABLE USUARIO (
 
     CONSTRAINT pk_usuario
         PRIMARY KEY (cedula)
-)
+);
 
 CREATE TABLE ADMINISTRADOR (
     cedula CHAR(8) NOT NULL,
 
     CONSTRAINT pk_administrador
         PRIMARY KEY (cedula)
-)
+);
 
 CREATE TABLE TECNICO(
     cedula CHAR(8) NOT NULL,
 
     CONSTRAINT pk_tecnico
         PRIMARY KEY (cedula)
-)
+);
 
 CREATE TABLE SOLICITANTE(
     cedula CHAR(8) NOT NULL,
+    gmail VARCHAR(100) NOT NULL,
 
     CONSTRAINT pk_solicitante
         PRIMARY KEY (cedula)
-)
+);
 
 ALTER TABLE ADMINISTRADOR
     ADD CONSTRAINT fk_administrador_usuario

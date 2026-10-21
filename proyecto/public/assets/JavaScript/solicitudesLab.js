@@ -1,5 +1,5 @@
 //Dirección de la API de solicitudes
-const API_SOLICITUDES = "../api/solicitudes.php";
+const API_SOLICITUDES = "../index.php?ruta=solicitudes";
 
 const modal = document.getElementById("SolicitudesL");
 
@@ -15,9 +15,12 @@ const cuerpoTablaSolicitudes = document.getElementById("tablaOpciones");
 const entradaTipoLaboratorio = document.getElementById("IDLaboratorio");
 const entradaNumLaboratorio = document.getElementById("numLabTaller");
 const entradaFecha = document.getElementById("fechaLaboratorio");
+const entradaHora = document.getElementById("horaLaboratorio");
 const entradaDescripcion = document.getElementById("motivoSolicitudes");
 const entradaMail = document.getElementById("mailDocente");
 const entradaID = document.getElementById("idSolicitud");
+const entradaFechaActual = document.getElementById("fechaActual");
+const entradaHoraActual = document.getElementById("horaActual");
 
 let modoFormulario = ""
 
@@ -43,7 +46,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");
@@ -61,7 +64,10 @@ async function llamarApi(metodo, datos = null) {
 function crearFila(solicitud) {
     const fila = document.createElement("tr");
 
-    for (const valor of [solicitud.nombreLaboratorio, solicitud.numLaboratorio, solicitud.fecha, solicitud.descripcionSolicitud, solicitud.gmail]) {
+    //La hora llega como HH:MM:SS, se muestra como HH:MM
+    const hora = (solicitud.hora ?? "").slice(0, 5);
+
+    for (const valor of [solicitud.nombreLaboratorio, solicitud.numLaboratorio, solicitud.fecha, hora, solicitud.descripcionSolicitud, solicitud.gmail]) {
         const celda = document.createElement("td");
         celda.textContent = valor;
         fila.appendChild(celda);
@@ -74,12 +80,16 @@ function crearFila(solicitud) {
     btnEditar.className = "btnEditar";
     btnEditar.textContent = "Editar";
     btnEditar.dataset.id = solicitud.ID_L;
+    btnEditar.dataset.fecha = solicitud.fecha;
+    btnEditar.dataset.hora = hora;
 
     const btnEliminar = document.createElement("button");
     btnEliminar.type = "button";
     btnEliminar.className = "btnEliminar";
     btnEliminar.textContent = "Eliminar";
     btnEliminar.dataset.id = solicitud.ID_L;
+    btnEliminar.dataset.fecha = solicitud.fecha;
+    btnEliminar.dataset.hora = hora;
 
     celdaAcciones.append(btnEditar, btnEliminar);
     fila.appendChild(celdaAcciones);
@@ -130,12 +140,15 @@ function abrirEditarSolicitud(eventoModificar) {
     modoFormulario = "modificar";
 
     entradaID.value = btnEditar.dataset.id;
+    entradaFechaActual.value = btnEditar.dataset.fecha;
+    entradaHoraActual.value = btnEditar.dataset.hora;
 
     entradaTipoLaboratorio.value = fila.cells[0].textContent.trim(); // nombreLaboratorio
     entradaNumLaboratorio.value  = fila.cells[1].textContent.trim(); // numLaboratorio
     entradaFecha.value           = fila.cells[2].textContent.trim(); // fecha
-    entradaDescripcion.value     = fila.cells[3].textContent.trim(); // descripcionSolicitud
-    entradaMail.value            = fila.cells[4].textContent.trim(); // gmail
+    entradaHora.value            = fila.cells[3].textContent.trim(); // hora
+    entradaDescripcion.value     = fila.cells[4].textContent.trim(); // descripcionSolicitud
+    entradaMail.value            = fila.cells[5].textContent.trim(); // gmail
 
     modal.showModal();
 }
@@ -156,7 +169,7 @@ async function eliminarSolicitud(eventoEliminar) {
     }
 
     try {
-        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id });
+        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id, fecha: btnEliminar.dataset.fecha, hora: btnEliminar.dataset.hora });
         window.alert(respuesta.mensaje);
         cargarSolicitudes();
     } catch (error) {
@@ -170,9 +183,12 @@ async function gestionarSolicitud(evento) {
 
     const datos = {
         ID_L: entradaID.value,
+        fechaActual: entradaFechaActual.value,
+        horaActual: entradaHoraActual.value,
         nombreLaboratorio: entradaTipoLaboratorio.value,
         numLaboratorio: entradaNumLaboratorio.value.trim(),
         fecha: entradaFecha.value,
+        hora: entradaHora.value,
         descripcionSolicitud: entradaDescripcion.value.trim(),
         gmail: entradaMail.value.trim()
     };

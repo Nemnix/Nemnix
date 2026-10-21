@@ -9,6 +9,7 @@ class Solicitud {
     private string $nombreLaboratorio;
     private int $numLaboratorio;
     private string $fecha;
+    private string $hora;
     private string $descripcionSolicitud;
     private ?string $gmail;
 
@@ -19,15 +20,17 @@ class Solicitud {
      * @param string $nombreLaboratorio Tipo de aula (Laboratorio o Taller).
      * @param int $numLaboratorio Número del laboratorio.
      * @param string $fecha Fecha para la que se solicita el laboratorio.
+     * @param string $hora Hora para la que se solicita el laboratorio.
      * @param string $descripcionSolicitud Descripción de lo que se necesita.
      * @param string|null $gmail Gmail de contacto de esta solicitud.
      */
-    public function __construct(int $idLaboratorio, string $cedula, string $nombreLaboratorio, int $numLaboratorio, string $fecha, string $descripcionSolicitud, ?string $gmail) {
+    public function __construct(int $idLaboratorio, string $cedula, string $nombreLaboratorio, int $numLaboratorio, string $fecha, string $hora, string $descripcionSolicitud, ?string $gmail) {
         $this->idLaboratorio = $idLaboratorio;
         $this->cedula = $cedula;
         $this->nombreLaboratorio = $nombreLaboratorio;
         $this->numLaboratorio = $numLaboratorio;
         $this->fecha = $fecha;
+        $this->hora = $hora;
         $this->descripcionSolicitud = $descripcionSolicitud;
         $this->gmail = $gmail;
     }
@@ -65,6 +68,13 @@ class Solicitud {
      */
     public function getFecha(): string {
         return $this->fecha;
+    }
+
+    /**
+     * @return string La hora de la solicitud.
+     */
+    public function getHora(): string {
+        return $this->hora;
     }
 
     /**

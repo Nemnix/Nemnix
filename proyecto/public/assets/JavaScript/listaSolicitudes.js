@@ -3,7 +3,7 @@
  */
 
 //Dirección de la API de solicitudes
-const API_SOLICITUDES = "../api/solicitudes.php";
+const API_SOLICITUDES = "../index.php?ruta=solicitudes";
 
 //Constante para trabajar con la tabla de solicitudes
 const cuerpoTablaSolicitudes = document.querySelector("#VizualizacionSolicitudes tbody");
@@ -33,7 +33,7 @@ async function llamarApi(metodo, datos = null) {
 
     //Si la sesión no está iniciada o venció, vuelve al login
     if (respuesta.status === 401) {
-        window.location.replace("./login.html");
+        window.location.replace("./index.html");
     }
     if (!respuesta.ok) {
         throw new Error(json.mensaje ?? "Error en la solicitud.");
@@ -66,6 +66,8 @@ function crearFila(solicitud) {
     btnEliminar.textContent = "Eliminar";
     btnEliminar.dataset.id = solicitud.ID_L;
     btnEliminar.dataset.cedula = solicitud.cedula;
+    btnEliminar.dataset.fecha = solicitud.fecha;
+    btnEliminar.dataset.hora = solicitud.hora;
 
     celdaAcciones.appendChild(btnEliminar);
     fila.appendChild(celdaAcciones);
@@ -100,7 +102,7 @@ async function eliminarSolicitud(eventoEliminar) {
     }
 
     try {
-        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id, cedula: btnEliminar.dataset.cedula });
+        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id, cedula: btnEliminar.dataset.cedula, fecha: btnEliminar.dataset.fecha, hora: btnEliminar.dataset.hora });
         window.alert(respuesta.mensaje);
         cargarSolicitudes();
     } catch (error) {

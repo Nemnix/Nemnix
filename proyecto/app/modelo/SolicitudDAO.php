@@ -22,6 +22,7 @@ class SolicitudDAO {
         l.nombreLaboratorio,
         l.numLaboratorio,
         s.fecha,
+        s.hora,
         s.descripcionSolicitud,
         s.gmail,
         u.nombre,
@@ -55,6 +56,7 @@ class SolicitudDAO {
         l.nombreLaboratorio,
         l.numLaboratorio,
         s.fecha,
+        s.hora,
         s.descripcionSolicitud,
         s.gmail
 
@@ -111,15 +113,17 @@ class SolicitudDAO {
     }
 
     /**
-     * Indica si el solicitante ya tiene una solicitud para ese laboratorio.
+     * Indica si el solicitante ya tiene una solicitud para ese laboratorio en esa fecha y hora.
      * @param int $idLaboratorio Identificador del laboratorio.
      * @param string $cedula Cédula del solicitante.
+     * @param string $fecha Fecha de la solicitud.
+     * @param string $hora Hora de la solicitud.
      * @return bool TRUE si la solicitud existe.
      */
-    public function existeSolicitud(int $idLaboratorio, string $cedula): bool {
-        $sql = "SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula";
+    public function existeSolicitud(int $idLaboratorio, string $cedula, string $fecha, string $hora): bool {
+        $sql = "SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora";
         $consulta = $this->conexion->prepare($sql);
-        $consulta->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula]);
+        $consulta->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
         return $consulta->fetchColumn() !== false;
     }
@@ -129,15 +133,16 @@ class SolicitudDAO {
         $cedula = $solicitud->getCedula();
         $idLaboratorio = $solicitud->getIdLaboratorio();
         $fecha = $solicitud->getFecha();
+        $hora = $solicitud->getHora();
         $descripcionSolicitud = $solicitud->getDescripcionSolicitud();
         $gmail = $solicitud->getGmail();
 
         try {
             $this->conexion->beginTransaction();
 
-            // Se busca si el solicitante ya pidió ese laboratorio.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula");
-            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula]);
+            // Se busca si el solicitante ya pidió ese laboratorio para esa fecha y hora.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
             if ($consultaExiste->fetchColumn() !== false) {
                 // Existe: es un duplicado.
@@ -146,13 +151,14 @@ class SolicitudDAO {
             }
 
             // Cada solicitud guarda su propio gmail de contacto.
-            $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, gmail) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha, :gmail)";
+            $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, hora, gmail) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha, :hora, :gmail)";
             $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
             $consultaSolicitud->execute([
                 "cedula" => $cedula,
                 "idLaboratorio" => $idLaboratorio,
                 "descripcionSolicitud" => $descripcionSolicitud,
                 "fecha" => $fecha,
+                "hora" => $hora,
                 "gmail" => $gmail
             ]);
 
@@ -168,11 +174,12 @@ class SolicitudDAO {
         }
     }
 
-    public function modificarSolicitud(int $idLaboratorioActual, Solicitud $solicitud): bool {
+    public function modificarSolicitud(int $idLaboratorioActual, string $fechaActual, string $horaActual, Solicitud $solicitud): bool {
         // Se toman los datos del objeto.
         $cedula = $solicitud->getCedula();
         $idLaboratorioNuevo = $solicitud->getIdLaboratorio();
         $fecha = $solicitud->getFecha();
+        $hora = $solicitud->getHora();
         $descripcionSolicitud = $solicitud->getDescripcionSolicitud();
         $gmail = $solicitud->getGmail();
 
@@ -180,8 +187,8 @@ class SolicitudDAO {
             $this->conexion->beginTransaction();
 
             // Solo se modifican solicitudes existentes del propio solicitante.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula");
-            $consultaExiste->execute(["idLaboratorio" => $idLaboratorioActual, "cedula" => $cedula]);
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            $consultaExiste->execute(["idLaboratorio" => $idLaboratorioActual, "cedula" => $cedula, "fecha" => $fechaActual, "hora" => $horaActual]);
 
             if ($consultaExiste->fetchColumn() === false) {
                 $this->conexion->rollBack();
@@ -189,15 +196,18 @@ class SolicitudDAO {
             }
 
             // Cambia el laboratorio de la solicitud, sin modificar el laboratorio en sí.
-            $sqlSolicitud = "UPDATE SOLICITA SET ID_L = :idLaboratorioNuevo, descripcionSolicitud = :descripcionSolicitud, fecha = :fecha, gmail = :gmail WHERE ID_L = :idLaboratorioActual AND cedula = :cedula";
+            $sqlSolicitud = "UPDATE SOLICITA SET ID_L = :idLaboratorioNuevo, descripcionSolicitud = :descripcionSolicitud, fecha = :fecha, hora = :hora, gmail = :gmail WHERE ID_L = :idLaboratorioActual AND cedula = :cedula AND fecha = :fechaActual AND hora = :horaActual";
             $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
             $consultaSolicitud->execute([
                 "idLaboratorioNuevo" => $idLaboratorioNuevo,
                 "descripcionSolicitud" => $descripcionSolicitud,
                 "fecha" => $fecha,
+                "hora" => $hora,
                 "gmail" => $gmail,
                 "idLaboratorioActual" => $idLaboratorioActual,
-                "cedula" => $cedula
+                "cedula" => $cedula,
+                "fechaActual" => $fechaActual,
+                "horaActual" => $horaActual
             ]);
 
             $this->conexion->commit();
@@ -211,21 +221,21 @@ class SolicitudDAO {
         }
     }
 
-    public function eliminarSolicitud(int $idLaboratorio, string $cedula): bool {
+    public function eliminarSolicitud(int $idLaboratorio, string $cedula, string $fecha, string $hora): bool {
         try {
             $this->conexion->beginTransaction();
 
             // Solo se eliminan solicitudes existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula");
-            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula]);
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
             if ($consultaExiste->fetchColumn() === false) {
                 $this->conexion->rollBack();
                 return false;
             }
 
-            $consultaEliminar = $this->conexion->prepare("DELETE FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula");
-            $consultaEliminar->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula]);
+            $consultaEliminar = $this->conexion->prepare("DELETE FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            $consultaEliminar->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
             $this->conexion->commit();
             return true;
