@@ -4,6 +4,7 @@ CREATE TABLE LABORATORIO (
     numLaboratorio INT NOT NULL,
     nombreAula VARCHAR(100) DEFAULT NULL,
     numAula INT DEFAULT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
 
     CONSTRAINT pk_laboratorio
         PRIMARY KEY (ID_L)

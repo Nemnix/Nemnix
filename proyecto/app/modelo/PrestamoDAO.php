@@ -9,7 +9,7 @@ class PrestamoDAO {
     }
 
     /**
-     * Lista los préstamos con los datos del alumno y del equipo prestado.
+     * Lista los préstamos activos con los datos del alumno y del equipo prestado.
      * @return array Los préstamos.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -34,6 +34,8 @@ class PrestamoDAO {
 
     INNER JOIN EQUIPO_PRESTAMO AS e
         ON e.ID_P = p.ID_P
+
+    WHERE p.activo = 1
 ";
 
         $consulta = $this->conexion->query($sql);
@@ -56,12 +58,13 @@ class PrestamoDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Se busca si el equipo ya está en otro préstamo.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM EQUIPO_PRESTAMO WHERE ID_EP = :idEquipo");
+            // Se busca si el equipo ya está en otro préstamo (activo o dado de baja).
+            $consultaExiste = $this->conexion->prepare("SELECT p.activo FROM EQUIPO_PRESTAMO AS e INNER JOIN PRESTAMO AS p ON p.ID_P = e.ID_P WHERE e.ID_EP = :idEquipo");
             $consultaExiste->execute(["idEquipo" => $idEquipo]);
+            $activo = $consultaExiste->fetchColumn();
 
-            if ($consultaExiste->fetchColumn() !== false) {
-                // Existe: es un duplicado.
+            if ($activo !== false && (int) $activo === 1) {
+                // Está en un préstamo activo: es un duplicado.
                 $this->conexion->rollBack();
                 return false;
             }
@@ -85,7 +88,13 @@ class PrestamoDAO {
 
             $idPrestamo = $this->conexion->lastInsertId();
 
-            $sqlEquipo = "INSERT INTO EQUIPO_PRESTAMO (ID_EP, ID_P, modelo) VALUES (:idEquipo, :idPrestamo, :modelo)";
+            if ($activo === false) {
+                // El equipo nunca se prestó: se crea.
+                $sqlEquipo = "INSERT INTO EQUIPO_PRESTAMO (ID_EP, ID_P, modelo) VALUES (:idEquipo, :idPrestamo, :modelo)";
+            } else {
+                // El equipo estaba en un préstamo dado de baja: pasa al préstamo nuevo.
+                $sqlEquipo = "UPDATE EQUIPO_PRESTAMO SET ID_P = :idPrestamo, modelo = :modelo WHERE ID_EP = :idEquipo";
+            }
             $consultaEquipo = $this->conexion->prepare($sqlEquipo);
             $consultaEquipo->execute(["idEquipo" => $idEquipo, "idPrestamo" => $idPrestamo, "modelo" => $modelo]);
 
@@ -114,8 +123,8 @@ class PrestamoDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican préstamos existentes. La cédula del alumno no se cambia.
-            $consultaAlumno = $this->conexion->prepare("SELECT ciAlumno FROM PRESTAMO WHERE ID_P = :idPrestamo");
+            // Solo se modifican préstamos existentes y activos. La cédula del alumno no se cambia.
+            $consultaAlumno = $this->conexion->prepare("SELECT ciAlumno FROM PRESTAMO WHERE ID_P = :idPrestamo AND activo = 1");
             $consultaAlumno->execute(["idPrestamo" => $idPrestamo]);
             $ciAlumno = $consultaAlumno->fetchColumn();
 
@@ -155,42 +164,13 @@ class PrestamoDAO {
     }
 
     public function eliminarPrestamo(int $idPrestamo): bool {
-        try {
-            $this->conexion->beginTransaction();
 
-            // Solo se eliminan préstamos existentes.
-            $consultaAlumno = $this->conexion->prepare("SELECT ciAlumno FROM PRESTAMO WHERE ID_P = :idPrestamo");
-            $consultaAlumno->execute(["idPrestamo" => $idPrestamo]);
-            $ciAlumno = $consultaAlumno->fetchColumn();
+        // Baja lógica: el préstamo queda inactivo y conserva su equipo y alumno.
+        // Devuelve false si el préstamo no existe o ya estaba dado de baja.
+        $sqlPrestamo = "UPDATE PRESTAMO SET activo = 0 WHERE ID_P = :idPrestamo AND activo = 1";
+        $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
+        $consultaPrestamo->execute(["idPrestamo" => $idPrestamo]);
 
-            if ($ciAlumno === false) {
-                $this->conexion->rollBack();
-                return false;
-            }
-
-            // Se borra primero el equipo prestado y después el préstamo.
-            foreach (["EQUIPO_PRESTAMO", "PRESTAMO"] as $tabla) {
-                $consultaEliminar = $this->conexion->prepare("DELETE FROM $tabla WHERE ID_P = :idPrestamo");
-                $consultaEliminar->execute(["idPrestamo" => $idPrestamo]);
-            }
-
-            // Si el alumno no tiene otros préstamos, también se borra.
-            $consultaOtrosPrestamos = $this->conexion->prepare("SELECT COUNT(*) FROM PRESTAMO WHERE ciAlumno = :ciAlumno");
-            $consultaOtrosPrestamos->execute(["ciAlumno" => $ciAlumno]);
-
-            if ((int) $consultaOtrosPrestamos->fetchColumn() === 0) {
-                $consultaEliminarAlumno = $this->conexion->prepare("DELETE FROM ALUMNO_PRESTAMO WHERE ciAlumno = :ciAlumno");
-                $consultaEliminarAlumno->execute(["ciAlumno" => $ciAlumno]);
-            }
-
-            $this->conexion->commit();
-            return true;
-
-        } catch (PDOException $error) {
-            if ($this->conexion->inTransaction()) {
-                $this->conexion->rollBack();
-            }
-            throw $error;
-        }
+        return $consultaPrestamo->rowCount() > 0;
     }
 }

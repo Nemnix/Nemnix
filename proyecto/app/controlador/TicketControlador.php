@@ -172,7 +172,7 @@ class TicketControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("El ticket no existe", 404);
+            RespuestaJson::error("El ticket no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Ticket eliminado exitosamente"]);

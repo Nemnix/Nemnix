@@ -6,6 +6,7 @@ CREATE TABLE DIAGNOSTICO (
     estadoD VARCHAR(50) NOT NULL,
     fechaD DATE NOT NULL,
     descripcionD VARCHAR(255) NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
     
 
     CONSTRAINT pk_diagnostico
