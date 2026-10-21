@@ -1,31 +1,16 @@
 :root{
     --blanco: #ffffff;
-    --Perla: #EEEEEE;
     --grisResaltado:#bebebe;
-    --grisClaro: #D9D9D9;
-    --grisMedio:  #656565;
     --gris: #464646;
     --Negro: #000000;
     --AzulOscuro: #0A274C;
     --AzulMedio: #0F468C;
-    --grisOscuro: #1C1B1B;
-    --grisRGBA: 183, 183, 183;
-    --grisBotones:  #2C2C2C;
-    --AzulOscuro: #0A274C;
-    --AzulRGB: 10, 39, 76;
-    --AzulMedio: #0F468C;
-    --Azu: #8c6b0f;
-    --grisOscuro: #1C1B1B;
-    --AmarilloBotones: 199, 163, 20;
     --Amarillo:#EDC31C ;
-    --AmarilloClaro: #dfb50f;
-    --Campos: #C5C3C3;
-    --Incio: #EEEEEE;
     --PerlaRGB: 238, 238, 238;
 }
 
 body{
-    background: linear-gradient(to left,var(--AzulOscuro) 10%, var(--AzulMedio) 100%, var(--AzulOscuro) 10%);
+    background: linear-gradient(to left,var(--AzulOscuro) 10%, var(--AzulMedio) 100%);
 }
 
 
@@ -35,18 +20,7 @@ body{
     flex-direction: column;
     align-items: center;
     margin-top: 2.5rem;
-    
-}
 
-
-.formLogin ul{
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .formLogin fieldset{
@@ -65,16 +39,16 @@ padding: 20px 0px;
 .ci{
   background-image: url("../img/cedula.png");
   background-repeat: no-repeat;
-  background-position: 12px center; 
-  background-size: 18px;            
- 
+  background-position: 12px center;
+  background-size: 18px;
+
 }
 
 .contra{
  background-image: url("../img/candado.png");
   background-repeat: no-repeat;
-  background-position: 12px center; 
-  background-size: 18px; 
+  background-position: 12px center;
+  background-size: 18px;
 }
 
 .formLogin legend{
@@ -87,7 +61,7 @@ text-align: center;
 .cajaEntradaDeDatos{
     display: flex;
     flex-direction: column;
-    
+
 }
 
 .cajaEntradaDeDatos label{
@@ -95,38 +69,30 @@ text-align: center;
     text-align: left;
     margin-left: 0;
     display: block;
-    
     }
 
 .formLogin input{
     background-color: var(--grisResaltado);
     color: var(--Negro);
     text-align: center;
-    position: relative;
     border-radius: .9375rem;
 }
 
 .formLogin label{
     color: var(--Negro);
     margin-bottom: 4px;
-    
-    
-}
 
-.formLogin input:hover{
-    color: var(--Negro);
+
 }
 
 .btnInicio{
     background-color: var(--Amarillo);
     border: solid var(--Amarillo) .2rem;
     margin-top: 1.5rem;
-    padding: .1375rem;
-    padding-right: 40px;
-    padding-left: 40px;
+    padding: .1375rem 40px;
     border-radius: .9375rem;
     color: var(--Negro);
-    
+
 }
 
 .btnInicio:hover{

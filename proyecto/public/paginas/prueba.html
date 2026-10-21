@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="formularioGestionarEmpleado" action="#" method="post">
+                <fieldset>
+                    <legend>Panel de administradores</legend>
+                    <ul>
+                        <li>
+                            <label for="cedula">Cédula de identidad</label>
+                            <input type="text" id="cedula" name="cedula" pattern="[1-9][0-9]{7}"
+                                title="8 números, sin puntos ni guiones" maxlength="8" required
+                                placeholder="Escribe la cédula del usuario" />
+                        </li>
+                        <li>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" required
+                                placeholder="Escribe el nombre del usuario aquí" />
+                        </li>
+                        <li>
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" required
+                                placeholder="Escribe el apellido del usuario" />
+                        </li>
+                         <fieldset>
+    <legend><strong>Intereses (Selección múltiple)</strong></legend>
+
+    <label>
+      <input type="checkbox" name="intereses[]" value="tecnologia"> Tecnología
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="intereses[]" value="deportes"> Deportes
+    </label><br>
+
+    <label>
+      <input type="checkbox" name="intereses[]" value="musica"> Música
+    </label>
+  </fieldset>
+                        <li id="itemGmail" hidden>
+                            <label for="gmail">Gmail</label>
+                            <input type="email" id="gmail" name="gmail"
+                                placeholder="Escribe el gmail del solicitante" />
+                        </li>
+                        <li>
+                            <label for="clave">Contraseña</label>
+                            <input type="password" id="clave" name="clave" required minlength="12"
+                                placeholder="Mínimo 12 caracteres" />
+                        </li>
+                        <li>
+                            <label for="confirmarClave">Confirmar contraseña</label>
+                            <input type="password" id="confirmarClave" name="confirmarClave" required minlength="12"
+                                placeholder="Repita la contraseña" />
+                        </li>
+                        <li>
+                            <button type="submit" id="btnGuardarUsuario">Ingresar </button>
+                            <button type="button" id="btnCerrarGestionarEmpleado">Cancelar</button>
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+</body>
+</html>
