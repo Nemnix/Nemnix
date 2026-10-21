@@ -66,6 +66,8 @@ function crearFila(solicitud) {
     btnEliminar.textContent = "Eliminar";
     btnEliminar.dataset.id = solicitud.ID_L;
     btnEliminar.dataset.cedula = solicitud.cedula;
+    btnEliminar.dataset.fecha = solicitud.fecha;
+    btnEliminar.dataset.hora = solicitud.hora;
 
     celdaAcciones.appendChild(btnEliminar);
     fila.appendChild(celdaAcciones);
@@ -100,7 +102,7 @@ async function eliminarSolicitud(eventoEliminar) {
     }
 
     try {
-        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id, cedula: btnEliminar.dataset.cedula });
+        const respuesta = await llamarApi("DELETE", { ID_L: btnEliminar.dataset.id, cedula: btnEliminar.dataset.cedula, fecha: btnEliminar.dataset.fecha, hora: btnEliminar.dataset.hora });
         window.alert(respuesta.mensaje);
         cargarSolicitudes();
     } catch (error) {

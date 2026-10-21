@@ -1,6 +1,7 @@
 <?php
 require_once _DIR_ . "/../config/env.php";
 require_once __DIR__ . "/../config/config.php";
+require_once __DIR__ . "/../config/env.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 
 // Conserva la página de inicio actual.
@@ -27,5 +28,4 @@ try {
 }
 
 
-//index.php?recurso=sesion&funcion=cerrar
 

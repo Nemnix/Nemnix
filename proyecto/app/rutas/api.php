@@ -13,7 +13,7 @@ switch ($ruta) {
         (new LoginControlador())->autenticar($metodo);
         break;
 
-    case "logout":
+    case "cerrarSesion":
         require_once RUTA_CONTROLADOR . "/LoginControlador.php";
         (new LoginControlador())->cerrarSesion($metodo);
         break;

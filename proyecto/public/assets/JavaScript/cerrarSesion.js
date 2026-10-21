@@ -1,4 +1,4 @@
-const API_CERRAR_SESION = "../index.php?ruta=logout";
+const API_CERRAR_SESION = "../index.php?ruta=cerrarSesion";
 
 const botonSalida = document.querySelector(".salida");
 

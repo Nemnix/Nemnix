@@ -34,7 +34,7 @@ SELECT
     END AS administrador,
 
     CASE
-        WHEN l.cedula IS NOT NULL THEN 1
+        WHEN t.cedula IS NOT NULL THEN 1
         ELSE 0
     END AS tecnico,
 
@@ -128,7 +128,7 @@ SELECT
     so.fecha,
     so.gmail,
 
-    FROM SOLICITUD AS so
+    FROM SOLICITA AS so
 
     LEFT JOIN SOLICITANTE AS s
     ON s.cedula = so.cedula
