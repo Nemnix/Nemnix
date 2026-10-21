@@ -29,6 +29,8 @@ class IncidenciaDAO {
     LEFT JOIN LABORATORIO AS l
         ON l.ID_L = r.ID_L
 
+    WHERE t.activo = 1
+
     GROUP BY l.ID_L, l.nombreLaboratorio, l.numLaboratorio
 ";
 
@@ -44,7 +46,7 @@ class IncidenciaDAO {
      */
     public function contarIncidenciasPrioridadAltaSinResolver(): int
     {
-        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET WHERE prioridad = 'Alta' AND estado <> 'Cerrado'");
+        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET WHERE prioridad = 'Alta' AND estado <> 'Cerrado' AND activo = 1");
 
         return (int) $consulta->fetchColumn();
     }
@@ -56,7 +58,7 @@ class IncidenciaDAO {
      */
     public function contarIncidenciasSinResolver(): int
     {
-        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET WHERE estado <> 'Cerrado'");
+        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET WHERE estado <> 'Cerrado' AND activo = 1");
 
         return (int) $consulta->fetchColumn();
     }
@@ -68,7 +70,7 @@ class IncidenciaDAO {
      */
     public function contarIncidenciasRequierenAutorizacion(): int
     {
-        $consulta = $this->conexion->query("SELECT COUNT(*) FROM DIAGNOSTICO WHERE estadoD = 'Requiere autorización'");
+        $consulta = $this->conexion->query("SELECT COUNT(*) FROM DIAGNOSTICO WHERE estadoD = 'Requiere autorización' AND activo = 1");
 
         return (int) $consulta->fetchColumn();
     }
@@ -80,7 +82,7 @@ class IncidenciaDAO {
      */
     public function contarIncidencias(): int
     {
-        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET");
+        $consulta = $this->conexion->query("SELECT COUNT(*) FROM TICKET WHERE activo = 1");
 
         return (int) $consulta->fetchColumn();
     }
@@ -104,6 +106,7 @@ class IncidenciaDAO {
             INNER JOIN REGISTRO_DIARIO AS r2
                 ON r2.ID_R = t2.ID_R
             WHERE r2.ID_L = l.ID_L
+                AND t2.activo = 1
             GROUP BY t2.nombreEquipo
             ORDER BY COUNT(*) DESC, t2.nombreEquipo
             LIMIT 1) AS equipoMasFallos,
@@ -113,6 +116,7 @@ class IncidenciaDAO {
             INNER JOIN REGISTRO_DIARIO AS r3
                 ON r3.ID_R = t3.ID_R
             WHERE r3.ID_L = l.ID_L
+                AND t3.activo = 1
             GROUP BY r3.turno
             ORDER BY COUNT(*) DESC, r3.turno
             LIMIT 1) AS turnoMasReportes,
@@ -126,6 +130,8 @@ class IncidenciaDAO {
 
     INNER JOIN LABORATORIO AS l
         ON l.ID_L = r.ID_L
+
+    WHERE t.activo = 1
 
     GROUP BY l.ID_L, l.nombreLaboratorio, l.numLaboratorio
 ";

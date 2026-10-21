@@ -5,6 +5,7 @@ CREATE TABLE SOLICITA(
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
     gmail VARCHAR(100) NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
 
 CONSTRAINT pk_solicita
 PRIMARY KEY (ID_L, cedula, fecha, hora)

@@ -240,7 +240,7 @@ class SolicitudControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("La solicitud no existe", 404);
+            RespuestaJson::error("La solicitud no existe o ya fue dada de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Solicitud eliminada exitosamente"]);

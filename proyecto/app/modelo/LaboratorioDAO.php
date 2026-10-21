@@ -9,7 +9,7 @@ class LaboratorioDAO {
     }
 
     /**
-     * Lista todos los laboratorios con su equipamiento.
+     * Lista los laboratorios activos con su equipamiento.
      * Los laboratorios sin fila en EQUIPO se muestran con cantidades en 0.
      * @return array Los laboratorios con ID_L, nombre, número y cantidades.
      * @throws PDOException Si la consulta no puede ejecutarse.
@@ -31,6 +31,8 @@ class LaboratorioDAO {
     LEFT JOIN EQUIPO AS e
         ON e.ID_L = l.ID_L
 
+    WHERE l.activo = 1
+
     ORDER BY l.nombreLaboratorio, l.numLaboratorio
 ";
 
@@ -51,23 +53,39 @@ class LaboratorioDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Se busca si ya existe un laboratorio con el mismo tipo y número.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM LABORATORIO WHERE nombreLaboratorio = :nombreLaboratorio AND numLaboratorio = :numLaboratorio");
+            // Se busca si ya existe un laboratorio con el mismo tipo y número (activo o dado de baja).
+            $consultaExiste = $this->conexion->prepare("SELECT ID_L, activo FROM LABORATORIO WHERE nombreLaboratorio = :nombreLaboratorio AND numLaboratorio = :numLaboratorio");
             $consultaExiste->execute(["nombreLaboratorio" => $nombreLaboratorio, "numLaboratorio" => $numLaboratorio]);
+            $existente = $consultaExiste->fetch(PDO::FETCH_ASSOC);
 
-            if ($consultaExiste->fetchColumn() !== false) {
-                // Existe: es un duplicado.
+            if ($existente === false) {
+                // No existe: se crea el laboratorio.
+                $sqlLaboratorio = "INSERT INTO LABORATORIO (nombreLaboratorio, numLaboratorio, activo) VALUES (:nombreLaboratorio, :numLaboratorio, 1)";
+                $consultaLaboratorio = $this->conexion->prepare($sqlLaboratorio);
+                $consultaLaboratorio->execute(["nombreLaboratorio" => $nombreLaboratorio, "numLaboratorio" => $numLaboratorio]);
+
+                $idLaboratorio = $this->conexion->lastInsertId();
+            } elseif ((int) $existente["activo"] === 0) {
+                // Existe dado de baja: se reactiva, conservando su historial.
+                $idLaboratorio = $existente["ID_L"];
+
+                $consultaReactivar = $this->conexion->prepare("UPDATE LABORATORIO SET activo = 1 WHERE ID_L = :idLaboratorio");
+                $consultaReactivar->execute(["idLaboratorio" => $idLaboratorio]);
+            } else {
+                // Existe y está activo: es un duplicado.
                 $this->conexion->rollBack();
                 return false;
             }
 
-            $sqlLaboratorio = "INSERT INTO LABORATORIO (nombreLaboratorio, numLaboratorio) VALUES (:nombreLaboratorio, :numLaboratorio)";
-            $consultaLaboratorio = $this->conexion->prepare($sqlLaboratorio);
-            $consultaLaboratorio->execute(["nombreLaboratorio" => $nombreLaboratorio, "numLaboratorio" => $numLaboratorio]);
+            // Si el laboratorio reactivado ya tenía equipo cargado, se actualizan las cantidades.
+            $consultaBuscarEquipo = $this->conexion->prepare("SELECT 1 FROM EQUIPO WHERE ID_L = :idLaboratorio");
+            $consultaBuscarEquipo->execute(["idLaboratorio" => $idLaboratorio]);
 
-            $idLaboratorio = $this->conexion->lastInsertId();
-
-            $sqlEquipo = "INSERT INTO EQUIPO (ID_L, cantMonitor, cantPC, cantTeclado, cantMouse) VALUES (:idLaboratorio, :cantMonitores, :cantComputadoras, :cantTeclados, :cantMouses)";
+            if ($consultaBuscarEquipo->fetchColumn() === false) {
+                $sqlEquipo = "INSERT INTO EQUIPO (ID_L, cantMonitor, cantPC, cantTeclado, cantMouse) VALUES (:idLaboratorio, :cantMonitores, :cantComputadoras, :cantTeclados, :cantMouses)";
+            } else {
+                $sqlEquipo = "UPDATE EQUIPO SET cantMonitor = :cantMonitores, cantPC = :cantComputadoras, cantTeclado = :cantTeclados, cantMouse = :cantMouses WHERE ID_L = :idLaboratorio";
+            }
             $consultaEquipo = $this->conexion->prepare($sqlEquipo);
             $consultaEquipo->execute([
                 "idLaboratorio" => $idLaboratorio,
@@ -102,8 +120,8 @@ class LaboratorioDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican laboratorios existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM LABORATORIO WHERE ID_L = :idLaboratorio");
+            // Solo se modifican laboratorios existentes y activos.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM LABORATORIO WHERE ID_L = :idLaboratorio AND activo = 1");
             $consultaExiste->execute(["idLaboratorio" => $idLaboratorio]);
 
             if ($consultaExiste->fetchColumn() === false) {
@@ -147,13 +165,13 @@ class LaboratorioDAO {
     }
 
     /**
-     * Busca el identificador de un laboratorio por su tipo y número.
+     * Busca el identificador de un laboratorio activo por su tipo y número.
      * @param string $nombreLaboratorio Tipo de aula (Laboratorio o Taller).
      * @param int $numLaboratorio Número del laboratorio.
-     * @return int|null El ID_L del laboratorio, o NULL si no existe.
+     * @return int|null El ID_L del laboratorio, o NULL si no existe o fue dado de baja.
      */
     public function buscarIdLaboratorio(string $nombreLaboratorio, int $numLaboratorio): ?int {
-        $sql = "SELECT ID_L FROM LABORATORIO WHERE nombreLaboratorio = :nombreLaboratorio AND numLaboratorio = :numLaboratorio";
+        $sql = "SELECT ID_L FROM LABORATORIO WHERE nombreLaboratorio = :nombreLaboratorio AND numLaboratorio = :numLaboratorio AND activo = 1";
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute(["nombreLaboratorio" => $nombreLaboratorio, "numLaboratorio" => $numLaboratorio]);
 
@@ -181,50 +199,14 @@ class LaboratorioDAO {
         return $consulta->fetchColumn() !== false;
     }
 
-    /**
-     * Indica si el laboratorio tiene registros diarios o solicitudes asociados.
-     * @param int $idLaboratorio Identificador del laboratorio.
-     * @return bool TRUE si tiene registros o solicitudes.
-     */
-    public function tieneDependencias(int $idLaboratorio): bool {
-        $sql = "
-    SELECT
-        (SELECT COUNT(*) FROM REGISTRO_DIARIO WHERE ID_L = :idRegistro) +
-        (SELECT COUNT(*) FROM SOLICITA WHERE ID_L = :idSolicitud) AS total
-";
-        $consulta = $this->conexion->prepare($sql);
-        $consulta->execute(["idRegistro" => $idLaboratorio, "idSolicitud" => $idLaboratorio]);
-
-        return (int) $consulta->fetchColumn() > 0;
-    }
-
     public function eliminarLaboratorio(int $idLaboratorio): bool {
-        try {
-            $this->conexion->beginTransaction();
 
-            // Solo se eliminan laboratorios existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM LABORATORIO WHERE ID_L = :idLaboratorio");
-            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio]);
+        // Baja lógica: el laboratorio queda inactivo y conserva su equipo e historial.
+        // Devuelve false si el laboratorio no existe o ya estaba dado de baja.
+        $sqlLaboratorio = "UPDATE LABORATORIO SET activo = 0 WHERE ID_L = :idLaboratorio AND activo = 1";
+        $consultaLaboratorio = $this->conexion->prepare($sqlLaboratorio);
+        $consultaLaboratorio->execute(["idLaboratorio" => $idLaboratorio]);
 
-            if ($consultaExiste->fetchColumn() === false) {
-                $this->conexion->rollBack();
-                return false;
-            }
-
-            // Se borran primero las tablas que dependen del laboratorio.
-            foreach (["EQUIPO", "GESTIONA", "LABORATORIO"] as $tabla) {
-                $consultaEliminar = $this->conexion->prepare("DELETE FROM $tabla WHERE ID_L = :idLaboratorio");
-                $consultaEliminar->execute(["idLaboratorio" => $idLaboratorio]);
-            }
-
-            $this->conexion->commit();
-            return true;
-
-        } catch (PDOException $error) {
-            if ($this->conexion->inTransaction()) {
-                $this->conexion->rollBack();
-            }
-            throw $error;
-        }
+        return $consultaLaboratorio->rowCount() > 0;
     }
 }

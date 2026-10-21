@@ -156,7 +156,7 @@ class DiagnosticoControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("El diagnóstico no existe", 404);
+            RespuestaJson::error("El diagnóstico no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Diagnóstico eliminado exitosamente"]);

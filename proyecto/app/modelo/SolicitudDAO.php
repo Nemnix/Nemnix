@@ -9,7 +9,7 @@ class SolicitudDAO {
     }
 
     /**
-     * Lista todas las solicitudes con su laboratorio y los datos del solicitante (administrador).
+     * Lista las solicitudes activas con su laboratorio y los datos del solicitante (administrador).
      * @return array Las solicitudes.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -35,6 +35,8 @@ class SolicitudDAO {
 
     LEFT JOIN USUARIO AS u
         ON u.cedula = s.cedula
+
+    WHERE s.activo = 1
 ";
 
         $consulta = $this->conexion->query($sql);
@@ -43,7 +45,7 @@ class SolicitudDAO {
     }
 
     /**
-     * Lista las solicitudes de un solicitante.
+     * Lista las solicitudes activas de un solicitante.
      * @param string $cedula Cédula del solicitante (sale de la sesión).
      * @return array Las solicitudes del solicitante.
      * @throws PDOException Si la consulta no puede ejecutarse.
@@ -66,6 +68,7 @@ class SolicitudDAO {
         ON l.ID_L = s.ID_L
 
     WHERE s.cedula = :cedula
+        AND s.activo = 1
 ";
 
         $consulta = $this->conexion->prepare($sql);
@@ -75,7 +78,7 @@ class SolicitudDAO {
     }
 
     /**
-     * Cuenta las solicitudes por laboratorio (resumen del administrador).
+     * Cuenta las solicitudes activas por laboratorio (resumen del administrador).
      * @return array Tipo, número y cantidad de solicitudes de cada laboratorio.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -92,6 +95,8 @@ class SolicitudDAO {
     LEFT JOIN LABORATORIO AS l
         ON l.ID_L = s.ID_L
 
+    WHERE s.activo = 1
+
     GROUP BY l.ID_L, l.nombreLaboratorio, l.numLaboratorio
 ";
 
@@ -101,27 +106,27 @@ class SolicitudDAO {
     }
 
     /**
-     * Cuenta todas las solicitudes.
+     * Cuenta las solicitudes activas.
      * @return int La cantidad de solicitudes.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
     public function contarSolicitudes(): int
     {
-        $consulta = $this->conexion->query("SELECT COUNT(*) FROM SOLICITA");
+        $consulta = $this->conexion->query("SELECT COUNT(*) FROM SOLICITA WHERE activo = 1");
 
         return (int) $consulta->fetchColumn();
     }
 
     /**
-     * Indica si el solicitante ya tiene una solicitud para ese laboratorio en esa fecha y hora.
+     * Indica si el solicitante ya tiene una solicitud activa para ese laboratorio en esa fecha y hora.
      * @param int $idLaboratorio Identificador del laboratorio.
      * @param string $cedula Cédula del solicitante.
      * @param string $fecha Fecha de la solicitud.
      * @param string $hora Hora de la solicitud.
-     * @return bool TRUE si la solicitud existe.
+     * @return bool TRUE si la solicitud existe y está activa.
      */
     public function existeSolicitud(int $idLaboratorio, string $cedula, string $fecha, string $hora): bool {
-        $sql = "SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora";
+        $sql = "SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora AND activo = 1";
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
@@ -140,18 +145,23 @@ class SolicitudDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Se busca si el solicitante ya pidió ese laboratorio para esa fecha y hora.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            // Se busca si el solicitante ya pidió ese laboratorio para esa fecha y hora (activa o dada de baja).
+            $consultaExiste = $this->conexion->prepare("SELECT activo FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
             $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
+            $activo = $consultaExiste->fetchColumn();
 
-            if ($consultaExiste->fetchColumn() !== false) {
-                // Existe: es un duplicado.
+            if ($activo === false) {
+                // No existe: se crea. Cada solicitud guarda su propio gmail de contacto.
+                $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, hora, gmail, activo) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha, :hora, :gmail, 1)";
+            } elseif ((int) $activo === 0) {
+                // Existe dada de baja: se reactiva con los datos nuevos.
+                $sqlSolicitud = "UPDATE SOLICITA SET descripcionSolicitud = :descripcionSolicitud, gmail = :gmail, activo = 1 WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora";
+            } else {
+                // Existe y está activa: es un duplicado.
                 $this->conexion->rollBack();
                 return false;
             }
 
-            // Cada solicitud guarda su propio gmail de contacto.
-            $sqlSolicitud = "INSERT INTO SOLICITA (cedula, ID_L, descripcionSolicitud, fecha, hora, gmail) VALUES (:cedula, :idLaboratorio, :descripcionSolicitud, :fecha, :hora, :gmail)";
             $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
             $consultaSolicitud->execute([
                 "cedula" => $cedula,
@@ -186,13 +196,36 @@ class SolicitudDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican solicitudes existentes del propio solicitante.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+            // Solo se modifican solicitudes existentes y activas del propio solicitante.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora AND activo = 1");
             $consultaExiste->execute(["idLaboratorio" => $idLaboratorioActual, "cedula" => $cedula, "fecha" => $fechaActual, "hora" => $horaActual]);
 
             if ($consultaExiste->fetchColumn() === false) {
                 $this->conexion->rollBack();
                 return false;
+            }
+
+            // Si ya hay una solicitud dada de baja con el laboratorio, fecha y hora nuevos,
+            // se reactiva esa con los datos nuevos y se da de baja la actual (no pueden repetirse las claves).
+            $consultaDadaDeBaja = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora AND activo = 0");
+            $consultaDadaDeBaja->execute(["idLaboratorio" => $idLaboratorioNuevo, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
+
+            if ($consultaDadaDeBaja->fetchColumn() !== false) {
+                $consultaReactivar = $this->conexion->prepare("UPDATE SOLICITA SET descripcionSolicitud = :descripcionSolicitud, gmail = :gmail, activo = 1 WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+                $consultaReactivar->execute([
+                    "descripcionSolicitud" => $descripcionSolicitud,
+                    "gmail" => $gmail,
+                    "idLaboratorio" => $idLaboratorioNuevo,
+                    "cedula" => $cedula,
+                    "fecha" => $fecha,
+                    "hora" => $hora
+                ]);
+
+                $consultaBajaActual = $this->conexion->prepare("UPDATE SOLICITA SET activo = 0 WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
+                $consultaBajaActual->execute(["idLaboratorio" => $idLaboratorioActual, "cedula" => $cedula, "fecha" => $fechaActual, "hora" => $horaActual]);
+
+                $this->conexion->commit();
+                return true;
             }
 
             // Cambia el laboratorio de la solicitud, sin modificar el laboratorio en sí.
@@ -222,29 +255,13 @@ class SolicitudDAO {
     }
 
     public function eliminarSolicitud(int $idLaboratorio, string $cedula, string $fecha, string $hora): bool {
-        try {
-            $this->conexion->beginTransaction();
 
-            // Solo se eliminan solicitudes existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
-            $consultaExiste->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
+        // Baja lógica: la solicitud queda inactiva y se conserva en el historial.
+        // Devuelve false si la solicitud no existe o ya estaba dada de baja.
+        $sqlSolicitud = "UPDATE SOLICITA SET activo = 0 WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora AND activo = 1";
+        $consultaSolicitud = $this->conexion->prepare($sqlSolicitud);
+        $consultaSolicitud->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
 
-            if ($consultaExiste->fetchColumn() === false) {
-                $this->conexion->rollBack();
-                return false;
-            }
-
-            $consultaEliminar = $this->conexion->prepare("DELETE FROM SOLICITA WHERE ID_L = :idLaboratorio AND cedula = :cedula AND fecha = :fecha AND hora = :hora");
-            $consultaEliminar->execute(["idLaboratorio" => $idLaboratorio, "cedula" => $cedula, "fecha" => $fecha, "hora" => $hora]);
-
-            $this->conexion->commit();
-            return true;
-
-        } catch (PDOException $error) {
-            if ($this->conexion->inTransaction()) {
-                $this->conexion->rollBack();
-            }
-            throw $error;
-        }
+        return $consultaSolicitud->rowCount() > 0;
     }
 }

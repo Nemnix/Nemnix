@@ -9,7 +9,7 @@ class DiagnosticoDAO {
     }
 
     /**
-     * Lista todos los diagnósticos.
+     * Lista los diagnósticos activos.
      * @return array Los diagnósticos con su ticket y registro.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -26,6 +26,8 @@ class DiagnosticoDAO {
 
     FROM DIAGNOSTICO AS d
 
+    WHERE d.activo = 1
+
     ORDER BY d.fechaD DESC, d.ID_D DESC
 ";
 
@@ -35,13 +37,13 @@ class DiagnosticoDAO {
     }
 
     /**
-     * Indica si existe el ticket que se quiere diagnosticar.
+     * Indica si existe (y está activo) el ticket que se quiere diagnosticar.
      * @param int $idRegistro Registro diario del ticket.
      * @param int $idTicket Número del ticket dentro del registro.
      * @return bool TRUE si el ticket existe.
      */
     public function existeTicket(int $idRegistro, int $idTicket): bool {
-        $sql = "SELECT 1 FROM TICKET WHERE ID_R = :idRegistro AND ID_T = :idTicket";
+        $sql = "SELECT 1 FROM TICKET WHERE ID_R = :idRegistro AND ID_T = :idTicket AND activo = 1";
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket]);
 
@@ -93,8 +95,8 @@ class DiagnosticoDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican diagnósticos existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM DIAGNOSTICO WHERE ID_D = :idDiagnostico");
+            // Solo se modifican diagnósticos existentes y activos.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM DIAGNOSTICO WHERE ID_D = :idDiagnostico AND activo = 1");
             $consultaExiste->execute(["idDiagnostico" => $idDiagnostico]);
 
             if ($consultaExiste->fetchColumn() === false) {
@@ -123,29 +125,13 @@ class DiagnosticoDAO {
     }
 
     public function eliminarDiagnostico(int $idDiagnostico): bool {
-        try {
-            $this->conexion->beginTransaction();
 
-            // Solo se eliminan diagnósticos existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM DIAGNOSTICO WHERE ID_D = :idDiagnostico");
-            $consultaExiste->execute(["idDiagnostico" => $idDiagnostico]);
+        // Baja lógica: el diagnóstico queda inactivo y se conserva en el historial.
+        // Devuelve false si el diagnóstico no existe o ya estaba dado de baja.
+        $sqlDiagnostico = "UPDATE DIAGNOSTICO SET activo = 0 WHERE ID_D = :idDiagnostico AND activo = 1";
+        $consultaDiagnostico = $this->conexion->prepare($sqlDiagnostico);
+        $consultaDiagnostico->execute(["idDiagnostico" => $idDiagnostico]);
 
-            if ($consultaExiste->fetchColumn() === false) {
-                $this->conexion->rollBack();
-                return false;
-            }
-
-            $consultaEliminar = $this->conexion->prepare("DELETE FROM DIAGNOSTICO WHERE ID_D = :idDiagnostico");
-            $consultaEliminar->execute(["idDiagnostico" => $idDiagnostico]);
-
-            $this->conexion->commit();
-            return true;
-
-        } catch (PDOException $error) {
-            if ($this->conexion->inTransaction()) {
-                $this->conexion->rollBack();
-            }
-            throw $error;
-        }
+        return $consultaDiagnostico->rowCount() > 0;
     }
 }

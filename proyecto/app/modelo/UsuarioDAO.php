@@ -14,24 +14,10 @@ class UsuarioDAO {
         $nombre = $usuario->getNombre();
         $apellido = $usuario->getApellido();
         $claveHash = $usuario->getClaveHash();
-        $gmail = $usuario->getGmail();
 
-        // El rol se deduce de los roles del objeto (el panel asigna uno solo).
-        $rol = $usuario->esAdministrador() ? "Administrador" : ($usuario->esTecnico() ? "Tecnico" : ($usuario->esSolicitante() ? "Solicitante" : ""));
-
-
-        switch ($rol) {
-            case "Administrador":
-                $tablaRol = "ADMINISTRADOR";
-                break;
-            case "Tecnico":
-                $tablaRol = "TECNICO";
-                break;
-            case "Solicitante":
-                $tablaRol = "SOLICITANTE";
-                break;
-            default:
-                return false;
+        // El usuario debe tener al menos un rol.
+        if (!$usuario->esAdministrador() && !$usuario->esTecnico() && !$usuario->esSolicitante()) {
+            return false;
         }
 
         try {
@@ -57,34 +43,8 @@ class UsuarioDAO {
             $consultaUsuario = $this->conexion->prepare($sqlUsuario);
             $consultaUsuario->execute(["cedula" => $cedula, "nombre" => $nombre, "apellido" => $apellido, "claveHash" => $claveHash]);
 
-            // Quita los roles que el usuario tenía antes de la baja.
-            foreach (["ADMINISTRADOR", "TECNICO", "SOLICITANTE"] as $tabla) {
-                if ($tabla === $tablaRol) {
-                    continue;
-                }
-
-                $consultaQuitarRol = $this->conexion->prepare("DELETE FROM $tabla WHERE cedula = :cedula");
-                $consultaQuitarRol->execute(["cedula" => $cedula]);
-            }
-
-            // Asigna el rol nuevo si todavía no lo tiene.
-            $consultaBuscarRol = $this->conexion->prepare("SELECT cedula FROM $tablaRol WHERE cedula = :cedula");
-            $consultaBuscarRol->execute(["cedula" => $cedula]);
-
-            if ($consultaBuscarRol->fetch(PDO::FETCH_ASSOC) === false) {
-                if ($tablaRol === "SOLICITANTE") {
-                    // El solicitante guarda además su gmail.
-                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO SOLICITANTE (cedula, gmail) VALUES (:cedula, :gmail)");
-                    $consultaAsignarRol->execute(["cedula" => $cedula, "gmail" => $gmail]);
-                } else {
-                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tablaRol (cedula) VALUES (:cedula)");
-                    $consultaAsignarRol->execute(["cedula" => $cedula]);
-                }
-            } elseif ($tablaRol === "SOLICITANTE") {
-                // Ya era solicitante: se actualiza su gmail.
-                $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
-                $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
-            }
+            // Deja al usuario solo con los roles elegidos (quita los que tenía antes de la baja).
+            $this->sincronizarRoles($usuario);
 
             $this->conexion->commit();
 
@@ -163,8 +123,8 @@ public function buscarUsuario(string $cedula): ?Usuario {
     }
 
     /**
-     * Lista los usuarios activos del sistema junto con su cargo.
-     * @return array Los usuarios con cedula, nombre, apellido y cargo.
+     * Lista los usuarios activos del sistema junto con sus roles.
+     * @return array Los usuarios con cedula, nombre, apellido, un indicador por rol y gmail.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
     public function listarUsuarios(): array
@@ -175,12 +135,9 @@ public function buscarUsuario(string $cedula): ?Usuario {
         u.nombre,
         u.apellido,
 
-        CASE
-            WHEN a.cedula IS NOT NULL THEN 'Administrador'
-            WHEN t.cedula IS NOT NULL THEN 'Tecnico'
-            WHEN s.cedula IS NOT NULL THEN 'Solicitante'
-            ELSE 'Sin rol'
-        END AS cargo,
+        a.cedula IS NOT NULL AS administrador,
+        t.cedula IS NOT NULL AS tecnico,
+        s.cedula IS NOT NULL AS solicitante,
 
         s.gmail
 
@@ -212,10 +169,11 @@ public function modificarUsuario(Usuario $usuario): bool {
         $nombre = $usuario->getNombre();
         $apellido = $usuario->getApellido();
         $claveHash = $usuario->getClaveHash();
-        $gmail = $usuario->getGmail();
 
-        // El rol se deduce de los roles del objeto (el panel asigna uno solo).
-        $rol = $usuario->esAdministrador() ? "Administrador" : ($usuario->esTecnico() ? "Tecnico" : ($usuario->esSolicitante() ? "Solicitante" : ""));
+        // El usuario debe tener al menos un rol.
+        if (!$usuario->esAdministrador() && !$usuario->esTecnico() && !$usuario->esSolicitante()) {
+            return false;
+        }
 
         try {
             $this->conexion->beginTransaction();
@@ -241,48 +199,8 @@ public function modificarUsuario(Usuario $usuario): bool {
             $consultaUsuario = $this->conexion->prepare($sqlUsuario);
             $consultaUsuario->execute($parametros);
 
-            switch ($rol) {
-                case "Administrador":
-                    $tablaRol = "ADMINISTRADOR";
-                    break;
-                case "Tecnico":
-                    $tablaRol = "TECNICO";
-                    break;
-                case "Solicitante":
-                    $tablaRol = "SOLICITANTE";
-                    break;
-                default:
-                    $this->conexion->rollBack();
-                    return false;
-            }
-
-            // Quita al usuario de los otros roles, ya que este panel solo permite un rol activo a la vez.
-            foreach (["ADMINISTRADOR", "TECNICO", "SOLICITANTE"] as $tabla) {
-                if ($tabla === $tablaRol) {
-                    continue;
-                }
-
-                $consultaQuitarRol = $this->conexion->prepare("DELETE FROM $tabla WHERE cedula = :cedula");
-                $consultaQuitarRol->execute(["cedula" => $cedula]);
-            }
-
-            $consultaBuscarRol = $this->conexion->prepare("SELECT cedula FROM $tablaRol WHERE cedula = :cedula");
-            $consultaBuscarRol->execute(["cedula" => $cedula]);
-
-            if ($consultaBuscarRol->fetch(PDO::FETCH_ASSOC) === false) {
-                if ($tablaRol === "SOLICITANTE") {
-                    // El solicitante guarda además su gmail.
-                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO SOLICITANTE (cedula, gmail) VALUES (:cedula, :gmail)");
-                    $consultaAsignarRol->execute(["cedula" => $cedula, "gmail" => $gmail]);
-                } else {
-                    $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tablaRol (cedula) VALUES (:cedula)");
-                    $consultaAsignarRol->execute(["cedula" => $cedula]);
-                }
-            } elseif ($tablaRol === "SOLICITANTE") {
-                // Ya era solicitante: se actualiza su gmail.
-                $consultaGmail = $this->conexion->prepare("UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula");
-                $consultaGmail->execute(["gmail" => $gmail, "cedula" => $cedula]);
-            }
+            // Deja al usuario solo con los roles elegidos.
+            $this->sincronizarRoles($usuario);
 
             $this->conexion->commit();
             return true;
@@ -303,5 +221,43 @@ public function modificarUsuario(Usuario $usuario): bool {
         $consultaUsuario->execute(["cedula" => $cedula]);
 
         return $consultaUsuario->rowCount() > 0;
+    }
+
+    /**
+     * Agrega al usuario los roles que tiene marcados y le quita los demás.
+     * Debe llamarse dentro de una transacción abierta.
+     * @param Usuario $usuario Usuario con los roles y el gmail a guardar.
+     * @throws PDOException Si alguna consulta no puede ejecutarse.
+     */
+    private function sincronizarRoles(Usuario $usuario): void {
+        $cedula = $usuario->getCedula();
+        $roles = [
+            "ADMINISTRADOR" => $usuario->esAdministrador(),
+            "TECNICO" => $usuario->esTecnico(),
+            "SOLICITANTE" => $usuario->esSolicitante()
+        ];
+
+        foreach ($roles as $tabla => $tieneRol) {
+            $consultaBuscarRol = $this->conexion->prepare("SELECT cedula FROM $tabla WHERE cedula = :cedula");
+            $consultaBuscarRol->execute(["cedula" => $cedula]);
+            $yaTieneRol = $consultaBuscarRol->fetch(PDO::FETCH_ASSOC) !== false;
+
+            if (!$tieneRol) {
+                if ($yaTieneRol) {
+                    $consultaQuitarRol = $this->conexion->prepare("DELETE FROM $tabla WHERE cedula = :cedula");
+                    $consultaQuitarRol->execute(["cedula" => $cedula]);
+                }
+            } elseif ($tabla === "SOLICITANTE") {
+                // El solicitante guarda además su gmail.
+                $sqlSolicitante = $yaTieneRol
+                    ? "UPDATE SOLICITANTE SET gmail = :gmail WHERE cedula = :cedula"
+                    : "INSERT INTO SOLICITANTE (cedula, gmail) VALUES (:cedula, :gmail)";
+                $consultaSolicitante = $this->conexion->prepare($sqlSolicitante);
+                $consultaSolicitante->execute(["cedula" => $cedula, "gmail" => $usuario->getGmail()]);
+            } elseif (!$yaTieneRol) {
+                $consultaAsignarRol = $this->conexion->prepare("INSERT INTO $tabla (cedula) VALUES (:cedula)");
+                $consultaAsignarRol->execute(["cedula" => $cedula]);
+            }
+        }
     }
 }

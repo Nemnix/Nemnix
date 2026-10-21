@@ -9,7 +9,7 @@ class RegistroDAO {
     }
 
     /**
-     * Lista los registros diarios del solicitante junto con su laboratorio.
+     * Lista los registros diarios activos del solicitante junto con su laboratorio.
      * @param string $cedula Cédula del solicitante (sale de la sesión).
      * @return array Los registros del solicitante.
      * @throws PDOException Si la consulta no puede ejecutarse.
@@ -34,6 +34,7 @@ class RegistroDAO {
         ON l.ID_L = r.ID_L
 
     WHERE r.cedula = :cedula
+        AND r.activo = 1
 ";
 
         $consulta = $this->conexion->prepare($sql);
@@ -96,8 +97,8 @@ class RegistroDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican registros existentes del propio solicitante.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM REGISTRO_DIARIO WHERE ID_R = :idRegistro AND cedula = :cedula");
+            // Solo se modifican registros existentes y activos del propio solicitante.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM REGISTRO_DIARIO WHERE ID_R = :idRegistro AND cedula = :cedula AND activo = 1");
             $consultaExiste->execute(["idRegistro" => $idRegistro, "cedula" => $cedula]);
 
             if ($consultaExiste->fetchColumn() === false) {
@@ -135,19 +136,20 @@ class RegistroDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se eliminan registros existentes del propio solicitante.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM REGISTRO_DIARIO WHERE ID_R = :idRegistro AND cedula = :cedula");
-            $consultaExiste->execute(["idRegistro" => $idRegistro, "cedula" => $cedula]);
+            // Baja lógica: solo registros existentes y activos del propio solicitante.
+            $consultaRegistro = $this->conexion->prepare("UPDATE REGISTRO_DIARIO SET activo = 0 WHERE ID_R = :idRegistro AND cedula = :cedula AND activo = 1");
+            $consultaRegistro->execute(["idRegistro" => $idRegistro, "cedula" => $cedula]);
 
-            if ($consultaExiste->fetchColumn() === false) {
+            if ($consultaRegistro->rowCount() === 0) {
+                // No existe o ya estaba dado de baja.
                 $this->conexion->rollBack();
                 return false;
             }
 
-            // Se borran primero los diagnósticos y los tickets del registro, y después el registro.
-            foreach (["DIAGNOSTICO", "TICKET", "REGISTRO_DIARIO"] as $tabla) {
-                $consultaEliminar = $this->conexion->prepare("DELETE FROM $tabla WHERE ID_R = :idRegistro");
-                $consultaEliminar->execute(["idRegistro" => $idRegistro]);
+            // Los tickets y diagnósticos del registro también se dan de baja.
+            foreach (["TICKET", "DIAGNOSTICO"] as $tabla) {
+                $consultaBaja = $this->conexion->prepare("UPDATE $tabla SET activo = 0 WHERE ID_R = :idRegistro");
+                $consultaBaja->execute(["idRegistro" => $idRegistro]);
             }
 
             $this->conexion->commit();

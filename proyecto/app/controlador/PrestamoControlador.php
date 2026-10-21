@@ -166,7 +166,7 @@ class PrestamoControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("El préstamo no existe", 404);
+            RespuestaJson::error("El préstamo no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Préstamo eliminado exitosamente"]);
