@@ -25,6 +25,7 @@ CREATE TABLE TECNICO(
 
 CREATE TABLE SOLICITANTE(
     cedula CHAR(8) NOT NULL,
+    gmail VARCHAR(100) NOT NULL,
 
     CONSTRAINT pk_solicitante
         PRIMARY KEY (cedula)

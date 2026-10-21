@@ -3,10 +3,11 @@ CREATE TABLE SOLICITA(
     cedula CHAR(8) NOT NULL,
     descripcionSolicitud VARCHAR(300) NOT NULL,
     fecha DATE NOT NULL,
+    hora TIME NOT NULL,
     gmail VARCHAR(100) NOT NULL,
 
 CONSTRAINT pk_solicita
-PRIMARY KEY (ID_L, cedula)
+PRIMARY KEY (ID_L, cedula, fecha, hora)
 
 );
 

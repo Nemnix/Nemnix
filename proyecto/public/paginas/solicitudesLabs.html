@@ -50,6 +50,8 @@
         <fieldset>
             <legend>Solicitud de preparación de laboratorios</legend>
             <input type="hidden" id="idSolicitud" name="ID_L">
+            <input type="hidden" id="fechaActual" name="fechaActual">
+            <input type="hidden" id="horaActual" name="horaActual">
             <ul>
                 <li>
                     <label for="IDLaboratorio">Seleccione el número del laboratorio o taller</label>
@@ -66,6 +68,10 @@
                 <li>
                     <label for="fechaLaboratorio">Fecha aproximada de cuando necesita esta preparación</label>
                     <input type="date" id="fechaLaboratorio" name="fecha">
+                </li>
+                <li>
+                    <label for="horaLaboratorio">Hora en la que necesita esta preparación</label>
+                    <input type="time" id="horaLaboratorio" name="hora" required>
                 </li>
                 <li>
                     <label for="motivoSolicitudes">Descripción</label>
@@ -96,6 +102,7 @@
                         <th>Tipo de laboratorio</th>
                         <th>Número de laboratorio</th>
                         <th>Fecha</th>
+                        <th>Hora</th>
                         <th>Descripción</th>
                         <th>Mail</th>
                         <th>Acciones</th>
@@ -104,6 +111,7 @@
                     <tbody id="tablaOpciones">
 
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

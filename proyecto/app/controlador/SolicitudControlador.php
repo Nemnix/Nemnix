@@ -69,10 +69,11 @@ class SolicitudControlador
         $nombreLaboratorio = trim($datos["nombreLaboratorio"] ?? "");
         $numLaboratorio = trim($datos["numLaboratorio"] ?? "");
         $fecha = trim($datos["fecha"] ?? "");
+        $hora = trim($datos["hora"] ?? "");
         $descripcionSolicitud = trim($datos["descripcionSolicitud"] ?? "");
         $gmail = trim($datos["gmail"] ?? "");
 
-        if ($nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $descripcionSolicitud === "" || $gmail === "") {
+        if ($nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "" || $gmail === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!in_array($nombreLaboratorio, ["Laboratorio", "Taller"], true)) {
@@ -83,6 +84,9 @@ class SolicitudControlador
         }
         if (DateTime::createFromFormat("Y-m-d", $fecha) === false) {
             RespuestaJson::error("Fecha incorrecta", 422);
+        }
+        if (!$this->horaValida($hora)) {
+            RespuestaJson::error("Hora incorrecta", 422);
         }
         if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
             RespuestaJson::error("Gmail incorrecto", 422);
@@ -101,7 +105,7 @@ class SolicitudControlador
 
             $dao = new SolicitudDAO($conexion);
             // Se arma la solicitud con los datos ya validados.
-            $solicitud = new Solicitud($idLaboratorio, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $descripcionSolicitud, $gmail);
+            $solicitud = new Solicitud($idLaboratorio, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $hora, $descripcionSolicitud, $gmail);
             $resultado = $dao->registrarSolicitud($solicitud);
         } catch (PDOException $error) {
             error_log("Error en alta de solicitud: " . $error->getMessage());
@@ -109,7 +113,7 @@ class SolicitudControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("Ya existe una solicitud para ese laboratorio", 409);
+            RespuestaJson::error("Ya existe una solicitud para ese laboratorio en esa fecha y hora", 409);
         }
 
         RespuestaJson::exito(["mensaje" => "Solicitud registrada exitosamente"], 201);
@@ -124,17 +128,24 @@ class SolicitudControlador
 
         $cedula = $_SESSION["cedula"];
         $idLaboratorioActual = trim($datos["ID_L"] ?? "");
+        // Fecha y hora originales, que junto al laboratorio identifican la solicitud a modificar.
+        $fechaActual = trim($datos["fechaActual"] ?? "");
+        $horaActual = trim($datos["horaActual"] ?? "");
         $nombreLaboratorio = trim($datos["nombreLaboratorio"] ?? "");
         $numLaboratorio = trim($datos["numLaboratorio"] ?? "");
         $fecha = trim($datos["fecha"] ?? "");
+        $hora = trim($datos["hora"] ?? "");
         $descripcionSolicitud = trim($datos["descripcionSolicitud"] ?? "");
         $gmail = trim($datos["gmail"] ?? "");
 
-        if ($idLaboratorioActual === "" || $nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $descripcionSolicitud === "" || $gmail === "") {
+        if ($idLaboratorioActual === "" || $fechaActual === "" || $horaActual === "" || $nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "" || $gmail === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!ctype_digit($idLaboratorioActual) || (int) $idLaboratorioActual <= 0) {
             RespuestaJson::error("Identificador de laboratorio incorrecto", 422);
+        }
+        if (DateTime::createFromFormat("Y-m-d", $fechaActual) === false || !$this->horaValida($horaActual)) {
+            RespuestaJson::error("Fecha u hora de la solicitud incorrecta", 422);
         }
         if (!in_array($nombreLaboratorio, ["Laboratorio", "Taller"], true)) {
             RespuestaJson::error("Tipo de aula incorrecto", 422);
@@ -144,6 +155,9 @@ class SolicitudControlador
         }
         if (DateTime::createFromFormat("Y-m-d", $fecha) === false) {
             RespuestaJson::error("Fecha incorrecta", 422);
+        }
+        if (!$this->horaValida($hora)) {
+            RespuestaJson::error("Hora incorrecta", 422);
         }
         if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
             RespuestaJson::error("Gmail incorrecto", 422);
@@ -163,18 +177,19 @@ class SolicitudControlador
             $dao = new SolicitudDAO($conexion);
 
             // Primero se comprueba que la solicitud a modificar exista y sea del solicitante.
-            if (!$dao->existeSolicitud((int) $idLaboratorioActual, $cedula)) {
+            if (!$dao->existeSolicitud((int) $idLaboratorioActual, $cedula, $fechaActual, $horaActual)) {
                 RespuestaJson::error("La solicitud no existe", 404);
             }
 
-            // Si cambia de laboratorio, no puede tener ya una solicitud para el nuevo.
-            if ($idLaboratorioNuevo !== (int) $idLaboratorioActual && $dao->existeSolicitud($idLaboratorioNuevo, $cedula)) {
-                RespuestaJson::error("Ya existe una solicitud para ese laboratorio", 409);
+            // Si cambia de laboratorio, fecha u hora, no puede tener ya una solicitud con los datos nuevos.
+            $cambiaClave = $idLaboratorioNuevo !== (int) $idLaboratorioActual || $fecha !== $fechaActual || substr($hora, 0, 5) !== substr($horaActual, 0, 5);
+            if ($cambiaClave && $dao->existeSolicitud($idLaboratorioNuevo, $cedula, $fecha, $hora)) {
+                RespuestaJson::error("Ya existe una solicitud para ese laboratorio en esa fecha y hora", 409);
             }
 
             // Se arma la solicitud con los datos nuevos; el laboratorio actual la identifica.
-            $solicitud = new Solicitud($idLaboratorioNuevo, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $descripcionSolicitud, $gmail);
-            $resultado = $dao->modificarSolicitud((int) $idLaboratorioActual, $solicitud);
+            $solicitud = new Solicitud($idLaboratorioNuevo, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $hora, $descripcionSolicitud, $gmail);
+            $resultado = $dao->modificarSolicitud((int) $idLaboratorioActual, $fechaActual, $horaActual, $solicitud);
         } catch (PDOException $error) {
             error_log("Error en modificación de solicitud: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -192,6 +207,8 @@ class SolicitudControlador
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
         $idLaboratorio = trim($datos["ID_L"] ?? "");
+        $fecha = trim($datos["fecha"] ?? "");
+        $hora = trim($datos["hora"] ?? "");
 
         // El administrador indica de qué solicitante es la solicitud; el solicitante solo borra las suyas.
         if ($_SESSION["administrador"] ?? false) {
@@ -200,8 +217,8 @@ class SolicitudControlador
             $cedula = $_SESSION["cedula"];
         }
 
-        if ($idLaboratorio === "" || $cedula === "") {
-            RespuestaJson::error("Faltan el laboratorio o la cédula de la solicitud", 422);
+        if ($idLaboratorio === "" || $cedula === "" || $fecha === "" || $hora === "") {
+            RespuestaJson::error("Faltan el laboratorio, la cédula, la fecha o la hora de la solicitud", 422);
         }
         if (!ctype_digit($idLaboratorio) || (int) $idLaboratorio <= 0) {
             RespuestaJson::error("Identificador de laboratorio incorrecto", 422);
@@ -209,11 +226,14 @@ class SolicitudControlador
         if (!preg_match("/^[1-9][0-9]{7}$/", $cedula)) {
             RespuestaJson::error("Cédula incorrecta", 422);
         }
+        if (DateTime::createFromFormat("Y-m-d", $fecha) === false || !$this->horaValida($hora)) {
+            RespuestaJson::error("Fecha u hora de la solicitud incorrecta", 422);
+        }
 
         try {
             $conexion = $this->conectar();
             $dao = new SolicitudDAO($conexion);
-            $resultado = $dao->eliminarSolicitud((int) $idLaboratorio, $cedula);
+            $resultado = $dao->eliminarSolicitud((int) $idLaboratorio, $cedula, $fecha, $hora);
         } catch (PDOException $error) {
             error_log("Error en baja de solicitud: " . $error->getMessage());
             RespuestaJson::error("Error interno del servidor", 500);
@@ -224,6 +244,14 @@ class SolicitudControlador
         }
 
         RespuestaJson::exito(["mensaje" => "Solicitud eliminada exitosamente"]);
+    }
+
+    /**
+     * Valida una hora en formato HH:MM o HH:MM:SS.
+     */
+    private function horaValida(string $hora): bool
+    {
+        return preg_match("/^([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/", $hora) === 1;
     }
 
     private function conectar(): PDO
