@@ -48,7 +48,7 @@
 
             <form action="#" method="POST" id="FormularioRegistroDiario">
                 <fieldset>
-                    <legend>Solicitud de preparación de laboratorios</legend>
+                    <legend>Registro diario</legend>
                     <ul>
                         <input type="hidden" id="ID_R" name="ID_R">
                         <li>
@@ -96,16 +96,11 @@
 
                         <li>
                             <button type="submit"> Enviar </button>
-                        </li>
-                        <li>
-
+                            <button type="button" id="btnCerrarRegistro"> Cerrar </button>
                         </li>
                     </ul>
-
+                </fieldset>
             </form>
-
-            <button type="button" id="btnCerrarRegistro"> Cerrar </button>
-            </fieldset>
         </dialog>
 
         <dialog id="TicketSolicitante" class="Formulario">
@@ -115,6 +110,7 @@
                     <legend>Ticket 1</legend>
                     <ul>
                         <input type="hidden" id="ID_R_Ticket" name="ID_R">
+                        <input type="hidden" id="prioridadTicket" name="prioridad" value="Sin definir">
                         <li>
                             <label for="idDispositivo">Tipo de dispositivo</label>
                             <input type="text" id="idDispositivo" name="idDispositivo" required
@@ -136,19 +132,9 @@
                             <input type="text" id="motivoTicket" required name="motivo_Ticket"
                                 placeholder="Ingrese el motivo del ticket" />
                         </li>
-                        <li>
-                            <label for="prioridadTicket">Prioridad</label>
-                            <select id="prioridadTicket" name="prioridad" required>
-                                <option value="">-- Seleccione una prioridad --</option>
-                                <option value="Baja">Baja</option>
-                                <option value="Media">Media</option>
-                                <option value="Alta">Alta</option>
-                            </select>
-                        </li>
+                       
                         <li>
                             <button type="submit"> Enviar </button>
-                        </li>
-                        <li>
                             <button type="button" id="btnCerrarTicket">Cerrar</button>
                         </li>
                     </ul>

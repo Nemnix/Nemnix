@@ -1,20 +1,6 @@
 <?php
-/*
- * ARCHIVO VIEJO (no se usa). Movido y comentado el 2026-10-07 (corrección 1 del profesor).
- * Ubicación original: app/vista/listaRegistroDiario.php
- * Reemplazado por: public/paginas/listaRegistroDiario.html
- * Todo el código está comentado para que no se ejecute. Dentro del código
- * los cierres de comentario internos (asterisco + barra) se cambiaron por '* /'.
- * ------------------------------------------------------------------------
-
-<?php
-/**
- * Vista: listado de registros diarios del usuario solicitante.
- *
- * Variables esperadas:
- * @var array $registros Lista de registros diarios con los datos del laboratorio asociado.
- * @var array $ticketsPorRegistro Tickets agrupados por ID_R de registro diario.
- * /
+$registros = $registros ?? [];
+$ticketsPorRegistro = $ticketsPorRegistro ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,7 +17,7 @@
 <body>
     <header>
         <button onclick="subir()" class="botonSubir">▲</button>
-        <img class="logo" src="../assets/img/logoUTU.png">
+        <img class="logo" src="../assets/img/logoUTU.png" alt="Logo">
         <button id="btnMenu" aria-label="Toggle menu">&#9776;</button>
         <button id="btnCerrar" type="button" aria-label="Cerrar menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
@@ -63,8 +49,8 @@
             <form action="/proyecto/public/usuarioSolicitante/procesarAltaRegistros.php" method="POST" id="FormularioRegistroDiario">
                 <fieldset>
                     <legend>Solicitud de preparación de laboratorios</legend>
+                    <input type="hidden" id="ID_R" name="ID_R">
                     <ul>
-                        <input type="hidden" id="ID_R" name="ID_R">
                         <li>
                             <label for="IDLaboratorio">Seleccione el tipo de aula</label>
                             <select id="IDLaboratorio" name="preparacionLaboratorio" required>
@@ -75,7 +61,7 @@
                         <li>
                             <label for="numLabTaller">Escriba el numero del laboratorio o taller</label>
                             <input type="text" id="numLabTaller" name="numLabTaller" pattern="[0-9]{2}" maxlength="2"
-                                required required placeholder="Numero laboratorio/taller" />
+                                required placeholder="Numero laboratorio/taller" />
                         </li>
                         <li>
                             <label for="fechaRegistroDiario">Fecha</label>
@@ -110,25 +96,20 @@
 
                         <li>
                             <button type="submit"> Enviar </button>
-                        </li>
-                        <li>
-
+                            <button type="button" id="btnCerrarRegistro"> Cerrar </button>
                         </li>
                     </ul>
-
+                </fieldset>
             </form>
-
-            <button type="button" id="btnCerrarRegistro"> Cerrar </button>
-            </fieldset>
         </dialog>
 
-        <dialog id="TicketSolicitante" class="Formulario">
+       
 
             <form action="/proyecto/public/usuarioSolicitante/procesarAltaTickets.php" method="POST" id="FormularioTickets">
                 <fieldset>
                     <legend>Ticket 1</legend>
+                    <input type="hidden" id="ID_R_Ticket" name="ID_R">
                     <ul>
-                        <input type="hidden" id="ID_R_Ticket" name="ID_R">
                         <li>
                             <label for="idDispositivo">Tipo de dispositivo</label>
                             <input type="text" id="idDispositivo" name="idDispositivo" required
@@ -146,7 +127,7 @@
                                 placeholder="Nombre del equipo" />
                         </li>
                         <li>
-                            <label for="ticket">Motivo del ticket</label>
+                            <label for="motivoTicket">Motivo del ticket</label>
                             <input type="text" id="motivoTicket" required name="motivo_Ticket"
                                 placeholder="Ingrese el motivo del ticket" />
                         </li>
@@ -183,7 +164,7 @@
                     </tbody>
                 </table>
             </fieldset>
-        </dialog>
+     
 
         <section class="Tablas">
             <fieldset>
@@ -223,12 +204,10 @@
                                 </form>
                             </td>
                         </tr>
-                        <?php } ?>                    
-                    <tr>
-
-                    </tr>
-            </fieldset>
+                        <?php } ?>
+                </tbody>
             </table>
+            </fieldset>
         </section>
     </main>
     <footer>
@@ -237,11 +216,10 @@
 
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/menu.js"></script>
-    <script src="../assets/JavaScript/RegistroDiario.js"></script>
+    <script src="../assets/JavaScript/registroDiario.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 </body>
 
 </html>
-*/

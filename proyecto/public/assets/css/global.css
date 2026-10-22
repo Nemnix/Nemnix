@@ -63,6 +63,7 @@ body{
     color: var(--Negro);
     border-radius: 0.625rem;
     text-decoration: none;
+    border:none;
 }
 
 h2{
@@ -246,6 +247,7 @@ li,ul, a{
 }
  
 .BotonNavegacion:hover{
+    text-shadow: 1px 1px 15px var(--blanco);
     color: var(--blanco);
 }
  
@@ -324,12 +326,12 @@ button{
 }
  
 button:hover{
-    background-color: var(--blanco);
+    background-color: var(--grisClaro);
     color: #000000;
 }
  
 .botonesAgregar:hover{
-    border: 0.5rem var(--blanco) solid;
+    border: 0.5rem var(--grisClaro) solid;
 }
  
 .botonesAgregar{
@@ -421,7 +423,7 @@ tr{
 }
  
 dialog{
-    background-color: var(--AzulOscuro);
+    background-color: var(--grisClaro);
     margin: auto;
     max-width: 90vw;
 }
@@ -479,13 +481,14 @@ dialog{
  
     .BotonesInicio li {
         background-color: rgba(var(--grisRGBA), 1);
-        width: 19rem;
-        height: 12rem;
+        width: 25rem;
+        min-height: 12rem;
         border: 1.0rem solid rgba(var(--grisRGBA), 1);
         border-radius: 0.7rem;
         font-size: 1.3rem;
         margin-top: 0.5rem;
-        
+        justify-content: center;
+        align-items: center;
     }
 
     
@@ -493,6 +496,7 @@ dialog{
         max-width: 60rem;
         margin: 0 auto;
         gap:1.5rem;
+        
     }
 
     .BotonesInicio a{
@@ -523,7 +527,7 @@ dialog{
     }
  
     .MenuPrincipal li {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
  
     #btnMenu{
@@ -536,6 +540,7 @@ dialog{
  
     .BotonNavegacion:hover{
         color: var(--blanco);
+        text-shadow: 1px 1px 15px var(--blanco);
     }
  
     fieldset{
@@ -602,7 +607,10 @@ dialog{
 
     .opciones label{
         margin-left: 0;
-        font-weight: 200;
+        font-weight: 350;
+        font-size: 1.5rem;
+        margin-bottom: auto;
+        line-height: 2;
     }
 
     .opciones select,
@@ -617,6 +625,7 @@ dialog{
         display: flex;
         align-items: center;
         background-color: var(--AmarilloClaro);
+        
     }
 
     .opciones select::picker-icon{
@@ -640,6 +649,7 @@ dialog{
         border-radius: 0.6rem;
         padding: 0.4rem 0.8rem;
         line-height: normal;
+        
     }
 
     .opciones option::checkmark{
@@ -654,4 +664,108 @@ dialog{
     footer{
         margin-top: 1rem;
     }
+
+    dialog{
+        background-color: var(--AzulOscuro);
+        margin: auto;
+        width: 70%;
+    }
+
+    dialog fieldset{
+        width: 100%;
+        max-width: none;
+    }
+
+    dialog fieldset ul{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        list-style: none;
+        padding: 1rem;
+    }
+
+    dialog fieldset li{
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+    }
+
+    dialog fieldset li:last-child{
+        width: 100%;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    dialog fieldset label{
+        margin-left: 0;
+        line-height: 1.5;
+    }
+
+    dialog fieldset input,
+    dialog fieldset select{
+        width: 100%;
+    }
+
+    dialog fieldset select,
+    dialog fieldset select::picker(select){
+        appearance: base-select;
+    }
+
+    dialog fieldset select{
+        border-radius: 10rem;
+        padding: 0 1rem;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+    }
+
+    dialog fieldset select::picker(select){
+        background-color: var(--grisClaro);
+        border-radius: 1rem;
+        border: none;
+        margin-top: 0.3rem;
+        padding: 0.4rem;
+    }
+
+    dialog fieldset option{
+        border-radius: 0.6rem;
+        padding: 0.4rem 0.8rem;
+        line-height: normal;
+    }
+
+    dialog fieldset option::checkmark{
+        display: none;
+    }
+
+    dialog fieldset option:hover,
+    dialog fieldset option:checked{
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    dialog fieldset input{
+        border-radius: 10px;
+        padding: 0 0.8rem;
+        line-height: normal;
+    }
+
+    dialog legend{
+        font-size: 2rem;
+    }
+
+    dialog button{
+        display: flex;
+        flex-direction: row-reverse;
+        width: 15rem;
+        align-items: center;
+        justify-content: center;
+
+
+    }
+
+    dialog::backdrop{
+    background-color: rgba(255, 255, 255, 0.4);
+}
 }
