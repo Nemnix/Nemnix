@@ -2,7 +2,10 @@
 :root{
     --blanco: #ffffff;
     --grisClaro: #D9D9D9;
+    --grisResaltado: #BFBFBF;
     --grisRGBA: 183, 183, 183;
+    --blancoRGBA: 255, 255, 255;
+    --PerlaRGB: 238, 238, 238;
     --grisBotones:  #2C2C2C;
     --Negro: #000000;
     --AzulOscuro: #0A274C;
@@ -25,7 +28,7 @@ section{
 }
 
 body{
-    background: linear-gradient(to right, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--grisOscuro) 95%);
+    background: linear-gradient(to bottom, var(--AzulOscuro) 11%, var(--AzulMedio) 42%, var(--AzulOscuro) 95%);
     font-size: 1.2rem;
     font-weight: 250;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -67,6 +70,7 @@ h2{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 450;
     font-size: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 h3{
@@ -81,7 +85,7 @@ h4{
 }
 
 .BotonesInicio h3 {
-    font-size: 16px; 
+    font-size: 18px; 
     line-height: 4.0;
     font-weight: 200;
     margin-bottom: auto;
@@ -89,7 +93,6 @@ h4{
 
 .BotonesInicio li {
     background-color: rgba(var(--grisRGBA), 0.8);
-    box-shadow: 0.2px 0.2px 30px #1C1B1B;
     width: 70%;
     border: var(--grisClaro) solid 0.125rem;
     border-radius: 0.5rem;
@@ -103,7 +106,6 @@ h4{
 
 .BotonesInicio a{
     background-color:  var(--Amarillo);
-    box-shadow: 0.2px 0.2px 10px #503c04;
     margin: 0 auto 0.625rem auto;
     max-width: 15.625rem;
     width: 90%;
@@ -132,7 +134,6 @@ h4{
 
 .BotonesInicio a:hover{
     background-color:var(--AmarilloClaro);
-    box-shadow:  0.2px 0.2px 10px #503c04;
     color: var(--Negro);
 }
 
@@ -140,7 +141,7 @@ header {
     display: flex;
     align-items: center;
     min-height: 4.6875rem;  
-    background: rgba(var(--AzulRGB),0.7);
+    background: rgba(var(--AzulRGB),0.8);
     width: 100%;
     margin-left: 0;
     gap: 20px;
@@ -245,7 +246,6 @@ li,ul, a{
 }
  
 .BotonNavegacion:hover{
-    text-shadow: 1px 1px 15px var(--blanco);
     color: var(--blanco);
 }
  
@@ -258,7 +258,7 @@ footer{
  
 fieldset{
     border-radius: 15px;
-    border: 3.5px solid rgba(var(--grisRGBA), 0.3);
+    
     display: inline-block;
     width: 100%;
     background-color: var(--gris);
@@ -336,15 +336,14 @@ button:hover{
     display: flex;
     background-color: var(--Amarillo);
     margin: 0 auto 0.625rem auto;
-    margin-bottom: 0.625rem;
+    margin-bottom: 1.5rem;
     border: 0.5rem var(--Amarillo) solid;
     border-radius: 0.9375rem;
-    box-shadow:  0.2px 0.2px 30px #1C1B1B;
     color: var(--Negro);
 }
  
 fieldset table {
-    box-shadow:  0.2px 0.2px 30px #1C1B1B;
+    
     border-collapse: separate;
     border-spacing: 0;
     padding: 0;
@@ -353,7 +352,7 @@ fieldset table {
     border: 5px solid var(--AzulOscuro);
     border-radius: 15px;
 }
- 
+
 fieldset table thead tr:first-child th:first-child {
     border-top-left-radius: 10px;
 }
@@ -386,11 +385,6 @@ tr{
     border-radius: 15px;
 }
  
-tr:nth-child(even) td {
-    background-color: var(--grisResaltado);
-    color: var(--Negro);
-}
- 
 .CuadrosTexto{
     background-color: var(--blanco);
     width: 80%;
@@ -404,22 +398,6 @@ tr:nth-child(even) td {
  
 .CuadrosTexto label{
     margin: auto 20px auto;
-}
- 
-.opciones{
-    border-radius: 0.625rem;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    margin-bottom: 1.25rem;
-}
- 
-.opciones label{
-    margin-right: 4.375rem;
 }
  
 .PanelRoles{
@@ -457,6 +435,7 @@ dialog{
 }
  
 
+
 @media (min-width: 769px) {
 
      .MenuPrincipal {
@@ -486,20 +465,36 @@ dialog{
  
     h2{
         font-weight: 350;
+        margin-bottom: 2rem;
+    }
+
+    .Bienvenida h2{
+        margin-bottom: 3rem;
     }
  
     .BotonesInicio h3 {
-        font-size: 1.2rem;
+        font-size: 1.40rem;
         line-height: 2.0;
     }
  
     .BotonesInicio li {
-        background-color: rgba(var(--grisRGBA), 0.8);
-        width: 17.5rem;
-        border: 1.0rem solid rgba(var(--grisRGBA), 0.1);
+        background-color: rgba(var(--grisRGBA), 1);
+        width: 19rem;
+        height: 12rem;
+        border: 1.0rem solid rgba(var(--grisRGBA), 1);
         border-radius: 0.7rem;
+        font-size: 1.3rem;
+        margin-top: 0.5rem;
+        
     }
- 
+
+    
+    .BotonesInicio ul{
+        max-width: 60rem;
+        margin: 0 auto;
+        gap:1.5rem;
+    }
+
     .BotonesInicio a{
         background-color: rgba(var(--AmarilloBotones));
         margin: 0rem 1.200rem 0rem 1.200rem;
@@ -508,8 +503,12 @@ dialog{
  
     header {
         padding: 0 2rem;
-        background: rgba(var(--AzulRGB),0.1);
+        background: rgba(var(--AzulRGB),0.7);
+        position: sticky;
+        top:0;
     }
+
+    
  
     .salida {
         margin: 0 1rem;
@@ -536,12 +535,123 @@ dialog{
     }
  
     .BotonNavegacion:hover{
-        text-shadow: 1px 1px 15px var(--blanco);
-        color: var(--Negro);
+        color: var(--blanco);
     }
  
     fieldset{
         width: 25rem;
         max-width: 100%;
+    }
+
+    .botonesAgregar{
+        background-image: url("../img/mas.png");
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        background-size: 24px;
+        padding-left: 42px;
+    }
+
+    fieldset table{
+        overflow: hidden;
+    }
+
+    .Tablas fieldset{
+        width: 80%;
+        max-width: 58rem;
+        border-radius: 45px;
+    }
+
+    .Tablas th,
+    .Tablas td{
+        font-size: 1.2rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .Tablas td button{
+        justify-content: center;
+        width: 6.5rem;
+        margin: 0.3rem auto;
+        padding: 0.4rem 0;
+        font-size: 1rem;
+        background-color: var(--grisBotones);
+        border: none;
+    }
+
+    tbody tr:nth-child(odd) td{
+        background-color: var(--grisResaltado);
+        color: var(--Negro);
+    }
+
+    main > ul{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.25rem 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .opciones{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .opciones label{
+        margin-left: 0;
+        font-weight: 200;
+    }
+
+    .opciones select,
+    .opciones select::picker(select){
+        appearance: base-select;
+    }
+
+    .opciones select{
+        border-radius: 10rem;
+        padding: 0 1rem;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        background-color: var(--AmarilloClaro);
+    }
+
+    .opciones select::picker-icon{
+        color: var(--blanco);
+        font-size: 1rem;
+        line-height: 1;
+        align-self: center;
+    }
+
+    .opciones select::picker(select){
+        background-color: var(--grisClaro);
+        border-radius: 1rem;
+        border: none;
+        margin-top: 0.3rem;
+        padding: 0.4rem;
+        max-height: none;
+        overflow: hidden;
+    }
+
+    .opciones option{
+        border-radius: 0.6rem;
+        padding: 0.4rem 0.8rem;
+        line-height: normal;
+    }
+
+    .opciones option::checkmark{
+        display: none;
+    }
+
+    .opciones option:hover,
+    .opciones option:checked{
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    footer{
+        margin-top: 1rem;
     }
 }
