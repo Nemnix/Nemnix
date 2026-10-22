@@ -33,10 +33,10 @@
         <ul class="MenuPrincipal">
                 <li><a href="paginaBienvenidaAdministrador.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Visualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Visualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnológico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Métricas y reportes</a></li>
+                <li><a href="listaIncidencias.html" class="BotonNavegacion">Ver incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Ver solicitudes</a></li>
+                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario</a></li>
+                <li><a href="listaMetricas.html" class="BotonNavegacion">Métricas</a></li>
                 <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
         </ul>
     </nav>
@@ -61,8 +61,8 @@
                         </li>
                         <li>
                             <label for="registroNumLabTaller">Número del laboratorio o taller</label>
-                            <input type="text" id="registroNumLabTaller" name="numLaboratorio" pattern="[0-9]{1,2}"
-                                maxlength="2" required required placeholder="Escriba el número laboratorio/taller" />
+                            <input type="number" id="registroNumLabTaller" name="numLaboratorio" 
+                                  required placeholder="Escriba el número laboratorio/taller" />
                         </li>
                         <li>
                             <label for="cantMonitores">Cantidad monitores</label>
@@ -113,24 +113,6 @@
                     </tr>
                     </thead>
                     <tbody id="tablaInventario">
-
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <button class="btnEditar" data-id="">Editar</button>
-                                <form action="#" method="post" class="formularioBajaInventario">
-                                        <input type="hidden" name="idInventario" value="">
-                                        <button type="submit" class="btnEliminar">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-
                     </tbody>
                 </table>
             </fieldset>

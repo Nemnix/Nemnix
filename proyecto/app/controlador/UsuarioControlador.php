@@ -52,6 +52,8 @@ class UsuarioControlador
         $clave = $datos["clave"] ?? "";
         $confirmarClave = $datos["confirmarClave"] ?? "";
         $rol = trim($datos["rol"] ?? "");
+        // El segundo rol es opcional.
+        $segundoRol = trim($datos["segundoRol"] ?? "");
         $gmail = trim($datos["gmail"] ?? "");
 
         if ($cedula === "" || $nombre === "" || $apellido === "" || $clave === "" || $confirmarClave === "" || $rol === "") {
@@ -63,6 +65,13 @@ class UsuarioControlador
         if (!in_array($rol, ["Administrador", "Tecnico", "Solicitante"], true)) {
             RespuestaJson::error("Rol incorrecto", 422);
         }
+        if ($segundoRol !== "" && !in_array($segundoRol, ["Administrador", "Tecnico", "Solicitante"], true)) {
+            RespuestaJson::error("Segundo rol incorrecto", 422);
+        }
+        if ($segundoRol === $rol) {
+            RespuestaJson::error("El segundo rol debe ser distinto del primero", 422);
+        }
+        $roles = [$rol, $segundoRol];
         if (strlen($clave) < 12) {
             RespuestaJson::error("La contraseña debe contener al menos 12 caracteres", 422);
         }
@@ -70,8 +79,8 @@ class UsuarioControlador
             RespuestaJson::error("Las contraseñas ingresadas no coinciden", 422);
         }
 
-        // El gmail solo se pide para el rol Solicitante.
-        if ($rol === "Solicitante") {
+        // El gmail solo se pide si uno de los roles es Solicitante.
+        if (in_array("Solicitante", $roles, true)) {
             if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
                 RespuestaJson::error("Gmail incorrecto", 422);
             }
@@ -84,8 +93,8 @@ class UsuarioControlador
         try {
             $conexion = $this->conectar();
             $dao = new UsuarioDAO($conexion);
-            // Se arma el usuario con los datos ya validados: activo y con el rol elegido.
-            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, $rol === "Administrador", $rol === "Tecnico", $rol === "Solicitante", $gmail);
+            // Se arma el usuario con los datos ya validados: activo y con los roles elegidos.
+            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, in_array("Administrador", $roles, true), in_array("Tecnico", $roles, true), in_array("Solicitante", $roles, true), $gmail);
             $resultado = $dao->registrarUsuario($usuario);
         } catch (PDOException $error) {
             error_log("Error en alta de usuario: " . $error->getMessage());
@@ -109,6 +118,8 @@ class UsuarioControlador
         $apellido = trim($datos["apellido"] ?? "");
         $clave = $datos["clave"] ?? "";
         $rol = trim($datos["rol"] ?? "");
+        // El segundo rol es opcional.
+        $segundoRol = trim($datos["segundoRol"] ?? "");
         $gmail = trim($datos["gmail"] ?? "");
 
         if ($cedula === "" || $nombre === "" || $apellido === "" || $rol === "") {
@@ -120,9 +131,16 @@ class UsuarioControlador
         if (!in_array($rol, ["Administrador", "Tecnico", "Solicitante"], true)) {
             RespuestaJson::error("Rol incorrecto", 422);
         }
+        if ($segundoRol !== "" && !in_array($segundoRol, ["Administrador", "Tecnico", "Solicitante"], true)) {
+            RespuestaJson::error("Segundo rol incorrecto", 422);
+        }
+        if ($segundoRol === $rol) {
+            RespuestaJson::error("El segundo rol debe ser distinto del primero", 422);
+        }
+        $roles = [$rol, $segundoRol];
 
-        // El gmail solo se pide para el rol Solicitante.
-        if ($rol === "Solicitante") {
+        // El gmail solo se pide si uno de los roles es Solicitante.
+        if (in_array("Solicitante", $roles, true)) {
             if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
                 RespuestaJson::error("Gmail incorrecto", 422);
             }
@@ -143,7 +161,7 @@ class UsuarioControlador
             $conexion = $this->conectar();
             $dao = new UsuarioDAO($conexion);
             // Se arma el usuario con los datos ya validados; la clave es NULL si no se ingresó una nueva.
-            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, $rol === "Administrador", $rol === "Tecnico", $rol === "Solicitante", $gmail);
+            $usuario = new Usuario($cedula, $nombre, $apellido, $claveHash, true, in_array("Administrador", $roles, true), in_array("Tecnico", $roles, true), in_array("Solicitante", $roles, true), $gmail);
             $resultado = $dao->modificarUsuario($usuario);
         } catch (PDOException $error) {
             error_log("Error en modificación de usuario: " . $error->getMessage());

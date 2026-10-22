@@ -9,7 +9,7 @@ class TicketDAO {
     }
 
     /**
-     * Lista todos los tickets con los datos de su registro y laboratorio (técnico).
+     * Lista los tickets activos con los datos de su registro y laboratorio (técnico).
      * @return array Los tickets.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -41,6 +41,8 @@ class TicketDAO {
     LEFT JOIN LABORATORIO AS l
         ON l.ID_L = r.ID_L
 
+    WHERE t.activo = 1
+
     ORDER BY r.fecha DESC, t.ID_T DESC
 ";
 
@@ -50,7 +52,7 @@ class TicketDAO {
     }
 
     /**
-     * Lista los tickets de los registros de un solicitante.
+     * Lista los tickets activos de los registros de un solicitante.
      * @param string $cedula Cédula del solicitante (sale de la sesión).
      * @return array Los tickets del solicitante.
      * @throws PDOException Si la consulta no puede ejecutarse.
@@ -79,6 +81,7 @@ class TicketDAO {
         ON l.ID_L = r.ID_L
 
     WHERE r.cedula = :cedula
+        AND t.activo = 1
 
     ORDER BY r.fecha DESC, t.ID_T DESC
 ";
@@ -101,8 +104,8 @@ class TicketDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // El ticket solo se puede levantar en un registro existente del propio solicitante.
-            $consultaRegistro = $this->conexion->prepare("SELECT 1 FROM REGISTRO_DIARIO WHERE ID_R = :idRegistro AND cedula = :cedula");
+            // El ticket solo se puede levantar en un registro existente y activo del propio solicitante.
+            $consultaRegistro = $this->conexion->prepare("SELECT 1 FROM REGISTRO_DIARIO WHERE ID_R = :idRegistro AND cedula = :cedula AND activo = 1");
             $consultaRegistro->execute(["idRegistro" => $idRegistro, "cedula" => $cedula]);
 
             if ($consultaRegistro->fetchColumn() === false) {
@@ -153,8 +156,8 @@ class TicketDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican tickets existentes.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM TICKET WHERE ID_R = :idRegistro AND ID_T = :idTicket");
+            // Solo se modifican tickets existentes y activos.
+            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM TICKET WHERE ID_R = :idRegistro AND ID_T = :idTicket AND activo = 1");
             $consultaExiste->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket]);
 
             if ($consultaExiste->fetchColumn() === false) {
@@ -189,20 +192,19 @@ class TicketDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se eliminan tickets existentes de un registro del propio solicitante.
-            $consultaExiste = $this->conexion->prepare("SELECT 1 FROM TICKET AS t INNER JOIN REGISTRO_DIARIO AS r ON r.ID_R = t.ID_R WHERE t.ID_R = :idRegistro AND t.ID_T = :idTicket AND r.cedula = :cedula");
-            $consultaExiste->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket, "cedula" => $cedula]);
+            // Baja lógica: solo tickets existentes y activos de un registro del propio solicitante.
+            $consultaTicket = $this->conexion->prepare("UPDATE TICKET AS t INNER JOIN REGISTRO_DIARIO AS r ON r.ID_R = t.ID_R SET t.activo = 0 WHERE t.ID_R = :idRegistro AND t.ID_T = :idTicket AND r.cedula = :cedula AND t.activo = 1");
+            $consultaTicket->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket, "cedula" => $cedula]);
 
-            if ($consultaExiste->fetchColumn() === false) {
+            if ($consultaTicket->rowCount() === 0) {
+                // No existe o ya estaba dado de baja.
                 $this->conexion->rollBack();
                 return false;
             }
 
-            // Se borran primero los diagnósticos del ticket y después el ticket.
-            foreach (["DIAGNOSTICO", "TICKET"] as $tabla) {
-                $consultaEliminar = $this->conexion->prepare("DELETE FROM $tabla WHERE ID_R = :idRegistro AND ID_T = :idTicket");
-                $consultaEliminar->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket]);
-            }
+            // Los diagnósticos del ticket también se dan de baja.
+            $consultaDiagnosticos = $this->conexion->prepare("UPDATE DIAGNOSTICO SET activo = 0 WHERE ID_R = :idRegistro AND ID_T = :idTicket");
+            $consultaDiagnosticos->execute(["idRegistro" => $idRegistro, "idTicket" => $idTicket]);
 
             $this->conexion->commit();
             return true;

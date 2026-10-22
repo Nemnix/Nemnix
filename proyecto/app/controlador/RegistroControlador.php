@@ -193,7 +193,7 @@ class RegistroControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("El registro no existe", 404);
+            RespuestaJson::error("El registro no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Registro eliminado exitosamente"]);

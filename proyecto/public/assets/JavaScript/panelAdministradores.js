@@ -23,6 +23,7 @@ const entradaApellido = document.getElementById("apellido");
 const entradaClave = document.getElementById("clave");
 const entradaConfirmarClave = document.getElementById("confirmarClave");
 const entradaRol = document.getElementById("rol");
+const entradaSegundoRol = document.getElementById("segundoRol");
 const entradaGmail = document.getElementById("gmail");
 const itemGmail = document.getElementById("itemGmail");
 
@@ -71,7 +72,17 @@ function crearFila(usuario) {
     //El gmail no se muestra en la tabla, se guarda en la fila para precargarlo al editar
     fila.dataset.gmail = usuario.gmail ?? "";
 
-    for (const valor of [usuario.cedula, usuario.nombre, usuario.apellido, usuario.cargo]) {
+    //Roles del usuario, en el mismo formato que los valores de los selectores
+    const roles = [];
+    if (Number(usuario.administrador)) roles.push("Administrador");
+    if (Number(usuario.tecnico)) roles.push("Tecnico");
+    if (Number(usuario.solicitante)) roles.push("Solicitante");
+    //Se guardan en la fila para precargar los selectores al editar
+    fila.dataset.roles = roles.join(",");
+
+    const cargo = roles.length > 0 ? roles.join(", ") : "Sin rol";
+
+    for (const valor of [usuario.cedula, usuario.nombre, usuario.apellido, cargo]) {
         const celda = document.createElement("td");
         celda.textContent = valor;
         fila.appendChild(celda);
@@ -121,9 +132,9 @@ function limpiarEstadoGestionarEmpleado() {
     formularioGestionarEmpleado.reset();
 }
 
-//Muestra el campo gmail solo si el cargo elegido es Solicitante, y en ese caso lo hace obligatorio
+//Muestra el campo gmail solo si alguno de los cargos elegidos es Solicitante, y en ese caso lo hace obligatorio
 function actualizarCampoGmail() {
-    const esSolicitante = entradaRol.value === "Solicitante";
+    const esSolicitante = entradaRol.value === "Solicitante" || entradaSegundoRol.value === "Solicitante";
     itemGmail.hidden = !esSolicitante;
     entradaGmail.required = esSolicitante;
 }
@@ -202,7 +213,9 @@ function abrirModificarEmpleado(eventoModificar) {
     entradaCedula.value = fila.cells[0].textContent.trim();
     entradaNombre.value = fila.cells[1].textContent.trim();
     entradaApellido.value = fila.cells[2].textContent.trim();
-    entradaRol.value = fila.cells[3].textContent.trim();
+    const [primerRol = "", segundoRol = ""] = fila.dataset.roles.split(",").filter(rol => rol !== "");
+    entradaRol.value = primerRol;
+    entradaSegundoRol.value = segundoRol;
     entradaGmail.value = fila.dataset.gmail;
     actualizarCampoGmail();
 
@@ -219,10 +232,16 @@ async function gestionarEmpleado(evento) {
         nombre: entradaNombre.value.trim(),
         apellido: entradaApellido.value.trim(),
         rol: entradaRol.value,
+        segundoRol: entradaSegundoRol.value,
         gmail: entradaGmail.value.trim(),
         clave: entradaClave.value,
         confirmarClave: entradaConfirmarClave.value
     };
+
+    if (datos.segundoRol !== "" && datos.segundoRol === datos.rol) {
+        window.alert("El segundo cargo debe ser distinto del primero.");
+        return;
+    }
 
     //La API no recibe confirmarClave al modificar, por eso se compara también acá
     if (datos.clave !== datos.confirmarClave) {
@@ -243,6 +262,7 @@ async function gestionarEmpleado(evento) {
 
 //Muestra u oculta el campo gmail al cambiar el cargo
 entradaRol.addEventListener("change", actualizarCampoGmail);
+entradaSegundoRol.addEventListener("change", actualizarCampoGmail);
 
 //Apertura y cierre del modal
 btnAltaEmpleado.addEventListener("click", abrirAltaEmpleado);

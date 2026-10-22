@@ -7,6 +7,7 @@ CREATE TABLE PRESTAMO (
     estadoPrestamo VARCHAR(600) NOT NULL,
     fechaInicio DATE NOT NULL,
     fechaLimite DATE NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
 
     CONSTRAINT pk_prestamo
         PRIMARY KEY (ID_P)

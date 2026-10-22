@@ -1,12 +1,11 @@
 <?php
-
 require_once __DIR__ . "/../config/config.php";
 require_once __DIR__ . "/../config/env.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 
 // Conserva la página de inicio actual.
 if (!isset($_GET["ruta"])) {
-    header("Location: ./index.html");
+    header("Location: ./paginas/index.html");
     exit;
 }
 

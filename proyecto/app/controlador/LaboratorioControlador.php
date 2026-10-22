@@ -153,12 +153,7 @@ class LaboratorioControlador
         try {
             $conexion = $this->conectar();
             $dao = new LaboratorioDAO($conexion);
-
-            // No se puede eliminar un laboratorio con historial de uso.
-            if ($dao->tieneDependencias((int) $idLaboratorio)) {
-                RespuestaJson::error("El laboratorio tiene registros o solicitudes asociados", 409);
-            }
-
+            // Baja lógica: el historial del laboratorio se conserva.
             $resultado = $dao->eliminarLaboratorio((int) $idLaboratorio);
         } catch (PDOException $error) {
             error_log("Error en baja de laboratorio: " . $error->getMessage());
@@ -166,7 +161,7 @@ class LaboratorioControlador
         }
 
         if (!$resultado) {
-            RespuestaJson::error("El laboratorio no existe", 404);
+            RespuestaJson::error("El laboratorio no existe o ya fue dado de baja", 404);
         }
 
         RespuestaJson::exito(["mensaje" => "Laboratorio eliminado exitosamente"]);

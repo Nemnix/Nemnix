@@ -34,10 +34,10 @@
             <ul class="MenuPrincipal">
                <li><a href="paginaBienvenidaAdministrador.html" class="BotonNavegacion">Inicio</a></li>
                 <li><a href="panelAdministradores.html" class="BotonNavegacion">Panel administradores</a></li>
-                <li><a href="listaIncidencias.html" class="BotonNavegacion">Visualización de incidencias</a></li>
-                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Visualización de solicitudes</a></li>
-                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario tecnológico </a></li>
-                <li><a href="listaMetricas.html" class="BotonNavegacion">Métricas y reportes</a></li>
+                <li><a href="listaIncidencias.html" class="BotonNavegacion">Ver incidencias</a></li>
+                <li><a href="listaGlobalSolicitudes.html" class="BotonNavegacion">Ver solicitudes</a></li>
+                <li><a href="listaInventario.html" class="BotonNavegacion">Inventario</a></li>
+                <li><a href="listaMetricas.html" class="BotonNavegacion">Métricas</a></li>
                 <li><a href="listaEstadoEquipos.html" class="BotonNavegacion">Estado de equipos</a></li>
             </ul>
         </nav>
@@ -73,7 +73,16 @@
                         <li>
                             <label for="rol">Seleccione el cargo del usuario</label>
                             <select id="rol" name="rol" required>
-                                <option value="">-- Seleccione un cargo --</option>
+                                <option value="">Seleccione un cargo</option>
+                                <option>Solicitante</option>
+                                <option value="Tecnico">Técnico</option>
+                                <option>Administrador</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="segundoRol">Segundo cargo (opcional)</label>
+                            <select id="segundoRol" name="segundoRol">
+                                <option value="">-- Ninguno --</option>
                                 <option>Solicitante</option>
                                 <option value="Tecnico">Técnico</option>
                                 <option>Administrador</option>
