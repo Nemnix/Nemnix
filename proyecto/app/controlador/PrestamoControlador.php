@@ -57,23 +57,21 @@ class PrestamoControlador
         $fechaInicio = trim($datos["fechaInicio"] ?? "");
         $fechaLimite = trim($datos["fechaLimite"] ?? "");
 
-        if ($idEquipo === "" || $modelo === "" || $estado === "" || $ciAlumno === "" || $nombreAlumno === "" || $apellidoAlumno === "" || $fechaInicio === "" || $fechaLimite === "") {
+        if ($idEquipo === "" || $modelo === "" || $estado === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!ctype_digit($idEquipo) || (int) $idEquipo <= 0) {
             RespuestaJson::error("Identificador de equipo incorrecto", 422);
         }
-        if (!preg_match("/^[1-9][0-9]{7}$/", $ciAlumno)) {
-            RespuestaJson::error("Cédula del alumno incorrecta", 422);
-        }
         if (!in_array($estado, ["Disponible", "Prestamo en fecha", "VENCIDO"], true)) {
             RespuestaJson::error("Estado incorrecto", 422);
         }
-        if (DateTime::createFromFormat("Y-m-d", $fechaInicio) === false || DateTime::createFromFormat("Y-m-d", $fechaLimite) === false) {
-            RespuestaJson::error("Fecha incorrecta", 422);
-        }
-        if ($fechaLimite < $fechaInicio) {
-            RespuestaJson::error("La fecha de devolución no puede ser anterior a la de inicio", 422);
+
+        if ($estado === "Disponible") {
+            // Un equipo Disponible no tiene alumno ni fechas.
+            $ciAlumno = $nombreAlumno = $apellidoAlumno = $fechaInicio = $fechaLimite = null;
+        } else {
+            $this->validarDatosPrestamo($ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite);
         }
 
         try {
@@ -99,16 +97,17 @@ class PrestamoControlador
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
-        // La cédula del alumno y el equipo no se modifican.
+        // El equipo no se modifica. La cédula del alumno solo se toma si el equipo estaba Disponible.
         $idPrestamo = trim($datos["ID_P"] ?? "");
         $modelo = trim($datos["modelo"] ?? "");
         $estado = trim($datos["estado"] ?? "");
+        $ciAlumno = trim($datos["ciAlumno"] ?? "");
         $nombreAlumno = trim($datos["nombreAlumno"] ?? "");
         $apellidoAlumno = trim($datos["apellidoAlumno"] ?? "");
         $fechaInicio = trim($datos["fechaInicio"] ?? "");
         $fechaLimite = trim($datos["fechaLimite"] ?? "");
 
-        if ($idPrestamo === "" || $modelo === "" || $estado === "" || $nombreAlumno === "" || $apellidoAlumno === "" || $fechaInicio === "" || $fechaLimite === "") {
+        if ($idPrestamo === "" || $modelo === "" || $estado === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!ctype_digit($idPrestamo) || (int) $idPrestamo <= 0) {
@@ -117,19 +116,20 @@ class PrestamoControlador
         if (!in_array($estado, ["Disponible", "Prestamo en fecha", "VENCIDO"], true)) {
             RespuestaJson::error("Estado incorrecto", 422);
         }
-        if (DateTime::createFromFormat("Y-m-d", $fechaInicio) === false || DateTime::createFromFormat("Y-m-d", $fechaLimite) === false) {
-            RespuestaJson::error("Fecha incorrecta", 422);
-        }
-        if ($fechaLimite < $fechaInicio) {
-            RespuestaJson::error("La fecha de devolución no puede ser anterior a la de inicio", 422);
+
+        if ($estado === "Disponible") {
+            // Al pasar a Disponible (devolución) se quitan el alumno y las fechas.
+            $ciAlumno = $nombreAlumno = $apellidoAlumno = $fechaInicio = $fechaLimite = null;
+        } else {
+            $this->validarDatosPrestamo($ciAlumno, $nombreAlumno, $apellidoAlumno, $fechaInicio, $fechaLimite);
         }
 
         try {
             $conexion = $this->conectar();
             $dao = new PrestamoDAO($conexion);
             // Se arma el préstamo con los datos ya validados. Al modificar no se usan
-            // el equipo, el técnico ni la cédula del alumno, porque no cambian.
-            $prestamo = new Prestamo((int) $idPrestamo, 0, $modelo, "", "", $nombreAlumno, $apellidoAlumno, $estado, $fechaInicio, $fechaLimite);
+            // el equipo ni el técnico, porque no cambian.
+            $prestamo = new Prestamo((int) $idPrestamo, 0, $modelo, "", $ciAlumno, $nombreAlumno, $apellidoAlumno, $estado, $fechaInicio, $fechaLimite);
             $resultado = $dao->modificarPrestamo($prestamo);
         } catch (PDOException $error) {
             error_log("Error en modificación de préstamo: " . $error->getMessage());
@@ -170,6 +170,25 @@ class PrestamoControlador
         }
 
         RespuestaJson::exito(["mensaje" => "Préstamo eliminado exitosamente"]);
+    }
+
+    /**
+     * Valida los datos del alumno y las fechas, obligatorios cuando el equipo se presta.
+     */
+    private function validarDatosPrestamo(string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $fechaInicio, string $fechaLimite): void
+    {
+        if ($ciAlumno === "" || $nombreAlumno === "" || $apellidoAlumno === "" || $fechaInicio === "" || $fechaLimite === "") {
+            RespuestaJson::error("Para prestar el equipo hay que completar los datos del alumno y las fechas", 422);
+        }
+        if (!preg_match("/^[1-9][0-9]{7}$/", $ciAlumno)) {
+            RespuestaJson::error("Cédula del alumno incorrecta", 422);
+        }
+        if (DateTime::createFromFormat("Y-m-d", $fechaInicio) === false || DateTime::createFromFormat("Y-m-d", $fechaLimite) === false) {
+            RespuestaJson::error("Fecha incorrecta", 422);
+        }
+        if ($fechaLimite < $fechaInicio) {
+            RespuestaJson::error("La fecha de devolución no puede ser anterior a la de inicio", 422);
+        }
     }
 
     private function conectar(): PDO
