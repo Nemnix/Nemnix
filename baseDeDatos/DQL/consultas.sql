@@ -216,6 +216,7 @@ SELECT
     r.fecha,
     r.ID_L,
     t.estado,
+    t.tipoDispositivo,
     t.nombreEquipo,
     t.nombreAlumno,
     t.descripcionT,

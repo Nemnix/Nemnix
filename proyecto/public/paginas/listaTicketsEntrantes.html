@@ -38,6 +38,7 @@
 
             </ul>
         </nav>
+        <script src="../assets/JavaScript/cartel.js"></script>
         <script src="../assets/JavaScript/menu.js"></script>
         <script src="../assets/JavaScript/cerrarSesion.js"></script>
     </header>
@@ -81,69 +82,63 @@
         <dialog id="RegistroyTicket" class="Formulario">
 
             <form id="FormularioRegistroyTicket" method="post">
+                <button type="button" id="CerrarTicket" class="btnCancelar" aria-label="Cerrar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                        <path
+                            d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+                    </svg>
+                </button>
                 <fieldset>
                     <legend>Ticket</legend>
+                    <input type="hidden" id="modificarTicketID_T" name="ID_T">
+                    <input type="hidden" id="modificarTicketID_R" name="ID_R">
+                    <ul class="datosTicket">
+                        <li class="datoTicket">
+                            <span>Tipo de aula</span>
+                            <p id="datoTipoAula"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Número de laboratorio o taller</span>
+                            <p id="datoNumAula"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Asignatura</span>
+                            <p id="datoAsignatura"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Hora de entrada</span>
+                            <p id="datoHoraEntrada"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Hora de salida</span>
+                            <p id="datoHoraSalida"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Grupo</span>
+                            <p id="datoGrupo"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Turno</span>
+                            <p id="datoTurno"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Tipo de dispositivo</span>
+                            <p id="datoTipoDispositivo"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Alumno que utilizó el equipo</span>
+                            <p id="datoNombreAlumno"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Nombre o número del dispositivo</span>
+                            <p id="datoNombreDispositivo"></p>
+                        </li>
+                        <li class="datoTicket">
+                            <span>Motivo del ticket</span>
+                            <p id="datoMotivo"></p>
+                        </li>
+                    </ul>
                     <ul>
-                        <input type="hidden" id="modificarTicketID_T" name="ID_T">
-                        <input type="hidden" id="modificarTicketID_R" name="ID_R">
-                        <li>
-                            <label for="IDLaboratorio">Seleccione el tipo de aula</label>
-                            <select id="IDLaboratorio" name="preparacionLaboratorio">
-                            <option>Laboratorio</option>
-                            <option>Taller</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="numLabTaller">Escriba el número del laboratorio o taller</label>
-                            <input type="text" id="numLabTaller" name="numLabTaller"pattern="[0-9]{2}"  maxlength="2" required
-                                required placeholder="Número laboratorio/taller"/>
-                        </li>
-                        <li>
-                            <label for="asignaturaRegistroDiario">Asignatura</label>
-                            <input type="text" id="asignaturaRegistroDiario" name="asignatura" required
-                                placeholder="Escriba su asignatura"/>
-                        </li>
-                        <li>
-                            <label for="horaEntrada">Hora de Entrada</label>
-                            <input type="time" id="horaEntrada" name="horaEntrada" required>
-                        </li>
-                        <li>
-                            <label for="horaSalida">Hora de salida</label>
-                            <input type="time" id="horaSalida" name="horaFin" required>
-                        </li>
-                        <li>
-                            <label for="grupoRegistroDiario">Grupo</label>
-                            <input type="text" id="grupoRegistroDiario" name="grupo"
-                            placeholder="Ingrese nombre del grupo aquí" required>
-                        </li>
-                        <li>
-                            <label for="turnoRegistroDiario">Turno</label>
-                            <select id="turnoRegistroDiario" name="turnoRegistroDiario" required>
-                                <option value="Matutino">Matutino</option>
-                                <option value="Vespertino">Vespertino</option>
-                                <option value="Nocturno">Nocturno</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="IDDispositivo">Tipo de dispositivo</label>
-                            <input type="text" id="IDDispositivo" name="IDDispositivo"
-                                required placeholder="Escribe el tipo del dispositivo aquí" />
-                        </li>
-                        <li>
-                            <label for="nombreAlumno">En caso de ser una máquina, escriba el nombre completo del alumno que utilizó ese equipo</label>
-                            <input type="text" id="nombreAlumno" name="nombreAlumno"
-                            required placeholder="Nombre del alumno" />
-                        </li>
-                        <li>
-                            <label for="nombreDispositivo">Nombre o número del dispositivo</label>
-                            <input type="text" id="nombreDispositivo" name="nombreDispositivo" required
-                                placeholder="Nombre del equipo" />
-                        </li>
-                        <li>
-                            <label for="motivoTicket">Motivo del ticket</label>
-                            <input type="text" id="motivoTicket" name="descripcionT"
-                            required placeholder="Ingrese el motivo del ticket" />
-                        </li>
                         <li>
                             <label for="prioridadTicket">Prioridad</label>
                             <select id="prioridadTicket" name="prioridad">
@@ -162,10 +157,9 @@
                                 <option>Cerrado</option>
                             </select>
                         </li>
-                        <li>
+                        <li class="botonesDialogo">
                             <button type="submit"> Enviar </button>
                             <button type="button" id="btnDiagnostico">Realizar diagnóstico</button>
-                            <button type="button" id="CerrarTicket">Cerrar</button>
                         </li>
                     </ul>
                 </fieldset>
@@ -174,6 +168,12 @@
 
             <dialog id="RegistroDiagnostico" class="Formulario">
                 <form id="FormularioDiagnostico" action="#" method="post">
+                    <button type="button" id="btnCerrarDiagnostico" class="btnCancelar" aria-label="Cerrar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                            <path
+                                d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+                        </svg>
+                    </button>
                 <fieldset>
                     <legend>Diagnóstico</legend>
                     <ul>
@@ -196,14 +196,13 @@
                             <label for="fechaDiagnostico">Fecha</label>
                             <input type="date" id="fechaDiagnostico" name="fechaDiagnostico" required>
                         </li>
-                        <li>
+                        <li class="campoGrande">
                             <label for="descripcionDiagnostico">Descripción</label>
-                            <input type="text" id="descripcionDiagnostico" name="descripcionDiagnostico" required
-                            placeholder="Escriba una descripción del diagnóstico o temáticas realizadas" />
+                            <textarea id="descripcionDiagnostico" name="descripcionDiagnostico" rows="4" required
+                            placeholder="Escriba una descripción del diagnóstico o temáticas realizadas"></textarea>
                         </li>
-                        <li>
+                        <li class="botonesDialogo">
                             <button type="submit"> Enviar </button>
-                            <button type="button" id="btnCerrarDiagnostico"> Cerrar </button>
                         </li>
                     </ul>
                 </fieldset>

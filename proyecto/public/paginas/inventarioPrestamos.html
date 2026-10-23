@@ -38,9 +38,30 @@
     </header>
     <main>
         <h2>Inventario préstamos</h2>
+        <ul>       
+            <li>
+            <div class="opciones">
+                    <label for="idPrestamoEstado">Estado</label>
+
+                    <select id="idPrestamoEstado" name="PrestamoEstado">
+                        <option>Todos</option>
+                        <option>VENCIDO</option>
+                         <option>Disponible</option>
+                        <option>Prestamo en fecha</option>
+                    </select>
+                </div>
+                </li>
+        </ul>
+
         <button id="btnAgregarEquipo" class="botonesAgregar">Agregar nuevo equipo</button>
         <dialog id="RegistroEquipoP" class="Formulario">
             <form action="#" method="POST" id="FormularioInventarioEquipos">
+                <button type="button" id="btnCerrarInventario" class="btnCancelar" aria-label="Cerrar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                        <path
+                            d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+                    </svg>
+                </button>
                     <fieldset>
                         <legend>Equipo de préstamo</legend>
                         <ul>
@@ -84,9 +105,8 @@
                                 <label for="fechaDevolucion">Fecha de devolución</label>
                                 <input type="date" id="fechaDevolucion" name="fechaDevolucion" required>
                             </li>
-                            <li>
+                            <li class="botonesDialogo">
                                 <button type="submit" id="btnGuardarInventario"> Enviar </button>
-                                <button type="button" id="btnCerrarInventario">Cerrar</button>
                             </li>
                         </ul>
                     </fieldset>
@@ -117,6 +137,7 @@
     <footer>
     <span>¿Problemas con la página? Escríbenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="../assets/JavaScript/cartel.js"></script>
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/menu.js"></script>
     <script src="../assets/JavaScript/cerrarSesion.js"></script>

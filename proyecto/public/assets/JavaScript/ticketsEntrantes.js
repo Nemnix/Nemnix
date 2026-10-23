@@ -10,17 +10,19 @@ const filtroPrioridad = document.getElementById("IDprioridad");
 const filtroEstado = document.getElementById("IDestado");
 const filtroTiempo = document.getElementById("IDtiempo");
 
-const entradaTipoAula = document.getElementById("IDLaboratorio");
-const entradaNumAula = document.getElementById("numLabTaller");
-const entradaAsignatura = document.getElementById("asignaturaRegistroDiario");
-const entradaHoraEntrada = document.getElementById("horaEntrada");
-const entradaHoraSalida = document.getElementById("horaSalida");
-const entradaGrupo = document.getElementById("grupoRegistroDiario");
-const entradaTurno = document.getElementById("turnoRegistroDiario");
-const entradaIdDispositivo = document.getElementById("IDDispositivo");
-const entradaNombreAlumno = document.getElementById("nombreAlumno");
-const entradaNombreDispositivo = document.getElementById("nombreDispositivo");
-const entradaMotivo = document.getElementById("motivoTicket");
+//Datos del registro y del ticket que se muestran como texto
+const datoTipoAula = document.getElementById("datoTipoAula");
+const datoNumAula = document.getElementById("datoNumAula");
+const datoAsignatura = document.getElementById("datoAsignatura");
+const datoHoraEntrada = document.getElementById("datoHoraEntrada");
+const datoHoraSalida = document.getElementById("datoHoraSalida");
+const datoGrupo = document.getElementById("datoGrupo");
+const datoTurno = document.getElementById("datoTurno");
+const datoTipoDispositivo = document.getElementById("datoTipoDispositivo");
+const datoNombreAlumno = document.getElementById("datoNombreAlumno");
+const datoNombreDispositivo = document.getElementById("datoNombreDispositivo");
+const datoMotivo = document.getElementById("datoMotivo");
+
 const entradaPrioridad = document.getElementById("prioridadTicket");
 const entradaEstado = document.getElementById("estadoTicket");
 const entradaModificarIdT = document.getElementById("modificarTicketID_T");
@@ -141,55 +143,30 @@ modal.addEventListener("cancel", function () {
 
 });
 
-// Datos del registro diario asociado: solo informativos, no se modifican desde este formulario.
-const camposSoloLectura = [
-    entradaTipoAula,
-    entradaNumAula,
-    entradaAsignatura,
-    entradaHoraEntrada,
-    entradaHoraSalida,
-    entradaGrupo,
-    entradaTurno,
-    entradaIdDispositivo
-];
-
-// Datos propios del ticket: editables al visualizarlo.
-const camposEditablesTicket = [
-    entradaNombreAlumno,
-    entradaNombreDispositivo,
-    entradaMotivo,
-    entradaPrioridad,
-    entradaEstado
-];
-
 function visualizar(ticket) {
 
     ticketEditando = ticket;
     window.ticketEnVisualizacion = ticket;
 
-    entradaTipoAula.value = ticket.nombreLaboratorio ?? "";
-    entradaNumAula.value = ticket.numLaboratorio ?? "";
-    entradaAsignatura.value = ticket.asignatura ?? "";
-    entradaHoraEntrada.value = ticket.horaEntrada ?? "";
-    entradaHoraSalida.value = ticket.horaFin ?? "";
-    entradaGrupo.value = ticket.grupo ?? "";
-    entradaTurno.value = ticket.turno ?? "";
-    entradaIdDispositivo.value = "";
-    entradaNombreAlumno.value = ticket.nombreAlumno ?? "";
-    entradaNombreDispositivo.value = ticket.nombreEquipo ?? "";
-    entradaMotivo.value = ticket.descripcionT ?? "";
+    //Datos del registro y del ticket: solo se muestran, no se modifican
+    datoTipoAula.textContent = ticket.nombreLaboratorio ?? "-";
+    datoNumAula.textContent = ticket.numLaboratorio ?? "-";
+    datoAsignatura.textContent = ticket.asignatura ?? "-";
+    datoHoraEntrada.textContent = ticket.horaEntrada ?? "-";
+    datoHoraSalida.textContent = ticket.horaFin ?? "-";
+    datoGrupo.textContent = ticket.grupo ?? "-";
+    datoTurno.textContent = ticket.turno ?? "-";
+    datoTipoDispositivo.textContent = ticket.tipoDispositivo || "-";
+    datoNombreAlumno.textContent = ticket.nombreAlumno ?? "-";
+    datoNombreDispositivo.textContent = ticket.nombreEquipo ?? "-";
+    datoMotivo.textContent = ticket.descripcionT ?? "-";
+
+    //Prioridad y estado siguen siendo editables
     entradaPrioridad.value = ticket.prioridad ?? "Sin definir";
     entradaEstado.value = ticket.estado ?? "Pendiente";
 
     entradaModificarIdT.value = ticket.ID_T;
     entradaModificarIdR.value = ticket.ID_R;
-
-    camposSoloLectura.forEach(function (campo) {
-        campo.disabled = true;
-    });
-    camposEditablesTicket.forEach(function (campo) {
-        campo.disabled = false;
-    });
 
     modal.showModal();
 
@@ -211,9 +188,10 @@ async function gestionarTicket(evento) {
         ID_R: entradaModificarIdR.value,
         ID_T: entradaModificarIdT.value,
         estado: entradaEstado.value,
-        nombreEquipo: entradaNombreDispositivo.value.trim(),
-        nombreAlumno: entradaNombreAlumno.value.trim(),
-        descripcion: entradaMotivo.value.trim(),
+        tipoDispositivo: ticketEditando.tipoDispositivo ?? "",
+        nombreEquipo: ticketEditando.nombreEquipo ?? "",
+        nombreAlumno: ticketEditando.nombreAlumno ?? "",
+        descripcion: ticketEditando.descripcionT ?? "",
         prioridad: entradaPrioridad.value
     };
 

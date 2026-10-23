@@ -65,6 +65,12 @@
 
         <dialog id="VizualizacionDiagnostico" class="Formulario">
             <form id="formularioDiagnostico" action="#" method="post">
+                <button type="button" id="CerrarDiagnostico" class="btnCancelar" aria-label="Cerrar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                        <path
+                            d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+                    </svg>
+                </button>
                 <fieldset>
                     <legend>Diagnóstico</legend>
 
@@ -97,21 +103,18 @@
                             <input type="date" id="IDfechaDiagnostico" name="IDfechaDiagnostico">
                         </li>
 
-                        <li>
+                        <li class="campoGrande">
                             <label for="IDdescripcionDiagnostico">
                                 Descripción
                             </label>
 
-                            <input type="text" id="IDdescripcionDiagnostico" name="IDdescripcionDiagnostico" required
-                                placeholder="Escriba una descripción del diagnóstico o temáticas realizadas">
+                            <textarea id="IDdescripcionDiagnostico" name="IDdescripcionDiagnostico" rows="4" required
+                                placeholder="Escriba una descripción del diagnóstico o temáticas realizadas"></textarea>
                         </li>
 
-                        <li>
+                        <li class="botonesDialogo">
                             <button type="submit" id="GuardarCambios">
                                 Guardar cambios
-                            </button>
-                            <button type="button" id="CerrarDiagnostico">
-                                Cerrar
                             </button>
                         </li>
                     </ul>
@@ -171,6 +174,8 @@
             ¿Problemas con la página? Escríbenos a: nemnix1@gmail.com
         </span>
     </footer>
+
+    <script src="../assets/JavaScript/cartel.js"></script>
 
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/listaDiagnosticos.js"></script>

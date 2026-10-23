@@ -76,15 +76,14 @@ class TicketControlador
             RespuestaJson::error("Prioridad incorrecta", 422);
         }
 
-        // Todo ticket nace abierto; el tipo y el nombre del dispositivo se guardan juntos.
+        // Todo ticket nace abierto.
         $estado = "Abierto";
-        $nombreEquipo = $tipoDispositivo . " " . $nombreDispositivo;
 
         try {
             $conexion = $this->conectar();
             $dao = new TicketDAO($conexion);
             // Se arma el ticket con los datos ya validados; el número de ticket lo calcula el DAO.
-            $ticket = new Ticket((int) $idRegistro, 0, $estado, $nombreEquipo, $nombreAlumno, $descripcion, $prioridad);
+            $ticket = new Ticket((int) $idRegistro, 0, $estado, $tipoDispositivo, $nombreDispositivo, $nombreAlumno, $descripcion, $prioridad);
             $resultado = $dao->registrarTicket($ticket, $cedula);
         } catch (PDOException $error) {
             error_log("Error en alta de ticket: " . $error->getMessage());
@@ -108,6 +107,7 @@ class TicketControlador
         $idRegistro = trim($datos["ID_R"] ?? "");
         $idTicket = trim($datos["ID_T"] ?? "");
         $estado = trim($datos["estado"] ?? "");
+        $tipoDispositivo = trim($datos["tipoDispositivo"] ?? "");
         $nombreEquipo = trim($datos["nombreEquipo"] ?? "");
         $nombreAlumno = trim($datos["nombreAlumno"] ?? "");
         $descripcion = trim($datos["descripcion"] ?? "");
@@ -130,7 +130,7 @@ class TicketControlador
             $conexion = $this->conectar();
             $dao = new TicketDAO($conexion);
             // Se arma el ticket con los datos ya validados.
-            $ticket = new Ticket((int) $idRegistro, (int) $idTicket, $estado, $nombreEquipo, $nombreAlumno, $descripcion, $prioridad);
+            $ticket = new Ticket((int) $idRegistro, (int) $idTicket, $estado, $tipoDispositivo, $nombreEquipo, $nombreAlumno, $descripcion, $prioridad);
             $resultado = $dao->modificarTicket($ticket);
         } catch (PDOException $error) {
             error_log("Error en modificación de ticket: " . $error->getMessage());

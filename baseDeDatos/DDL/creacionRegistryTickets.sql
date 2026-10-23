@@ -30,6 +30,7 @@ CREATE TABLE TICKET(
     ID_R INT NOT NULL,
     ID_T INT NOT NULL,
     estado VARCHAR(50) NOT NULL,
+    tipoDispositivo VARCHAR(50) NOT NULL DEFAULT '',
     nombreEquipo VARCHAR(50) NOT NULL,
     nombreAlumno VARCHAR(255) NOT NULL,
     descripcionT VARCHAR(255) NOT NULL,

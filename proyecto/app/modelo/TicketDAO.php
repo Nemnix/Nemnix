@@ -20,6 +20,7 @@ class TicketDAO {
         t.ID_T,
         t.ID_R,
         t.estado,
+        t.tipoDispositivo,
         t.nombreEquipo,
         t.nombreAlumno,
         t.descripcionT,
@@ -64,6 +65,7 @@ class TicketDAO {
         t.ID_T,
         t.ID_R,
         t.estado,
+        t.tipoDispositivo,
         t.nombreEquipo,
         t.nombreAlumno,
         t.descripcionT,
@@ -96,6 +98,7 @@ class TicketDAO {
         // Se toman los datos del objeto.
         $idRegistro = $ticket->getIdRegistro();
         $estado = $ticket->getEstado();
+        $tipoDispositivo = $ticket->getTipoDispositivo();
         $nombreEquipo = $ticket->getNombreEquipo();
         $nombreAlumno = $ticket->getNombreAlumno();
         $descripcion = $ticket->getDescripcion();
@@ -119,12 +122,13 @@ class TicketDAO {
             $consultaSiguienteId->execute(["idRegistro" => $idRegistro]);
             $idTicket = (int) $consultaSiguienteId->fetchColumn();
 
-            $sqlTicket = "INSERT INTO TICKET (ID_R, ID_T, estado, nombreEquipo, nombreAlumno, descripcionT, prioridad) VALUES (:idRegistro, :idTicket, :estado, :nombreEquipo, :nombreAlumno, :descripcion, :prioridad)";
+            $sqlTicket = "INSERT INTO TICKET (ID_R, ID_T, estado, tipoDispositivo, nombreEquipo, nombreAlumno, descripcionT, prioridad) VALUES (:idRegistro, :idTicket, :estado, :tipoDispositivo, :nombreEquipo, :nombreAlumno, :descripcion, :prioridad)";
             $consultaTicket = $this->conexion->prepare($sqlTicket);
             $consultaTicket->execute([
                 "idRegistro" => $idRegistro,
                 "idTicket" => $idTicket,
                 "estado" => $estado,
+                "tipoDispositivo" => $tipoDispositivo,
                 "nombreEquipo" => $nombreEquipo,
                 "nombreAlumno" => $nombreAlumno,
                 "descripcion" => $descripcion,
@@ -148,6 +152,7 @@ class TicketDAO {
         $idRegistro = $ticket->getIdRegistro();
         $idTicket = $ticket->getIdTicket();
         $estado = $ticket->getEstado();
+        $tipoDispositivo = $ticket->getTipoDispositivo();
         $nombreEquipo = $ticket->getNombreEquipo();
         $nombreAlumno = $ticket->getNombreAlumno();
         $descripcion = $ticket->getDescripcion();
@@ -165,10 +170,11 @@ class TicketDAO {
                 return false;
             }
 
-            $sqlTicket = "UPDATE TICKET SET estado = :estado, nombreEquipo = :nombreEquipo, nombreAlumno = :nombreAlumno, descripcionT = :descripcion, prioridad = :prioridad WHERE ID_R = :idRegistro AND ID_T = :idTicket";
+            $sqlTicket = "UPDATE TICKET SET estado = :estado, tipoDispositivo = :tipoDispositivo, nombreEquipo = :nombreEquipo, nombreAlumno = :nombreAlumno, descripcionT = :descripcion, prioridad = :prioridad WHERE ID_R = :idRegistro AND ID_T = :idTicket";
             $consultaTicket = $this->conexion->prepare($sqlTicket);
             $consultaTicket->execute([
                 "estado" => $estado,
+                "tipoDispositivo" => $tipoDispositivo,
                 "nombreEquipo" => $nombreEquipo,
                 "nombreAlumno" => $nombreAlumno,
                 "descripcion" => $descripcion,
