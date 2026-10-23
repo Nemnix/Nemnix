@@ -427,7 +427,55 @@ dialog{
     margin: auto;
     max-width: 90vw;
 }
- 
+
+dialog .btnCancelar{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: auto;
+    margin: 0;
+    padding: 0.4rem;
+    border: none;
+}
+
+.btnCancelar:hover{
+    color: var(--grisClaro);
+}
+
+.cartel{
+    background-color: var(--AzulOscuro);
+    color: var(--blanco);
+    border: none;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 25rem;
+    margin: auto;
+    padding: 1.5rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.cartel p{
+    margin-bottom: 1.25rem;
+}
+
+.cartel button{
+    margin: 0 auto;
+    padding: 0.4rem 2rem;
+    background-color: var(--grisBotones);
+    border: none;
+    color: var(--blanco);
+    font-size: 1rem;
+}
+
+.cartel button:hover{
+    background-color: var(--grisClaro);
+    color: var(--Negro);
+}
+
+.cartel::backdrop{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 #btnMenu,
 #btnCerrar {
     position: absolute;
@@ -661,22 +709,23 @@ dialog{
         background-color: rgba(0, 0, 0, 0.12);
     }
 
-    footer{
-        margin-top: 1rem;
-    }
+   
 
     dialog{
         background-color: var(--AzulOscuro);
         margin: auto;
         width: 70%;
+        border:none;
+        border-radius: 13px;
     }
 
     dialog fieldset{
         width: 100%;
         max-width: none;
+        border:none;
     }
 
-    dialog fieldset ul{
+    dialog ul{
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
@@ -685,36 +734,60 @@ dialog{
         padding: 1rem;
     }
 
-    dialog fieldset li{
+    dialog li{
         display: flex;
         flex-direction: column;
         width: 45%;
     }
 
-    dialog fieldset li:last-child{
+    dialog .botonesDialogo{
         width: 100%;
         align-items: center;
-        flex-direction: row;
+        flex-direction: row-reverse;
         justify-content: center;
         gap: 1rem;
     }
 
-    dialog fieldset label{
+    dialog label{
         margin-left: 0;
         line-height: 1.5;
     }
 
-    dialog fieldset input,
-    dialog fieldset select{
-        width: 100%;
+    dialog .datoTicket{
+        text-align: left;
+        line-height: 1.5;
     }
 
-    dialog fieldset select,
-    dialog fieldset select::picker(select){
+    dialog .datoTicket p{
+        font-weight: 400;
+    }
+
+    dialog .datosTicket{
+        background-color: var(--blanco);
+        border-radius: 15px;
+        margin: 1rem;
+    }
+
+    dialog .datosTicket li{
+        color: var(--Negro);
+        font-weight:200;
+    }
+
+    dialog span{
+        font-weight:500;
+    }
+    
+    dialog input,
+    dialog select{
+        width: 100%;
+    }
+    
+    dialog select,
+    dialog select::picker(select){
         appearance: base-select;
     }
 
-    dialog fieldset select{
+    dialog select{
         border-radius: 10rem;
         padding: 0 1rem;
         line-height: normal;
@@ -722,7 +795,7 @@ dialog{
         align-items: center;
     }
 
-    dialog fieldset select::picker(select){
+    dialog select::picker(select){
         background-color: var(--grisClaro);
         border-radius: 1rem;
         border: none;
@@ -730,42 +803,91 @@ dialog{
         padding: 0.4rem;
     }
 
-    dialog fieldset option{
+    dialog option{
         border-radius: 0.6rem;
         padding: 0.4rem 0.8rem;
         line-height: normal;
     }
 
-    dialog fieldset option::checkmark{
+    dialog option::checkmark{
         display: none;
     }
 
-    dialog fieldset option:hover,
-    dialog fieldset option:checked{
+    dialog option:hover,
+    dialog option:checked{
         background-color: rgba(0, 0, 0, 0.12);
     }
 
-    dialog fieldset input{
-        border-radius: 10px;
+    dialog input{
+        border-radius: 17px;
         padding: 0 0.8rem;
         line-height: normal;
     }
 
-    dialog legend{
-        font-size: 2rem;
+    dialog .campoGrande{
+        width: 100%;
     }
 
-    dialog button{
+    dialog textarea{
+        width: 100%;
+        border: none;
+        border-radius: 17px;
+        padding: 0.6rem 0.8rem;
+        background-color: var(--grisClaro);
+        color: var(--Negro);
+        font-family: inherit;
+        font-size: 1rem;
+        line-height: normal;
+        text-align: left;
+        resize: vertical;
+    }
+
+    dialog textarea:focus{
+        background-color: var(--blanco);
+    }
+
+    dialog legend{
+        font-size: 2rem;
+        
+    }
+
+    .Formulario li button{
         display: flex;
-        flex-direction: row-reverse;
         width: 15rem;
         align-items: center;
         justify-content: center;
+        margin: 0;
+    }
 
-
+    dialog .btnCancelar{
+        background-color: var(--gris);
+        border-color: var(--gris);
+        color: var(--blanco);
     }
 
     dialog::backdrop{
     background-color: rgba(255, 255, 255, 0.4);
 }
+}
+
+@media (max-width: 768px) {
+
+    .Tablas th,
+    .Tablas td{
+        font-size: 0.65rem;
+        padding: 0.3rem 0.25rem;
+    }
+
+    .Tablas td button{
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    fieldset table{
+        border-width: 3px;
+    }
+
+    .Tablas fieldset{
+        overflow-x: auto;
+    }
 }

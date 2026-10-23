@@ -43,8 +43,7 @@ async function llamarApi(metodo) {
 function crearFila(ticket) {
     const fila = document.createElement("tr");
 
-    //El tipo de dispositivo se guarda junto con el nombre en nombreEquipo, por eso esa columna queda vacía
-    for (const valor of [ticket.ID_T, ticket.numLaboratorio, ticket.nombreAlumno, ticket.nombreEquipo, "", ticket.descripcionT, ticket.nombreLaboratorio, ticket.fechaRegistro]) {
+    for (const valor of [ticket.ID_T, ticket.numLaboratorio, ticket.nombreAlumno, ticket.nombreEquipo, ticket.tipoDispositivo, ticket.descripcionT, ticket.nombreLaboratorio, ticket.fechaRegistro]) {
         const celda = document.createElement("td");
         celda.textContent = valor;
         fila.appendChild(celda);
@@ -65,3 +64,22 @@ async function cargarTickets() {
 
 //Carga inicial de la tabla
 cargarTickets();
+
+
+
+const filtroEstado = document.getElementById("idticketEstadosfiltro");
+
+//Dibuja la tabla solo con los tickets que tienen el estado elegido
+async function aplicarFiltros() {
+    const estado = filtroEstado.value;
+
+    try {
+        const tickets = await llamarApi("GET");
+        const filtrados = tickets.filter(ticket => estado === "Todos" || ticket.estado === estado);
+        cuerpoTablaTickets.replaceChildren(...filtrados.map(crearFila));
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
+filtroEstado.addEventListener("change", aplicarFiltros);

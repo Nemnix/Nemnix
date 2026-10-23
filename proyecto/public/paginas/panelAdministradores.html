@@ -51,6 +51,12 @@
 
         <dialog class="Formulario dialogGestionarEmpleado">
             <form id="formularioGestionarEmpleado" action="#" method="post">
+                <button type="button" id="btnCerrarGestionarEmpleado" class="btnCancelar" aria-label="Cerrar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+                        <path
+                            d="M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z" />
+                    </svg>
+                </button>
                 <fieldset>
                     <legend>Panel de administradores</legend>
                     <ul>
@@ -103,9 +109,8 @@
                             <input type="password" id="confirmarClave" name="confirmarClave" required minlength="12"
                                 placeholder="Repita la contraseña" />
                         </li>
-                        <li>
+                        <li class="botonesDialogo">
                             <button type="submit" id="btnGuardarUsuario">Ingresar </button>
-                            <button type="button" id="btnCerrarGestionarEmpleado">Cancelar</button>
                         </li>
                     </ul>
                 </fieldset>
@@ -134,6 +139,7 @@
     <footer>
         <span>¿Problemas con la página? Escríbenos a: nemnix1@gmail.com</span>
     </footer>
+    <script src="../assets/JavaScript/cartel.js"></script>
     <script src="../assets/JavaScript/botonSubir.js"></script>
     <script src="../assets/JavaScript/menu.js"></script>
     <script src="../assets/JavaScript/cerrarSesion.js"></script>
