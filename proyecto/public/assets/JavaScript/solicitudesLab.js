@@ -17,7 +17,6 @@ const entradaNumLaboratorio = document.getElementById("numLabTaller");
 const entradaFecha = document.getElementById("fechaLaboratorio");
 const entradaHora = document.getElementById("horaLaboratorio");
 const entradaDescripcion = document.getElementById("motivoSolicitudes");
-const entradaMail = document.getElementById("mailDocente");
 const entradaID = document.getElementById("idSolicitud");
 const entradaFechaActual = document.getElementById("fechaActual");
 const entradaHoraActual = document.getElementById("horaActual");
@@ -148,7 +147,6 @@ function abrirEditarSolicitud(eventoModificar) {
     entradaFecha.value           = fila.cells[2].textContent.trim(); // fecha
     entradaHora.value            = fila.cells[3].textContent.trim(); // hora
     entradaDescripcion.value     = fila.cells[4].textContent.trim(); // descripcionSolicitud
-    entradaMail.value            = fila.cells[5].textContent.trim(); // gmail
 
     modal.showModal();
 }
@@ -189,8 +187,7 @@ async function gestionarSolicitud(evento) {
         numLaboratorio: entradaNumLaboratorio.value.trim(),
         fecha: entradaFecha.value,
         hora: entradaHora.value,
-        descripcionSolicitud: entradaDescripcion.value.trim(),
-        gmail: entradaMail.value.trim()
+        descripcionSolicitud: entradaDescripcion.value.trim()
     };
 
     try {

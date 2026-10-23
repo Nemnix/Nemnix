@@ -3,6 +3,7 @@ require_once RUTA_MODELO . "/ConectorPDO.php";
 require_once RUTA_MODELO . "/Solicitud.php";
 require_once RUTA_MODELO . "/SolicitudDAO.php";
 require_once RUTA_MODELO . "/LaboratorioDAO.php";
+require_once RUTA_MODELO . "/UsuarioDAO.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
 require_once RUTA_NUCLEO . "/Sesion.php";
@@ -71,9 +72,8 @@ class SolicitudControlador
         $fecha = trim($datos["fecha"] ?? "");
         $hora = trim($datos["hora"] ?? "");
         $descripcionSolicitud = trim($datos["descripcionSolicitud"] ?? "");
-        $gmail = trim($datos["gmail"] ?? "");
 
-        if ($nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "" || $gmail === "") {
+        if ($nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!in_array($nombreLaboratorio, ["Laboratorio", "Taller"], true)) {
@@ -88,9 +88,6 @@ class SolicitudControlador
         if (!$this->horaValida($hora)) {
             RespuestaJson::error("Hora incorrecta", 422);
         }
-        if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
-            RespuestaJson::error("Gmail incorrecto", 422);
-        }
 
         try {
             $conexion = $this->conectar();
@@ -102,6 +99,9 @@ class SolicitudControlador
             if ($idLaboratorio === null) {
                 RespuestaJson::error("El laboratorio no existe", 422);
             }
+
+            // El gmail de contacto es el que tiene registrado el solicitante.
+            $gmail = $this->buscarGmailSolicitante($conexion, $cedula);
 
             $dao = new SolicitudDAO($conexion);
             // Se arma la solicitud con los datos ya validados.
@@ -136,9 +136,8 @@ class SolicitudControlador
         $fecha = trim($datos["fecha"] ?? "");
         $hora = trim($datos["hora"] ?? "");
         $descripcionSolicitud = trim($datos["descripcionSolicitud"] ?? "");
-        $gmail = trim($datos["gmail"] ?? "");
 
-        if ($idLaboratorioActual === "" || $fechaActual === "" || $horaActual === "" || $nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "" || $gmail === "") {
+        if ($idLaboratorioActual === "" || $fechaActual === "" || $horaActual === "" || $nombreLaboratorio === "" || $numLaboratorio === "" || $fecha === "" || $hora === "" || $descripcionSolicitud === "") {
             RespuestaJson::error("Existen campos vacíos", 422);
         }
         if (!ctype_digit($idLaboratorioActual) || (int) $idLaboratorioActual <= 0) {
@@ -158,9 +157,6 @@ class SolicitudControlador
         }
         if (!$this->horaValida($hora)) {
             RespuestaJson::error("Hora incorrecta", 422);
-        }
-        if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
-            RespuestaJson::error("Gmail incorrecto", 422);
         }
 
         try {
@@ -186,6 +182,9 @@ class SolicitudControlador
             if ($cambiaClave && $dao->existeSolicitud($idLaboratorioNuevo, $cedula, $fecha, $hora)) {
                 RespuestaJson::error("Ya existe una solicitud para ese laboratorio en esa fecha y hora", 409);
             }
+
+            // El gmail de contacto es el que tiene registrado el solicitante.
+            $gmail = $this->buscarGmailSolicitante($conexion, $cedula);
 
             // Se arma la solicitud con los datos nuevos; el laboratorio actual la identifica.
             $solicitud = new Solicitud($idLaboratorioNuevo, $cedula, $nombreLaboratorio, (int) $numLaboratorio, $fecha, $hora, $descripcionSolicitud, $gmail);
@@ -244,6 +243,15 @@ class SolicitudControlador
         }
 
         RespuestaJson::exito(["mensaje" => "Solicitud eliminada exitosamente"]);
+    }
+
+    /**
+     * Devuelve el gmail registrado del solicitante.
+     */
+    private function buscarGmailSolicitante(PDO $conexion, string $cedula): ?string
+    {
+        $daoUsuario = new UsuarioDAO($conexion);
+        return $daoUsuario->buscarUsuario($cedula)?->getGmail();
     }
 
     /**

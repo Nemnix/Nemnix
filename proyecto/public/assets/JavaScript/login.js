@@ -45,8 +45,19 @@ async function gestionarLogin(eventoFormulario) {
 
         //Guardamos el token en la sesión
         sessionStorage.setItem("csrfToken", sesion.csrfToken)
+
+        const roles = {
+            administrador: sesion.administrador,
+            tecnico: sesion.tecnico,
+            solicitante: sesion.solicitante
+        };
+        const cantidadRoles = Object.values(roles).filter(Boolean).length;
+
         //replace() abre la siguiente página borrando el historial de la previa
-        if (sesion.administrador && sesion.tecnico) {
+        if (cantidadRoles > 1) {
+            //Guardamos los roles y el nombre para que panelRoles muestre solo los que tiene
+            sessionStorage.setItem("roles", JSON.stringify(roles));
+            sessionStorage.setItem("nombre", sesion.nombre);
             window.location.replace("./panelRoles.html");
         } else if (sesion.administrador) {
             window.location.replace("./paginaBienvenidaAdministrador.html");
