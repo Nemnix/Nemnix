@@ -8,12 +8,12 @@ class Prestamo {
     private int $idEquipo;
     private string $modelo;
     private string $cedula;
-    private string $ciAlumno;
-    private string $nombreAlumno;
-    private string $apellidoAlumno;
+    private ?string $ciAlumno;
+    private ?string $nombreAlumno;
+    private ?string $apellidoAlumno;
     private string $estado;
-    private string $fechaInicio;
-    private string $fechaLimite;
+    private ?string $fechaInicio;
+    private ?string $fechaLimite;
 
     /**
      * Constructor parametrizado con los datos del préstamo.
@@ -21,14 +21,14 @@ class Prestamo {
      * @param int $idEquipo Identificador del equipo prestado.
      * @param string $modelo Modelo del equipo prestado.
      * @param string $cedula Cédula del técnico que registró el préstamo.
-     * @param string $ciAlumno Cédula del alumno.
-     * @param string $nombreAlumno Nombre del alumno.
-     * @param string $apellidoAlumno Apellido del alumno.
+     * @param string|null $ciAlumno Cédula del alumno (NULL si el equipo está Disponible).
+     * @param string|null $nombreAlumno Nombre del alumno (NULL si el equipo está Disponible).
+     * @param string|null $apellidoAlumno Apellido del alumno (NULL si el equipo está Disponible).
      * @param string $estado Estado del préstamo.
-     * @param string $fechaInicio Fecha de inicio del préstamo.
-     * @param string $fechaLimite Fecha límite de devolución.
+     * @param string|null $fechaInicio Fecha de inicio del préstamo (NULL si el equipo está Disponible).
+     * @param string|null $fechaLimite Fecha límite de devolución (NULL si el equipo está Disponible).
      */
-    public function __construct(int $idPrestamo, int $idEquipo, string $modelo, string $cedula, string $ciAlumno, string $nombreAlumno, string $apellidoAlumno, string $estado, string $fechaInicio, string $fechaLimite) {
+    public function __construct(int $idPrestamo, int $idEquipo, string $modelo, string $cedula, ?string $ciAlumno, ?string $nombreAlumno, ?string $apellidoAlumno, string $estado, ?string $fechaInicio, ?string $fechaLimite) {
         $this->idPrestamo = $idPrestamo;
         $this->idEquipo = $idEquipo;
         $this->modelo = $modelo;
@@ -70,23 +70,23 @@ class Prestamo {
     }
 
     /**
-     * @return string La cédula del alumno.
+     * @return string|null La cédula del alumno, o NULL si el equipo está Disponible.
      */
-    public function getCiAlumno(): string {
+    public function getCiAlumno(): ?string {
         return $this->ciAlumno;
     }
 
     /**
-     * @return string El nombre del alumno.
+     * @return string|null El nombre del alumno, o NULL si el equipo está Disponible.
      */
-    public function getNombreAlumno(): string {
+    public function getNombreAlumno(): ?string {
         return $this->nombreAlumno;
     }
 
     /**
-     * @return string El apellido del alumno.
+     * @return string|null El apellido del alumno, o NULL si el equipo está Disponible.
      */
-    public function getApellidoAlumno(): string {
+    public function getApellidoAlumno(): ?string {
         return $this->apellidoAlumno;
     }
 
@@ -98,16 +98,16 @@ class Prestamo {
     }
 
     /**
-     * @return string La fecha de inicio.
+     * @return string|null La fecha de inicio, o NULL si el equipo está Disponible.
      */
-    public function getFechaInicio(): string {
+    public function getFechaInicio(): ?string {
         return $this->fechaInicio;
     }
 
     /**
-     * @return string La fecha límite de devolución.
+     * @return string|null La fecha límite de devolución, o NULL si el equipo está Disponible.
      */
-    public function getFechaLimite(): string {
+    public function getFechaLimite(): ?string {
         return $this->fechaLimite;
     }
 }

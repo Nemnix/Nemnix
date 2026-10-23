@@ -86,24 +86,26 @@
                             </li>
                             <li>
                                 <label for="ciAlumno">Cédula alumno</label>
-                                <input type="text" id="ciAlumno" name="ciAlumno"
-                                    required placeholder="Escribe la ID del equipo" />
+                                <input class="ci" type="text" id="ciAlumno" name="ciAlumno" pattern="[1-9][0-9]{7}"
+                                    title="Ingrese exactamente 8 dígitos sin puntos ni guiones"
+                                    inputmode="numeric" maxlength="8" required
+                                    placeholder="Escribe la cedula del alumno" />
                             </li>
                             <li>
                                 <label for="nombreAlumnoPrestamo">Nombre</label>
-                                <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" required placeholder="Ingrese el nombre del alumno">
+                                <input type="text" id="nombreAlumnoPrestamo" name="nombreAlumnoPrestamo" placeholder="Ingrese el nombre del alumno">
                             </li>
                             <li>
                                 <label for="apellidoAlumnoPrestamo">Apellido</label>
-                                <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" required placeholder="Ingrese el apellido del alumno">
+                                <input type="text" id="apellidoAlumnoPrestamo" name="apellidoAlumnoPrestamo" placeholder="Ingrese el apellido del alumno">
                             </li>
                             <li>
                                 <label for="fechaPrestamo">Fecha de inicio</label>
-                                <input type="date" id="fechaPrestamo" name="fechaPrestamo" required>
+                                <input type="date" id="fechaPrestamo" name="fechaPrestamo">
                             </li>
                             <li>
                                 <label for="fechaDevolucion">Fecha de devolución</label>
-                                <input type="date" id="fechaDevolucion" name="fechaDevolucion" required>
+                                <input type="date" id="fechaDevolucion" name="fechaDevolucion">
                             </li>
                             <li class="botonesDialogo">
                                 <button type="submit" id="btnGuardarInventario"> Enviar </button>

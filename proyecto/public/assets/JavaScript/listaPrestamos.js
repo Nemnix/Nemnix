@@ -15,6 +15,9 @@ const entradaApellido = document.getElementById("apellidoAlumnoPrestamo");
 const entradaFechaInicio = document.getElementById("fechaPrestamo");
 const entradaFechaFin = document.getElementById("fechaDevolucion");
 
+//Datos que solo se piden cuando el equipo se presta
+const entradasPrestamo = [entradaCedula, entradaNombre, entradaApellido, entradaFechaInicio, entradaFechaFin];
+
 const btnAgregarEquipo = document.getElementById("btnAgregarEquipo");
 const btnCerrarRegistroEquipo = document.getElementById("btnCerrarInventario");
 
@@ -63,7 +66,7 @@ async function llamarApi(metodo, datos = null) {
 function crearFila(prestamo) {
     const fila = document.createElement("tr");
     //La cédula del alumno no se muestra en la tabla, se guarda en la fila para precargarla al editar
-    fila.dataset.ciAlumno = prestamo.ciAlumno;
+    fila.dataset.ciAlumno = prestamo.ciAlumno ?? "";
 
     for (const valor of [prestamo.ID_EP, prestamo.modelo, prestamo.estadoPrestamo, prestamo.nombreAlumno, prestamo.apellidoAlumno, prestamo.fechaInicio, prestamo.fechaLimite]) {
         const celda = document.createElement("td");
@@ -101,6 +104,15 @@ async function cargarPrestamos() {
     }
 }
 
+//Muestra los datos del alumno y las fechas solo si el equipo se presta, y en ese caso los hace obligatorios
+function actualizarCamposPrestamo() {
+    const prestado = entradaEstado.value === "Prestamo en fecha" || entradaEstado.value === "VENCIDO";
+    for (const entrada of entradasPrestamo) {
+        entrada.closest("li").hidden = !prestado;
+        entrada.required = prestado;
+    }
+}
+
 function abrirRegistroEquipo() {
     filaEditando = null;
     modoFormulario = "alta";
@@ -108,6 +120,8 @@ function abrirRegistroEquipo() {
     entradaIdEquipo.readOnly = false;
     entradaCedula.readOnly = false;
     formulario.reset();
+    //El formulario arranca sin estado, por lo que se ocultan los datos del préstamo
+    actualizarCamposPrestamo();
     modal.showModal();
 
 }
@@ -133,9 +147,9 @@ function abrirEditarPrestamo(eventoModificar) {
     //Captura la fila en la que se encuentra el botón
     const fila = btnEditar.closest("tr");
 
-    //Al modificar no se cambian el equipo ni el alumno del préstamo
+    //Al modificar no se cambia el equipo; el alumno solo se puede cargar si el equipo estaba Disponible
     entradaIdEquipo.readOnly = true;
-    entradaCedula.readOnly = true;
+    entradaCedula.readOnly = fila.dataset.ciAlumno !== "";
     formulario.reset();
     modoFormulario = "modificar";
 
@@ -149,6 +163,7 @@ function abrirEditarPrestamo(eventoModificar) {
     entradaApellido.value = fila.cells[4].textContent.trim();
     entradaFechaInicio.value = fila.cells[5].textContent.trim();
     entradaFechaFin.value = fila.cells[6].textContent.trim();
+    actualizarCamposPrestamo();
 
     //Muestra el cuadro de diálogo o "modal"
     modal.showModal();
@@ -264,6 +279,9 @@ btnCerrarRegistroEquipo.addEventListener("click", cerrarRegistroEquipo);
 tabla.addEventListener("click", eliminarPrestamo);
 
 formulario.addEventListener("submit", gestionarPrestamo);
+
+//Muestra u oculta los datos del préstamo al cambiar el estado
+entradaEstado.addEventListener("change", actualizarCamposPrestamo);
 
 //Carga inicial de la tabla
 cargarPrestamos();

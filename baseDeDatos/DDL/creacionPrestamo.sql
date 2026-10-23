@@ -1,12 +1,13 @@
 CREATE TABLE PRESTAMO (
     ID_P INT NOT NULL AUTO_INCREMENT,
     cedula CHAR(8) NOT NULL,
-    ciAlumno CHAR(8) NOT NULL,
-    nombreAlumno VARCHAR(600) NOT NULL,
-    apellidoAlumno VARCHAR(600) NOT NULL,
+    -- Los datos del alumno y las fechas quedan vacíos cuando el equipo está Disponible.
+    ciAlumno CHAR(8) NULL,
+    nombreAlumno VARCHAR(600) NULL,
+    apellidoAlumno VARCHAR(600) NULL,
     estadoPrestamo VARCHAR(600) NOT NULL,
-    fechaInicio DATE NOT NULL,
-    fechaLimite DATE NOT NULL,
+    fechaInicio DATE NULL,
+    fechaLimite DATE NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
 
     CONSTRAINT pk_prestamo

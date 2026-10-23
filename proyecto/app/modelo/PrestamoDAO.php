@@ -9,7 +9,7 @@ class PrestamoDAO {
     }
 
     /**
-     * Lista los préstamos activos con los datos del alumno y del equipo prestado.
+     * Lista los préstamos activos con los datos del equipo y, si está prestado, del alumno.
      * @return array Los préstamos.
      * @throws PDOException Si la consulta no puede ejecutarse.
      */
@@ -19,7 +19,7 @@ class PrestamoDAO {
     SELECT
         p.ID_P,
         e.ID_EP,
-        a.ciAlumno,
+        p.ciAlumno,
         p.estadoPrestamo,
         p.fechaInicio,
         p.fechaLimite,
@@ -27,13 +27,14 @@ class PrestamoDAO {
         a.apellidoAlumno,
         e.modelo
 
-    FROM ALUMNO_PRESTAMO AS a
-
-    INNER JOIN PRESTAMO AS p
-        ON p.ciAlumno = a.ciAlumno
+    FROM PRESTAMO AS p
 
     INNER JOIN EQUIPO_PRESTAMO AS e
         ON e.ID_P = p.ID_P
+
+    -- LEFT JOIN: un equipo Disponible no tiene alumno.
+    LEFT JOIN ALUMNO_PRESTAMO AS a
+        ON a.ciAlumno = p.ciAlumno
 
     WHERE p.activo = 1
 ";
@@ -69,10 +70,10 @@ class PrestamoDAO {
                 return false;
             }
 
-            // Si el alumno ya tuvo un préstamo, se actualizan su nombre y apellido.
-            $sqlAlumno = "INSERT INTO ALUMNO_PRESTAMO (ciAlumno, nombreAlumno, apellidoAlumno) VALUES (:ciAlumno, :nombreAlumno, :apellidoAlumno) ON DUPLICATE KEY UPDATE nombreAlumno = VALUES(nombreAlumno), apellidoAlumno = VALUES(apellidoAlumno)";
-            $consultaAlumno = $this->conexion->prepare($sqlAlumno);
-            $consultaAlumno->execute(["ciAlumno" => $ciAlumno, "nombreAlumno" => $nombreAlumno, "apellidoAlumno" => $apellidoAlumno]);
+            // Un equipo Disponible no tiene alumno.
+            if ($ciAlumno !== null) {
+                $this->guardarAlumno($ciAlumno, $nombreAlumno, $apellidoAlumno);
+            }
 
             $sqlPrestamo = "INSERT INTO PRESTAMO (cedula, ciAlumno, nombreAlumno, apellidoAlumno, estadoPrestamo, fechaInicio, fechaLimite) VALUES (:cedula, :ciAlumno, :nombreAlumno, :apellidoAlumno, :estado, :fechaInicio, :fechaLimite)";
             $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
@@ -123,23 +124,29 @@ class PrestamoDAO {
         try {
             $this->conexion->beginTransaction();
 
-            // Solo se modifican préstamos existentes y activos. La cédula del alumno no se cambia.
+            // Solo se modifican préstamos existentes y activos.
             $consultaAlumno = $this->conexion->prepare("SELECT ciAlumno FROM PRESTAMO WHERE ID_P = :idPrestamo AND activo = 1");
             $consultaAlumno->execute(["idPrestamo" => $idPrestamo]);
-            $ciAlumno = $consultaAlumno->fetchColumn();
+            $ciAlumnoActual = $consultaAlumno->fetchColumn();
 
-            if ($ciAlumno === false) {
+            if ($ciAlumnoActual === false) {
                 $this->conexion->rollBack();
                 return false;
             }
 
-            $sqlAlumno = "UPDATE ALUMNO_PRESTAMO SET nombreAlumno = :nombreAlumno, apellidoAlumno = :apellidoAlumno WHERE ciAlumno = :ciAlumno";
-            $consultaActualizarAlumno = $this->conexion->prepare($sqlAlumno);
-            $consultaActualizarAlumno->execute(["nombreAlumno" => $nombreAlumno, "apellidoAlumno" => $apellidoAlumno, "ciAlumno" => $ciAlumno]);
+            if ($prestamo->getCiAlumno() === null) {
+                // Pasa a Disponible (devolución): se quitan el alumno y las fechas.
+                $ciAlumno = null;
+            } else {
+                // Mientras está prestado la cédula del alumno no cambia; si estaba Disponible, se toma la nueva.
+                $ciAlumno = $ciAlumnoActual ?? $prestamo->getCiAlumno();
+                $this->guardarAlumno($ciAlumno, $nombreAlumno, $apellidoAlumno);
+            }
 
-            $sqlPrestamo = "UPDATE PRESTAMO SET nombreAlumno = :nombreAlumno, apellidoAlumno = :apellidoAlumno, estadoPrestamo = :estado, fechaInicio = :fechaInicio, fechaLimite = :fechaLimite WHERE ID_P = :idPrestamo";
+            $sqlPrestamo = "UPDATE PRESTAMO SET ciAlumno = :ciAlumno, nombreAlumno = :nombreAlumno, apellidoAlumno = :apellidoAlumno, estadoPrestamo = :estado, fechaInicio = :fechaInicio, fechaLimite = :fechaLimite WHERE ID_P = :idPrestamo";
             $consultaPrestamo = $this->conexion->prepare($sqlPrestamo);
             $consultaPrestamo->execute([
+                "ciAlumno" => $ciAlumno,
                 "nombreAlumno" => $nombreAlumno,
                 "apellidoAlumno" => $apellidoAlumno,
                 "estado" => $estado,
@@ -161,6 +168,17 @@ class PrestamoDAO {
             }
             throw $error;
         }
+    }
+
+    /**
+     * Crea el alumno o, si ya tuvo un préstamo, actualiza su nombre y apellido.
+     * Debe llamarse dentro de una transacción abierta.
+     * @throws PDOException Si la consulta no puede ejecutarse.
+     */
+    private function guardarAlumno(string $ciAlumno, string $nombreAlumno, string $apellidoAlumno): void {
+        $sqlAlumno = "INSERT INTO ALUMNO_PRESTAMO (ciAlumno, nombreAlumno, apellidoAlumno) VALUES (:ciAlumno, :nombreAlumno, :apellidoAlumno) ON DUPLICATE KEY UPDATE nombreAlumno = VALUES(nombreAlumno), apellidoAlumno = VALUES(apellidoAlumno)";
+        $consultaAlumno = $this->conexion->prepare($sqlAlumno);
+        $consultaAlumno->execute(["ciAlumno" => $ciAlumno, "nombreAlumno" => $nombreAlumno, "apellidoAlumno" => $apellidoAlumno]);
     }
 
     public function eliminarPrestamo(int $idPrestamo): bool {
