@@ -9,19 +9,21 @@
     
 </head>
 <body>
-    <h1> ¡Bienvenido (nombre del usuario)! </h1>
+    <h1> ¡Bienvenido <span id="nombreUsuario"></span>! </h1>
     <h2> ¿Bajo qué cargo quieres continuar?</h2>
 
-    
-
-    <a class="PanelRoles" href="paginaBienvenidaAdministrador.html">
+    <a class="PanelRoles" id="rolAdministrador" href="paginaBienvenidaAdministrador.html">
         <h3> Administrador </h3>
     </a>
 
-   
-    
-    <a class="PanelRoles" href="paginaBienvenidaTecnico.html">
+    <a class="PanelRoles" id="rolTecnico" href="paginaBienvenidaTecnico.html">
         <h3>Técnico</h3>
     </a>
+
+    <a class="PanelRoles" id="rolSolicitante" href="paginaBienvenidaSolicitante.html">
+        <h3>Solicitante</h3>
+    </a>
+
+    <script src="../assets/JavaScript/panelRoles.js"></script>
 </body>
 </html>
