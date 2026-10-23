@@ -267,3 +267,22 @@ formulario.addEventListener("submit", gestionarPrestamo);
 
 //Carga inicial de la tabla
 cargarPrestamos();
+
+
+
+const filtroEstado = document.getElementById("idPrestamoEstado");
+
+//Dibuja la tabla solo con los préstamos que tienen el estado elegido
+async function aplicarFiltros() {
+    const estado = filtroEstado.value;
+
+    try {
+        const prestamos = await llamarApi("GET");
+        const filtrados = prestamos.filter(prestamo => estado === "Todos" || prestamo.estadoPrestamo === estado);
+        tabla.replaceChildren(...filtrados.map(crearFila));
+    } catch (error) {
+        window.alert(error.message);
+    }
+}
+
+filtroEstado.addEventListener("change", aplicarFiltros);

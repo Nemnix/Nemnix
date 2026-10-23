@@ -7,6 +7,7 @@ class Ticket {
     private int $idRegistro;
     private int $idTicket;
     private string $estado;
+    private string $tipoDispositivo;
     private string $nombreEquipo;
     private string $nombreAlumno;
     private string $descripcion;
@@ -17,15 +18,17 @@ class Ticket {
      * @param int $idRegistro Registro diario al que pertenece el ticket.
      * @param int $idTicket Número del ticket dentro del registro.
      * @param string $estado Estado del ticket (Abierto, Pendiente, En proceso, Cerrado).
-     * @param string $nombreEquipo Tipo y nombre del dispositivo.
+     * @param string $tipoDispositivo Tipo del dispositivo.
+     * @param string $nombreEquipo Nombre o número del dispositivo.
      * @param string $nombreAlumno Alumno que usaba el equipo (puede estar vacío).
      * @param string $descripcion Motivo del ticket.
      * @param string $prioridad Prioridad del ticket.
      */
-    public function __construct(int $idRegistro, int $idTicket, string $estado, string $nombreEquipo, string $nombreAlumno, string $descripcion, string $prioridad) {
+    public function __construct(int $idRegistro, int $idTicket, string $estado, string $tipoDispositivo, string $nombreEquipo, string $nombreAlumno, string $descripcion, string $prioridad) {
         $this->idRegistro = $idRegistro;
         $this->idTicket = $idTicket;
         $this->estado = $estado;
+        $this->tipoDispositivo = $tipoDispositivo;
         $this->nombreEquipo = $nombreEquipo;
         $this->nombreAlumno = $nombreAlumno;
         $this->descripcion = $descripcion;
@@ -54,7 +57,14 @@ class Ticket {
     }
 
     /**
-     * @return string El tipo y nombre del dispositivo.
+     * @return string El tipo del dispositivo.
+     */
+    public function getTipoDispositivo(): string {
+        return $this->tipoDispositivo;
+    }
+
+    /**
+     * @return string El nombre o número del dispositivo.
      */
     public function getNombreEquipo(): string {
         return $this->nombreEquipo;
