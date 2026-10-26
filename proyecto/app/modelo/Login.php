@@ -39,6 +39,29 @@ class Login {
 
         return $usuario;
     }
+
+     /**
+     * Genera un token JWT para un usuario ya autenticado.
+     * @param Usuario $usuario Usuario autenticado.
+     * @return string Token JWT firmado.
+     */
+
+    public function generarToken(Usuario $usuario): string {
+    $roles = [];
+    if ($usuario->esAdministrador()) $roles[] = "administrador";
+    if ($usuario->esTecnico())       $roles[] = "tecnico";
+    if ($usuario->esSolicitante())   $roles[] = "solicitante";
+
+    $payload = [
+        'iat'   => time(),
+        'exp'   => time() + JWT_EXPIRA,
+        'sub'   => $usuario->getCedula(),
+        'roles' => $roles,
+    ];
+
+    return JWT::encode($payload, JWT_SECRET, 'HS256');
 }
+}
+
 
 ?>

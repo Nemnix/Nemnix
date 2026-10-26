@@ -6,18 +6,16 @@ require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
 require_once RUTA_NUCLEO . "/Sesion.php";
 require_once RUTA_NUCLEO . "/Token.php";
-
+require_once __DIR__ . '/auth.php';
 
 class PrestamoControlador
 {
 
     public function gestionar(string $metodo): void
     {
-        Sesion::verificarRol("tecnico");
-
-        if ($metodo !== "GET") {
-            Token::verificarCSRF();
-        }
+        
+        $usuario = verificarRol("tecnico");
+        $cedula = $usuario->sub;
 
         match ($metodo) {
             "GET" => $this->listar(),
@@ -47,7 +45,7 @@ class PrestamoControlador
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
         // La cédula del técnico sale de la sesión, no del cuerpo de la petición.
-        $cedula = $_SESSION["cedula"];
+        $usuario->sub;
         $idEquipo = trim($datos["ID_EP"] ?? "");
         $modelo = trim($datos["modelo"] ?? "");
         $estado = trim($datos["estado"] ?? "");

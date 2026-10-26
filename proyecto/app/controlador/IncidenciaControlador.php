@@ -11,7 +11,9 @@ class IncidenciaControlador
 
     public function gestionar(string $metodo): void
     {
-        Sesion::verificarRol("administrador");
+        require_once __DIR__ . '/auth.php';
+        $usuario = verificarRol("administrador");
+        $cedula = $usuario->sub;
 
         // Las incidencias son solo de consulta.
         match ($metodo) {

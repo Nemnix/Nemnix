@@ -6,6 +6,7 @@ require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
 require_once RUTA_NUCLEO . "/Sesion.php";
 require_once RUTA_NUCLEO . "/Token.php";
+require_once __DIR__ . '/auth.php';
 
 
 class TicketControlador
@@ -14,11 +15,9 @@ class TicketControlador
     public function gestionar(string $metodo): void
     {
         // El solicitante levanta y borra tickets de sus registros; el técnico los ve todos y los modifica.
-        Sesion::verificarAlgunRol(["tecnico", "solicitante"]);
-
-        if ($metodo !== "GET") {
-            Token::verificarCSRF();
-        }
+        
+        $usuario = verificarAlgunRol(["tecnico", "solicitante"]);
+        $cedula = $usuario->sub;
 
         match ($metodo) {
             "GET" => $this->listar(),
@@ -52,7 +51,9 @@ class TicketControlador
     private function alta(): void
     {
         // Solo el solicitante levanta tickets.
-        Sesion::verificarRol("solicitante");
+        
+        $usuario = verificarRol("solicitante");
+        $cedula = $usuario->sub;
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
@@ -100,7 +101,9 @@ class TicketControlador
     private function modificar(): void
     {
         // Solo el técnico modifica tickets.
-        Sesion::verificarRol("tecnico");
+        
+        $usuario = verificarRol("tecnico");
+        $cedula = $usuario->sub;
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
@@ -147,7 +150,9 @@ class TicketControlador
     private function baja(): void
     {
         // Solo el solicitante borra tickets, y solo de sus registros.
-        Sesion::verificarRol("solicitante");
+        
+        $usuario = verificarRol("solicitante");
+        $cedula = $usuario->sub;
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 

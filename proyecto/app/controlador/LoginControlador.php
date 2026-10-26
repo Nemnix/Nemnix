@@ -5,8 +5,6 @@ require_once RUTA_MODELO . "/Login.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 
 require_once RUTA_NUCLEO . "/Conexion.php";
-require_once RUTA_NUCLEO . "/Token.php";
-require_once RUTA_NUCLEO . "/Sesion.php";
 
 class LoginControlador
 {
@@ -47,12 +45,11 @@ class LoginControlador
             RespuestaJson::error("Cédula o contraseña incorrectas", 401);
         }
 
-        Sesion::iniciar($usuario);
-        Token::generarTokenCSRF();
+        $token = $login->generarToken($usuario);
 
         RespuestaJson::exito([
             "mensaje" => "Sesión iniciada correctamente",
-            "csrfToken" => $_SESSION["csrfToken"],
+            "token" => $token,
             // Datos del usuario autenticado.
             "cedula" => $usuario->getCedula(),
             "nombre" => $usuario->getNombre(),
@@ -69,12 +66,7 @@ class LoginControlador
             RespuestaJson::error("Método no permitido", 405);
         }
 
-        Token::verificarCSRF();
-        Sesion::cerrar();
-
+        // Con JWT el cierre de sesión se hace en el cliente borrando el token.
         RespuestaJson::exito(["mensaje" => "Sesión cerrada correctamente"]);
     }
-
-    
 }
-

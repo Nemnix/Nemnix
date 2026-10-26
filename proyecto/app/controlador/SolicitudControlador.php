@@ -6,8 +6,7 @@ require_once RUTA_MODELO . "/LaboratorioDAO.php";
 require_once RUTA_MODELO . "/UsuarioDAO.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
-require_once RUTA_NUCLEO . "/Sesion.php";
-require_once RUTA_NUCLEO . "/Token.php";
+require_once __DIR__ . '/auth.php';
 
 
 class SolicitudControlador
@@ -16,12 +15,11 @@ class SolicitudControlador
     public function gestionar(string $metodo): void
     {
         // El solicitante gestiona sus solicitudes y el administrador las ve todas y puede darlas de baja.
-        Sesion::verificarAlgunRol(["administrador", "solicitante"]);
+        $usuario = verificarToken();
 
-        if ($metodo !== "GET") {
-            Token::verificarCSRF();
+        if (!verificarAlgunRol($usuario, ["administrador", "solicitante"])) {
+        RespuestaJson::error("No tiene permisos", 403);
         }
-
         match ($metodo) {
             "GET" => $this->listar(),
             "POST" => $this->alta(),
@@ -31,13 +29,17 @@ class SolicitudControlador
         };
     }
 
-    private function listar(): void
+    private function listar(object $usuario): void
     {
+        $usuario=verificarToken();
         try {
             $conexion = $this->conectar();
             $dao = new SolicitudDAO($conexion);
 
-            if ($_SESSION["administrador"] ?? false) {
+            
+            
+
+            if (verificarRol($usuario, "administrador")) {
                 // El administrador ve todas las solicitudes, o el resumen por laboratorio con ?resumen=1.
                 if (isset($_GET["resumen"])) {
                     $solicitudes = [
@@ -49,7 +51,7 @@ class SolicitudControlador
                 }
             } else {
                 // Cada solicitante ve solo sus solicitudes.
-                $solicitudes = $dao->listarSolicitudesPorCedula($_SESSION["cedula"]);
+                $solicitudes = $dao->listarSolicitudesPorCedula($usuario->sub);
             }
         } catch (PDOException $error) {
             error_log("Error en listarSolicitudes: " . $error->getMessage());
@@ -58,15 +60,18 @@ class SolicitudControlador
         RespuestaJson::exito($solicitudes);
     }
 
-    private function alta(): void
+    private function alta(object $usuario): void
     {
         // Solo el solicitante da de alta solicitudes.
-        Sesion::verificarRol("solicitante");
+        
+    if (!verificarRol($usuario, "solicitante")) {
+        RespuestaJson::error("No tiene permisos", 403);
+        }
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
         // La cédula sale de la sesión, no del cuerpo de la petición.
-        $cedula = $_SESSION["cedula"];
+        $cedula = $usuario->sub;
         $nombreLaboratorio = trim($datos["nombreLaboratorio"] ?? "");
         $numLaboratorio = trim($datos["numLaboratorio"] ?? "");
         $fecha = trim($datos["fecha"] ?? "");
@@ -119,14 +124,17 @@ class SolicitudControlador
         RespuestaJson::exito(["mensaje" => "Solicitud registrada exitosamente"], 201);
     }
 
-    private function modificar(): void
+    private function modificar(object $usuario): void
     {
         // Solo el solicitante modifica sus solicitudes.
-        Sesion::verificarRol("solicitante");
+        
+        if (!verificarRol($usuario, "solicitante")) {
+        RespuestaJson::error("No tiene permisos", 403);
+        }
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
 
-        $cedula = $_SESSION["cedula"];
+        $cedula = $usuario->sub;
         $idLaboratorioActual = trim($datos["ID_L"] ?? "");
         // Fecha y hora originales, que junto al laboratorio identifican la solicitud a modificar.
         $fechaActual = trim($datos["fechaActual"] ?? "");
@@ -201,7 +209,7 @@ class SolicitudControlador
         RespuestaJson::exito(["mensaje" => "Solicitud modificada exitosamente"]);
     }
 
-    private function baja(): void
+    private function baja(object $usuario): void
     {
 
         $datos = json_decode(file_get_contents("php://input"), true) ?? [];
@@ -210,10 +218,10 @@ class SolicitudControlador
         $hora = trim($datos["hora"] ?? "");
 
         // El administrador indica de qué solicitante es la solicitud; el solicitante solo borra las suyas.
-        if ($_SESSION["administrador"] ?? false) {
-            $cedula = trim($datos["cedula"] ?? "");
+        if (verificarRol($usuario, "administrador")) {
+        $cedula = trim($datos["cedula"] ?? "");
         } else {
-            $cedula = $_SESSION["cedula"];
+            $cedula = $usuario->sub;
         }
 
         if ($idLaboratorio === "" || $cedula === "" || $fecha === "" || $hora === "") {

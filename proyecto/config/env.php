@@ -30,4 +30,11 @@ if (!defined('DB_NOMBRE')) {
     define('DB_NOMBRE', $_ENV['DB_NOMBRE']);
 }
 
+if (!defined('JWT_SECRET')) {
+    define('JWT_SECRET', $_ENV['JWT_SECRET']);
+}
+if (!defined('JWT_EXPIRA')) {
+    define('JWT_EXPIRA', (int) $_ENV['JWT_EXPIRA']);
+}
+
 ?>

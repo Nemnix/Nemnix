@@ -39,12 +39,12 @@ async function gestionarLogin(eventoFormulario) {
     try {
         const sesion = await loguear(entradaCedula.value.trim(), entradaClave.value);
 
-        if (!sesion.csrfToken) {
-            throw new Error("La API no devolvió el token CSRF.")
+        if (!sesion.token) {
+            throw new Error("La API no devolvió el token de autenticación.")
         }
 
-        //Guardamos el token en la sesión
-        sessionStorage.setItem("csrfToken", sesion.csrfToken)
+        
+        sessionStorage.setItem("token", sesion.token)
 
         const roles = {
             administrador: sesion.administrador,
@@ -53,9 +53,8 @@ async function gestionarLogin(eventoFormulario) {
         };
         const cantidadRoles = Object.values(roles).filter(Boolean).length;
 
-        //replace() abre la siguiente página borrando el historial de la previa
+        
         if (cantidadRoles > 1) {
-            //Guardamos los roles y el nombre para que panelRoles muestre solo los que tiene
             sessionStorage.setItem("roles", JSON.stringify(roles));
             sessionStorage.setItem("nombre", sesion.nombre);
             window.location.replace("./panelRoles.html");

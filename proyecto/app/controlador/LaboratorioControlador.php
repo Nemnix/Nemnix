@@ -6,6 +6,7 @@ require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
 require_once RUTA_NUCLEO . "/Sesion.php";
 require_once RUTA_NUCLEO . "/Token.php";
+require_once __DIR__ . '/auth.php';
 
 
 class LaboratorioControlador
@@ -13,11 +14,11 @@ class LaboratorioControlador
 
     public function gestionar(string $metodo): void
     {
-        Sesion::verificarRol("administrador");
+        
+        $usuario = verificarRol("administrador");
+        $cedula = $usuario->sub;
 
-        if ($metodo !== "GET") {
-            Token::verificarCSRF();
-        }
+        
 
         match ($metodo) {
             "GET" => $this->listar(),

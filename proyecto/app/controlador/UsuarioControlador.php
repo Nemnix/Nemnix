@@ -4,21 +4,18 @@ require_once RUTA_MODELO . "/Usuario.php";
 require_once RUTA_MODELO . "/UsuarioDAO.php";
 require_once RUTA_VISTA . "/RespuestaJson.php";
 require_once RUTA_NUCLEO . "/Conexion.php";
-require_once RUTA_NUCLEO . "/Sesion.php";
-require_once RUTA_NUCLEO . "/Token.php";
-
+require_once __DIR__ . '/auth.php';
 
 class UsuarioControlador
 {
 
     public function gestionar(string $metodo): void
     {
-        Sesion::verificarRol("administrador");
+        $usuario = verificarToken();
 
-         if ($metodo !== "GET") {
-            Token::verificarCSRF();
-        }
-        
+        if (!verificarRol($usuario, "administrador")) {
+        RespuestaJson::error("No tiene permisos", 403);
+    }
         match ($metodo) {
             "GET" => $this->listar(),
             "POST" => $this->alta(),
@@ -28,11 +25,11 @@ class UsuarioControlador
         };
     }
 
-    private function listar(): void {
+    private function listar(object $usuario): void {
         try{
             $conexion = $this->conectar();
             $dao = new UsuarioDAO($conexion);
-             $usuarios = $dao->listarUsuarios();
+            $usuarios = $dao->listarUsuarios();
         }
             catch (PDOException $error) {
                 error_log("Error en listarUsuarios: " . $error->getMessage());
@@ -41,9 +38,11 @@ class UsuarioControlador
         RespuestaJson::exito($usuarios);
     }
 
-    private function alta(): void
+    private function alta(object $usuario): void
     {
-
+        if (!verificarRol($usuario, "administrador")) {
+        RespuestaJson::error("No tiene permisos", 403);
+    }
         $datos = $this->leerJson();
 
         $cedula = trim($datos["cedula"] ?? "");
@@ -108,9 +107,11 @@ class UsuarioControlador
         RespuestaJson::exito(["mensaje" => "Usuario ingresado exitosamente"], 201);
     }
 
-    private function modificar(): void
+    private function modificar(object $usuario): void
     {
-
+        if (!verificarRol($usuario, "administrador")) {
+        RespuestaJson::error("No tiene permisos", 403);
+    }
         $datos = $this->leerJson();
 
         $cedula = trim($datos["cedula"] ?? "");
@@ -175,9 +176,11 @@ class UsuarioControlador
         RespuestaJson::exito(["mensaje" => "Usuario modificado exitosamente"]);
     }
 
-    private function baja(): void
+    private function baja(object $usuario): void
     {
-
+        if (!verificarRol($usuario, "administrador")) {
+        RespuestaJson::error("No tiene permisos", 403);
+    } 
         $datos = $this->leerJson();
         $cedula = trim($datos["cedula"] ?? "");
 
@@ -187,7 +190,7 @@ class UsuarioControlador
         if (!preg_match("/^[1-9][0-9]{7}$/", $cedula)) {
             RespuestaJson::error("Cédula incorrecta", 422);
         }
-        if ($cedula === $_SESSION["cedula"]) {
+        if ($cedula === (string) $usuario->sub) {
             RespuestaJson::error("No puede eliminar su propio usuario", 422);
         }
 
