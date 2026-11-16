@@ -3,7 +3,7 @@
 /**
  * Enrutador de la API.
  *
- * Lo incluye index.php, que ya definió $ruta y $metodo.
+ * Lo incluye public/index.php, que ya definió $ruta y $metodo.
  * Cada ruta delega en el método correspondiente de su controlador.
  */
 

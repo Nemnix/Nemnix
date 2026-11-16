@@ -15,5 +15,5 @@ define("RUTA_CONTROLADOR", RUTA_APP . "/controlador");
 define("RUTA_VISTA", RUTA_APP . "/vista");
 define("RUTA_NUCLEO", RUTA_APP . "/nucleo");
 
-define("RUTA_PUBLIC", RUTA_RAIZ);
+define("RUTA_PUBLIC", RUTA_RAIZ . "/public");
 ?>
